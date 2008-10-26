@@ -1,43 +1,133 @@
 % Kapitel 'Mathematische Grundlagen'
 \chapter{Mathematische Grundlagen}
-In den folgenden Abschnitten mˆchte ich die mathematischen Grundprinzipien behandeln, auf denen nahezu alle Konzepte und Operationen der 3D-Grafik aufbauen.
+In den folgenden Abschnitten m√∂chte ich die mathematischen Grundprinzipien behandeln, auf denen nahezu alle Konzepte und Operationen der 3D-Grafik aufbauen.
 
-% Kapitel ¸ber Vektoren
-% Wozu werden welche Vektoren verwendet? Erl‰uterung homogene Koordinaten. Schreibweisen von Vektoren.
+% Kapitel √ºber Vektoren
+% Wozu werden welche Vektoren verwendet? Erl√§uterung homogene Koordinaten. Schreibweisen von Vektoren.
 \section{Vektoren}
-Vektoren sind wohl die wichtigste Struktur in der 3D-Grafik. Sie werden nicht nur in ihrer dreidimensionalen Form eingesetzt, sondern auch in ihrer zweidimensionalen Form und um eine vierte Koordinate erweitert als Vektoren mit homogenen Koordinaten (dazu sp‰ter mehr).
+Vektoren sind wohl die wichtigste Struktur in der 3D-Grafik. Sie werden nicht nur in ihrer dreidimensionalen Form eingesetzt, sondern auch in ihrer zweidimensionalen Form und um eine vierte Koordinate erweitert als Vektoren mit homogenen Koordinaten (dazu sp√§ter mehr).
 
-Trotz der universellen Verwendung gehen die benˆtigten Operationen nicht ¸ber den Schulstoff hinaus. Insbesondere das Skalarprodukt und das Kreuzprodukt werden sehr h‰ufig benˆtigt, zum Beispiel um ¸ber den Zusammenhang
+Trotz der universellen Verwendung gehen die ben√∂tigten Operationen nicht √ºber den Schulstoff hinaus. Insbesondere das Skalarprodukt und das Kreuzprodukt werden sehr h√§ufig ben√∂tigt, zum Beispiel um √ºber den Zusammenhang
 % Wie 'flacher' setzen?
 $\vec{a}\cdot\vec{b} = \left|\vec{a}\right|\left|\vec{b}\right|\cos\alpha$
-den von zwei Vektoren eingeschlossenen Winkel zu berechnen oder ¸ber das Kreuzprodukt eine Normale eines Polygons zu bestimmen.
+den von zwei Vektoren eingeschlossenen Winkel zu berechnen oder √ºber das Kreuzprodukt eine Normale eines Polygons zu bestimmen.
 
-Vektoren kˆnnen dabei auf zwei Arten notiert werden: in Spaltenform
+Vektoren k√∂nnen dabei auf zwei Arten notiert werden, in Spaltenform
+\begin{equation*}
+ \vec{v} = \begin{pmatrix} x \\ y \\ z \end{pmatrix},
+\end{equation*}
+oder in Zeilenform
+\begin{equation*}
+ \vec{v} = \begin{pmatrix} x & y & z \end{pmatrix}.
+\end{equation*}
+
+Scheint der Unterschied zun√§chst noch rein kosmetischer Natur zu sein, zeigt sich sp√§testens beim Arbeiten mit Matrizen, dass die Entscheidung f√ºr eine der Formen doch erhebliche Konsequenzen nach sich zieht. In der Programmierung werden beide Varianten gleicherma√üen verwendet; ich habe mich entschieden, in diesem Dokument Spaltenvektoren zu verwenden, da diese Variante in der Schulmathematik √ºblich ist.
+
+Eingebettet in Flie√ütext sind Zeilenvektoren wesentlich platzsparender -- man kann einen Spaltenvektor aber als transponierten Zeilenvektor $\vec{v} = \begin{pmatrix} x & y & z \end{pmatrix}^T$ anschreiben, um diesen Vorteil zu √ºbernehmen (siehe Abschnitt \ref{transposition}).
 
 
 \subsection{Homogene Koordinaten}
-
-Vierdimensionale Vektoren, also Vektoren mit \emph{homogenen Koordinaten}, dienen haupts‰chlich dazu, mithilfe von Matrizen nicht nur lineare, sondern alle affinen Transformationen darstellen zu kˆnnen.
-% Beispiel aus http://de.wikipedia.org/wiki/Homogene_Koordinaten einf¸gen.
-Dazu wird eine vierte Koordinate $w$ eingef¸hrt.
+Vierdimensionale Vektoren, also Vektoren mit \emph{homogenen Koordinaten}, dienen haupts√§chlich dazu, mithilfe von Matrizen nicht nur lineare, sondern alle affinen Transformationen darstellen zu k√∂nnen.
+% Beispiel aus http://de.wikipedia.org/wiki/Homogene_Koordinaten einf√ºgen.
+Dazu wird eine vierte Koordinate $w$ eingef√ºhrt.
 % Hyperebene: Eberly (3D game engine design), S. 9 (2.1.4 Homogeneous Transformations)
 % Verwendung von w in Robotik-Matrizen?
 
 
 \section{Matrizen}
-Generelle Einleitung. Auf den ersten Blick sehen Matrizen genauso aus wie einfache Tabellen von Zahlen. Sie unterscheiden sich von ihnen jedoch dadurch, dass man mit ihnen rechnen kann, sie werden der linearen Algebra zugeordnet.
+Auf den ersten Blick gleichen Matrizen einfachen Tabellen von Zahlen, es gibt aber einen wesentlichen Unterschied: F√ºr sie sind Rechenoperationen wie Addition und Multiplikation definiert.
+
+Eine Matrix
+\begin{equation}
+ A = \begin{pmatrix}
+   a_{11} & a_{12} & \cdots & a_{1m}\\
+   a_{21} & a_{22} & \cdots & a_{2m}\\
+   \vdots & \vdots & \ddots & \vdots\\
+   a_{n1} & a_{n2} & \cdots & a_{nm}
+ \end{pmatrix}
+ \in \mathbb R^{m,n}
+\end{equation}
+besteht aus $m$ Zeilen und $n$ Spalten, es handelt sich um eine $m \times n$-Matrix (sprich: \emph{m kreuz n}).
+
+Matrizen mit $m = n$ werden als \emph{quadratische Matrizen} bezeichnet.
+% Besondere Eigenschaften der quadratischen Matrizen? ``Einige Operationen sind nur f√ºr quadratische Matrizen definiert, ...''
+
+Als \emph{Hauptdiagonale} einer Matrix wird die Linie vom linken obersten Element schr√§g zum rechten untersten Element bezeichnet; die Elemente der Hauptdiagonale sind also $a_{11}, a_{22}, \cdots, a_{nn}$. Matrizen, die au√üerhalb der Hauptdiagonale nur nur Elemente mit dem Wert 0 haben, werden als \emph{Diagonalmatrizen} bezeichnet. Sie lassen einige Vereinfachungen in den Berechnungen zu, auf die aber an dieser Stelle nicht wieter eingegangen werden soll.
+% siehe http://de.wikipedia.org/wiki/Diagonalmatrix.
+
+\subsection{Addition}
+Zwei Matrizen werden addiert, indem man jeweils die Eintr√§ge der beiden Matrizen addiert:
+\begin{align}
+ (A + B)_{ij} = a_{ij} + b_{ij}%\\
+% \nonumber\text{mit }1 \leq i \leq m \text{ und } 1 \leq j \leq n.
+\end{align}
+% Quelle f√ºr Notation: http://en.wikipedia.org/wiki/Matrix_(mathematics)
+mit $1 \leq i \leq m$ und $1 \leq j \leq n$.
+
+Folglich ist die Addition zweier Matrizen nur dann definiert, wenn sie beide die gleichen Dimensionen $m \times n$ haben.
+
+Die Matrizenaddition ist assoziativ und kommutiativ. Es ist leicht zu erkennen, dass die Matrizenaddition ein neutrales Element besitzt: analog zur Null bei der Addition von Skalaren eine Matrix deren Elemente alle 0 sind, kurz Nullmatrix genannt.
 
 \subsection{Multiplikation}
-Wie man zwei Matrizen multipliziert.
+Das Produkt $C$ zweier Matrizen $A \in \mathbb R^{m,o}$ und $B \in \mathbb R^{o,n}$ ist folgenderma√üen definiert:
+\begin{equation}
+ c_{ij} = \sum_{k=1}^m{a_{ik} \cdot b_{kj}}
+\end{equation}
+mit $1 \leq i \leq m$ und $1 \leq j \leq n$.
+
+Etwas anschaulicher formuliert erh√§lt man das $i$-te Element der $j$-ten Spalte des Ergebnisses, indem man das Punktprodukt der $i$-ten Zeile der linken Matrix mit der $j$-Zeile der rechten Matrix bildet -- kurz \enquote{Zeile mal Spalte}.
+
+Es m√ºssen also die Spaltenanzahl der linken Matrix und die Zeilenanzahl der rechten Matrix gleich sein, damit eine Multiplikation m√∂glich ist. Das entstehende Produkt hat dabei die Dimensionen $m \times n$, also die Zeilenanzahl der linken Matrix und die Spaltenanzahl der rechten Matrix.
+
+Ein Beispiel zur Veranschaulichung:
+\begin{equation}
+\begin{split}
+ \begin{pmatrix}
+  0 & 1 & 2 \\
+  3 & 4 & 5
+ \end{pmatrix}
+ \cdot
+ \begin{pmatrix}
+  6 & 7 \\
+  8 & -9 \\
+  -10 & 11
+ \end{pmatrix}
+ =
+ \begin{pmatrix}
+  0 \cdot 6 + 1 \cdot 8 + 2 \cdot (-10) & 0 \cdot 7 + 1 \cdot (-9) + 2 \cdot 11 \\
+  3 \cdot 6 + 4 \cdot 8 + 5 \cdot (-10) & 3 \cdot 7 + 4 \cdot (-9) + 5 \cdot 11
+ \end{pmatrix}\\
+ =
+ \begin{pmatrix}
+  0 + 8 - 20 & 0 - 9 + 22 \\
+  18 + 32 - 50 & 21 - 36 + 55
+ \end{pmatrix}
+ =
+ \begin{pmatrix}
+   -12 & 13 \\
+   0 & 40
+ \end{pmatrix}
+\end{split}
+\end{equation}
+
+F√ºr die Multiplikation von quadratischen Matrizen gibt es ein neutrales Element, f√ºr das
+\begin{equation}
+ A \cdot E = E \cdot A = A
+\end{equation}
+gilt. $E$ wird als \emph{Einheitsmatrix} bezeichnet und ist eine Diagonalmatrix, deren Elemente entlang der Hauptdiagonale alle den Wert 1 haben.
+
+Fasst man einen $n$-dimensionalen Spaltenvektor als $n \times 1$-Matrix auf, so kann die Multiplikation einer Matrix mit einem Vektor als Spezialfall der Matrizenmultiplikation gesehen werden. Sie wird auch als \emph{Transformation} des Vektors bezeichnet. Ergebnis der Operation ist wiederum ein $n$-dimensionaler Vektor.
+
 
 \subsection{Transposition}
-Erkl‰rung der Transposition einer Matrix.
+\label{transposition}
+Erkl√§rung der Transposition einer Matrix.
 
 \subsection{Determinante und Inverse}
-Definition der Inversen einer Matrix. Um sie berechnen zu kˆnnen, nimmt man die determinante zur Hilfe.
+Definition der Inversen einer Matrix. Um sie berechnen zu k√∂nnen, nimmt man die Determinante zur Hilfe.
 
 \section{Quaternionen}
-Erkl‰rung zu Quaternionen. Nicht ganz allt‰gliches Konzept.
+Erkl√§rung zu Quaternionen. Nicht ganz allt√§gliches Konzept.
 
 \subsection{Rechenregeln}
-Kurze Zusammenfassung der Rechenregeln f¸r Quaternionen.
+Kurze Zusammenfassung der Rechenregeln f√ºr Quaternionen.
