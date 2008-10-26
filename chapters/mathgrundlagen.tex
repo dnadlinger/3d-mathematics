@@ -1,0 +1,43 @@
+% Kapitel 'Mathematische Grundlagen'
+\chapter{Mathematische Grundlagen}
+In den folgenden Abschnitten möchte ich die mathematischen Grundprinzipien behandeln, auf denen nahezu alle Konzepte und Operationen der 3D-Grafik aufbauen.
+
+% Kapitel über Vektoren
+% Wozu werden welche Vektoren verwendet? Erläuterung homogene Koordinaten. Schreibweisen von Vektoren.
+\section{Vektoren}
+Vektoren sind wohl die wichtigste Struktur in der 3D-Grafik. Sie werden nicht nur in ihrer dreidimensionalen Form eingesetzt, sondern auch in ihrer zweidimensionalen Form und um eine vierte Koordinate erweitert als Vektoren mit homogenen Koordinaten (dazu später mehr).
+
+Trotz der universellen Verwendung gehen die benötigten Operationen nicht über den Schulstoff hinaus. Insbesondere das Skalarprodukt und das Kreuzprodukt werden sehr häufig benötigt, zum Beispiel um über den Zusammenhang
+% Wie 'flacher' setzen?
+$\vec{a}\cdot\vec{b} = \left|\vec{a}\right|\left|\vec{b}\right|\cos\alpha$
+den von zwei Vektoren eingeschlossenen Winkel zu berechnen oder über das Kreuzprodukt eine Normale eines Polygons zu bestimmen.
+
+Vektoren können dabei auf zwei Arten notiert werden: in Spaltenform
+
+
+\subsection{Homogene Koordinaten}
+
+Vierdimensionale Vektoren, also Vektoren mit \emph{homogenen Koordinaten}, dienen hauptsächlich dazu, mithilfe von Matrizen nicht nur lineare, sondern alle affinen Transformationen darstellen zu können.
+% Beispiel aus http://de.wikipedia.org/wiki/Homogene_Koordinaten einfügen.
+Dazu wird eine vierte Koordinate $w$ eingeführt.
+% Hyperebene: Eberly (3D game engine design), S. 9 (2.1.4 Homogeneous Transformations)
+% Verwendung von w in Robotik-Matrizen?
+
+
+\section{Matrizen}
+Generelle Einleitung. Auf den ersten Blick sehen Matrizen genauso aus wie einfache Tabellen von Zahlen. Sie unterscheiden sich von ihnen jedoch dadurch, dass man mit ihnen rechnen kann, sie werden der linearen Algebra zugeordnet.
+
+\subsection{Multiplikation}
+Wie man zwei Matrizen multipliziert.
+
+\subsection{Transposition}
+Erklärung der Transposition einer Matrix.
+
+\subsection{Determinante und Inverse}
+Definition der Inversen einer Matrix. Um sie berechnen zu können, nimmt man die determinante zur Hilfe.
+
+\section{Quaternionen}
+Erklärung zu Quaternionen. Nicht ganz alltägliches Konzept.
+
+\subsection{Rechenregeln}
+Kurze Zusammenfassung der Rechenregeln für Quaternionen.

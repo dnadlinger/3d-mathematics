@@ -1,0 +1,26 @@
+\input{header}
+
+\begin{document}
+
+\frontmatter
+\include{chapters/titlepage}
+\include{chapters/vorwort}
+
+\mainmatter
+\include{chapters/einleitung}
+\include{chapters/mathgrundlagen}
+\include{chapters/grafikgrundlagen}
+\include{chapters/3d-transformationen}
+\include{chapters/betrachtungstransformationen}
+\include{chapters/einzelprobleme}
+
+\appendix							% Beginn des Anhangs
+\include{chapters/beispielprogramm}
+%\backmatter					% Nachspann
+
+%% Bibliographie unter Verwendung von dinnat %%%%%%%%%%%%%%%%%%%%%%%%%%
+%\setbibpreamble{Präambel}		% Text vor dem Verzeichnis
+%\bibliographystyle{dinat}
+%\bibliography{bibliographie}	% Sie benötigen einen *.bib-Datei
+
+\end{document}

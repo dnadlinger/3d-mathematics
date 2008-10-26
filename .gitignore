@@ -1,0 +1,9 @@
+*.aux
+*.dvi
+*.pdf
+*.blg
+*.toc
+*.kilepr
+*.tcp
+*.tps
+*.log
