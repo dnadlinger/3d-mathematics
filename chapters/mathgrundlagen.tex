@@ -27,9 +27,23 @@ Eingebettet in Fließtext sind Zeilenvektoren wesentlich platzsparender -- man k
 
 
 \subsection{Homogene Koordinaten}
-Vierdimensionale Vektoren, also Vektoren mit \emph{homogenen Koordinaten}, dienen hauptsächlich dazu, mithilfe von Matrizen nicht nur lineare, sondern alle affinen Transformationen darstellen zu können.
-% Beispiel aus http://de.wikipedia.org/wiki/Homogene_Koordinaten einfügen.
-Dazu wird eine vierte Koordinate $w$ eingeführt.
+Homogene Koordinaten sind Koordinaten, die um eine zusätzliche Dimension -- meistens wird sie mit $w$ bezeichnet -- erweitert wurden. Das Pedant mit homogenen Koordinaten zu einem dreidimensionalen Vektor ist also ein Vektor im $\mathbb{R}^4$.
+
+Homogene Koordinaten dienen dazu, durch eine Linearkombination der einzelnen Koordinaten beliebige Transformationen darstellen zu können. Ansonsten steht man vor dem Problem, nur lineare Transformationen darstellen zu können, wenn die Koeffizienten auf mehrere Vektoren angewendet werden sollen. \emph{Beispiel?}
+
+Um einen \enquote{normalen Vektor} in einen Vektor mit homogenen Koordinaten zu überführen, setzt man einfach $w = 1$:
+\begin{equation}
+ \begin{pmatrix} x, & y, & z \end{pmatrix}^T \rightarrow \begin{pmatrix} x, & y, & z, & 1 \end{pmatrix}^T
+\end{equation}
+
+Für den umgekehrten Fall dividiert man zuerst alle Komponenten durch $w$, um den Vektor auf $w = 1$ zu bringen, und lässt $w$ dann einfach weg:
+\begin{equation}
+ \begin{pmatrix} x, & y, & z, & w \end{pmatrix}^T \rightarrow \begin{pmatrix} \frac{x}{w}, & \frac{y}{w}, & \frac{z}{w} \end{pmatrix}^T
+\end{equation}
+% Beispiele nach http://de.wikipedia.org/wiki/Homogene_Koordinaten
+
+In der Grafikprogrammierung wird das meist so gelöst, dass bei den meisten Berchnungen die $w$-Komponente gar nicht berücksichtigt wird und nur bei der Multiplikation von Matrizen mit Vektoren, etc. geändert wird. Auch wenn diese Vorgehensweise aus mathematischer Sicht nicht konsequent ist, stellt sie in der Praxis einen sinnvollen Kompromiss aus Performance\footnote{Performance: Leistung eines Computerprogramms} und Flexibilität dar.
+
 % Hyperebene: Eberly (3D game engine design), S. 9 (2.1.4 Homogeneous Transformations)
 % Verwendung von w in Robotik-Matrizen?
 
@@ -45,18 +59,19 @@ Eine Matrix
    \vdots & \vdots & \ddots & \vdots\\
    a_{n1} & a_{n2} & \cdots & a_{nm}
  \end{pmatrix}
- \in \mathbb R^{m,n}
+ \in \mathbb{R}^{m \times n}
 \end{equation}
 besteht aus $m$ Zeilen und $n$ Spalten, es handelt sich um eine $m \times n$-Matrix (sprich: \emph{m kreuz n}).
 
 Matrizen mit $m = n$ werden als \emph{quadratische Matrizen} bezeichnet.
-% Besondere Eigenschaften der quadratischen Matrizen? ``Einige Operationen sind nur für quadratische Matrizen definiert, ...''
+% Besondere Eigenschaften der quadratischen Matrizen? Einige Operationen sind nur für quadratische Matrizen definiert, ...
 
-Als \emph{Hauptdiagonale} einer Matrix wird die Linie vom linken obersten Element schräg zum rechten untersten Element bezeichnet; die Elemente der Hauptdiagonale sind also $a_{11}, a_{22}, \cdots, a_{nn}$. Matrizen, die außerhalb der Hauptdiagonale nur nur Elemente mit dem Wert 0 haben, werden als \emph{Diagonalmatrizen} bezeichnet. Sie lassen einige Vereinfachungen in den Berechnungen zu, auf die aber an dieser Stelle nicht wieter eingegangen werden soll.
+Als \emph{Hauptdiagonale} einer Matrix wird die Linie vom linken obersten Element schräg zum rechten untersten Element bezeichnet; die Elemente der Hauptdiagonale sind also $a_{11}, a_{22}, \ldots, a_{nn}$. Matrizen, die außerhalb der Hauptdiagonale nur nur Elemente mit dem Wert 0 haben, werden als \emph{Diagonalmatrizen} bezeichnet. Sie lassen einige Vereinfachungen in den Berechnungen zu, auf die aber an dieser Stelle nicht wieter eingegangen werden soll.
 % siehe http://de.wikipedia.org/wiki/Diagonalmatrix.
 
+
 \subsection{Addition}
-Zwei Matrizen werden addiert, indem man jeweils die Einträge der beiden Matrizen addiert:
+Zwei Matrizen der gleichen Dimensionen $m \times n$ werden addiert, indem man jeweils die Einträge der beiden Matrizen addiert:
 \begin{align}
  (A + B)_{ij} = a_{ij} + b_{ij}%\\
 % \nonumber\text{mit }1 \leq i \leq m \text{ und } 1 \leq j \leq n.
@@ -64,20 +79,21 @@ Zwei Matrizen werden addiert, indem man jeweils die Einträge der beiden Matrize
 % Quelle für Notation: http://en.wikipedia.org/wiki/Matrix_(mathematics)
 mit $1 \leq i \leq m$ und $1 \leq j \leq n$.
 
-Folglich ist die Addition zweier Matrizen nur dann definiert, wenn sie beide die gleichen Dimensionen $m \times n$ haben.
+Folglich ist das Ergebnis der Addition wiederum eine $m \times n$-Matrix.
 
 Die Matrizenaddition ist assoziativ und kommutiativ. Es ist leicht zu erkennen, dass die Matrizenaddition ein neutrales Element besitzt: analog zur Null bei der Addition von Skalaren eine Matrix deren Elemente alle 0 sind, kurz Nullmatrix genannt.
 
+
 \subsection{Multiplikation}
-Das Produkt $C$ zweier Matrizen $A \in \mathbb R^{m,o}$ und $B \in \mathbb R^{o,n}$ ist folgendermaßen definiert:
+Das Produkt $C$ zweier Matrizen $A \in \mathbb{R}^{m,o}$ und $B \in \mathbb{R}^{o,n}$ ist als
 \begin{equation}
  c_{ij} = \sum_{k=1}^m{a_{ik} \cdot b_{kj}}
 \end{equation}
-mit $1 \leq i \leq m$ und $1 \leq j \leq n$.
+mit $1 \leq i \leq m$ und $1 \leq j \leq n$ definiert ($C$ ist also $\in \mathbb{R}^{m \times n}$).
 
 Etwas anschaulicher formuliert erhält man das $i$-te Element der $j$-ten Spalte des Ergebnisses, indem man das Punktprodukt der $i$-ten Zeile der linken Matrix mit der $j$-Zeile der rechten Matrix bildet -- kurz \enquote{Zeile mal Spalte}.
 
-Es müssen also die Spaltenanzahl der linken Matrix und die Zeilenanzahl der rechten Matrix gleich sein, damit eine Multiplikation möglich ist. Das entstehende Produkt hat dabei die Dimensionen $m \times n$, also die Zeilenanzahl der linken Matrix und die Spaltenanzahl der rechten Matrix.
+Es müssen also die Spaltenanzahl der linken Matrix und die Zeilenanzahl der rechten Matrix gleich sein (oben durch $o$ ausgedrückt), damit eine Multiplikation möglich ist. Das entstehende Produkt hat dabei die Dimensionen $m \times n$, also die Zeilenanzahl der linken Matrix und die Spaltenanzahl der rechten Matrix.
 
 Ein Beispiel zur Veranschaulichung:
 \begin{equation}
@@ -116,15 +132,110 @@ Für die Multiplikation von quadratischen Matrizen gibt es ein neutrales Element
 \end{equation}
 gilt. $E$ wird als \emph{Einheitsmatrix} bezeichnet und ist eine Diagonalmatrix, deren Elemente entlang der Hauptdiagonale alle den Wert 1 haben.
 
-Fasst man einen $n$-dimensionalen Spaltenvektor als $n \times 1$-Matrix auf, so kann die Multiplikation einer Matrix mit einem Vektor als Spezialfall der Matrizenmultiplikation gesehen werden. Sie wird auch als \emph{Transformation} des Vektors bezeichnet. Ergebnis der Operation ist wiederum ein $n$-dimensionaler Vektor.
+Fasst man einen $n$-dimensionalen Spaltenvektor als $n \times 1$-Matrix auf, so kann die Multiplikation einer Matrix mit einem Vektor als Spezialfall der Matrizenmultiplikation gesehen werden. Das Ergebnis ist wiederrum ein $n$-dimensionaler Vektor. Die Operation wird auch als \emph{Transformation} des Vektors bezeichnet, da in der Matrix Transformationen \enquote{gespeichert} sein können, die über die Multiplikation auf den Vektor angewendet werden (siehe Kapitel \ref{transformation}).
+
+Eine Multiplikation mit der Einheitsmatrix verändert den Vektor naheliegenderweise nicht:
+
+\begin{equation}
+ \begin{pmatrix}
+  1 & 0 & 0 & 0 \\
+  0 & 1 & 0 & 0 \\
+  0 & 0 & 1 & 0 \\
+  0 & 0 & 0 & 1
+ \end{pmatrix}
+ \cdot
+ \begin{pmatrix}
+  2 \\
+  3 \\
+  4 \\
+  1
+ \end{pmatrix}
+ =
+ \begin{pmatrix}
+  1 \cdot 2 + 0 \cdot 3 + 0 \cdot 4 + 0 \cdot 1 \\
+  0 \cdot 2 + 1 \cdot 3 + 0 \cdot 4 + 0 \cdot 1 \\
+  0 \cdot 2 + 0 \cdot 3 + 1 \cdot 4 + 0 \cdot 1 \\
+  0 \cdot 2 + 0 \cdot 3 + 0 \cdot 4 + 1 \cdot 1
+ \end{pmatrix}
+ =
+ \begin{pmatrix}
+  2 \\
+  3 \\
+  4 \\
+  1
+ \end{pmatrix}
+\end{equation}
+
+Jetzt wird auch der Hintergrund der Verwendung von homogenen Koordinaten klarer: Wenn eine Matrix auf mehrere Vektoren angewendet werden soll, dann könnten ohne diese nur lineare Abbildungen dargestellt werden. Für die Darstellung aller \emph{affinen Transformationen} wäre ein zusätzlicher Schritt notwendig, beispielweise die Addition eines Vektors: $\vec{x'} = A \cdot \vec{x} + \vec{b}$. Durch die Verwendung von homogenen Koordinaten können diese Schritte in einer Matrix zusammengefasst werden. Außerdem sind Berechnungen wie Projektionen möglich, die eine Division durch eine Koordinate erfordern (siehe Kapitel \ref{projection}).
 
 
 \subsection{Transposition}
 \label{transposition}
-Erklärung der Transposition einer Matrix.
+Bei der Transposition werden die Zeilen und Spalten einer Matrix vertauscht, die Matrix also quasi entlang ihrer Hauptdiagonale gespiegelt. Folglich wird eine $m \times n$-Matrix zu einer $n \times m$-Matrix. Wird eine $n \times 1$-Matrix, also ein Spaltenvektor, transponiert, ergibt sich daher eine $1 \times n$-Matrix, also der dazugehörige Zeilenvektor.
 
-\subsection{Determinante und Inverse}
-Definition der Inversen einer Matrix. Um sie berechnen zu können, nimmt man die Determinante zur Hilfe.
+Beispiel:
+\begin{equation}
+  \begin{pmatrix}
+    1 & -2 & 3 \\
+    4 & 5 & -6
+  \end{pmatrix}^T
+  =
+  \begin{pmatrix}
+    1 & 3 \\
+    -2 & 4 \\
+    3 & -6
+  \end{pmatrix}
+\end{equation}
+
+Wird die Transposition zwei Mal auf eine Matrix, hebt sie sich naheliegenderweise auf, es gilt also
+\begin{equation}
+ (A^T)^T = A.
+\end{equation}
+
+Bezüglich Addition und Multiplikation ist die Transposition distributiv, es gelten also
+\begin{equation}
+ (A + B)^T = A^T + B^T
+\end{equation}
+und
+\begin{equation}
+ (A \cdot B)^T = A^T \cdot B^T.
+\end{equation}
+
+Übrigens entspricht die transponierte Matrix bei Matrizen über $\mathbb R$ (und um diese soll es hier ausschließlich gehen) der adjungierten Matrix. Aus diesem Grund werden die beiden Begriffe in der Fachliteratur zur Grafikprogrammierung gelegentlich synonym verwendet.
+% Quelle: http://de.wikipedia.org/wiki/Matrix_(Mathematik)#Die_transponierte_Matrix
+
+\subsection{Determinante}
+Die Determinante per se ist in der Grafikprogrammierung praktisch bedeutungslos. Allerdings wird sie für die Berechnung der inversen Matrix gebraucht.
+
+Quadratische Matrizen, deren Determinante ungleich 0 ist, werden als \emph{reguläre Matrizen} bezeichnet.
+
+\subsection{Inverse Matrix}
+Eine quadratische Matrix $A$ kann eine inverse Matrix $A^{-1}$ besitzen, für die
+\begin{equation}
+ A \cdot A^{-1} = E
+\end{equation}
+gilt. $A^{-1}$ wird auch kurz als Inverse bezeichnet.
+
+Wenn man das Multiplizieren einer Matrix mit einem Vektor als Transformation betrachtet, dann entspricht die Muliplikation mit der inversen Matrix dem \emph{Rückgängig machen} der Transformation. Hat man also beispielweise einen Vektor $\vec v$ mit der Matrix $A$ transformiert, erhält man nach einer Multiplikation mit der Inversen $A^{-1}$ wieder den ursprünglichen Vektor. Dies lässt sich auch direkt aus der Definition abzuleiten: $A^{-1} \cdot ( A \cdot \vec v ) = (A^{-1} \cdot A) \cdot \vec v = E \cdot \vec v = \vec v$.
+
+Nur zu regulären Matrizen existiert eine inverse Matrix. Diese Einschränkung ist oft auf den ersten Blick ersichtlich. Beispielsweise kann zu der Matrix
+\begin{equation}
+ \begin{pmatrix}
+  1 & 0 & 0 \\
+  0 & 0 & 0 \\
+  0 & 0 & 1
+ \end{pmatrix}
+\end{equation}
+keine inverse Matrix existieren, denn wenn man einen Vektor mit dieser Matrix transformiert, geht die Information aus der $y$-Koordinate \enquote{verloren}. Somit ist es nicht mehr möglich, den ursprünglichen Vektor wiederherzustellen.
+
+Weg über Gauß-Jordan-Algorithmus (Blockmatrix).
+
+Berechnung über Adjunkte und Determinante.
+
+\begin{equation}
+ (A^{-1})^T = (A^T)^{-1}
+\end{equation}
+
 
 \section{Quaternionen}
 Erklärung zu Quaternionen. Nicht ganz alltägliches Konzept.
