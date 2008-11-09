@@ -27,7 +27,7 @@ Eingebettet in Fließtext sind Zeilenvektoren wesentlich platzsparender -- man k
 
 
 \subsection{Homogene Koordinaten}
-Homogene Koordinaten sind Koordinaten, die um eine zusätzliche Dimension -- meistens wird sie mit $w$ bezeichnet -- erweitert wurden. Das Pedant mit homogenen Koordinaten zu einem dreidimensionalen Vektor ist also ein Vektor im $\mathbb{R}^4$.
+Homogene Koordinaten sind Koordinaten, die um eine zusätzliche Dimension -- meistens wird sie mit $w$ bezeichnet -- erweitert wurden. Das Pendant mit homogenen Koordinaten zu einem dreidimensionalen Vektor ist also ein Vektor im $\mathbb{R}^4$.
 
 Homogene Koordinaten dienen dazu, durch eine Linearkombination der einzelnen Koordinaten beliebige Transformationen darstellen zu können. Ansonsten steht man vor dem Problem, nur lineare Transformationen darstellen zu können, wenn die Koeffizienten auf mehrere Vektoren angewendet werden sollen. \emph{Beispiel?}
 
@@ -42,7 +42,7 @@ Für den umgekehrten Fall dividiert man zuerst alle Komponenten durch $w$, um de
 \end{equation}
 % Beispiele nach http://de.wikipedia.org/wiki/Homogene_Koordinaten
 
-In der Grafikprogrammierung wird das meist so gelöst, dass bei den meisten Berchnungen die $w$-Komponente gar nicht berücksichtigt wird und nur bei der Multiplikation von Matrizen mit Vektoren, etc. geändert wird. Auch wenn diese Vorgehensweise aus mathematischer Sicht nicht konsequent ist, stellt sie in der Praxis einen sinnvollen Kompromiss aus Performance\footnote{Performance: Leistung eines Computerprogramms} und Flexibilität dar.
+In der Grafikprogrammierung wird das meist so gelöst, dass bei den meisten Berechnungen die $w$-Komponente gar nicht berücksichtigt wird und nur bei der Multiplikation von Matrizen mit Vektoren, etc. geändert wird. Auch wenn diese Vorgehensweise aus mathematischer Sicht nicht konsequent ist, stellt sie in der Praxis einen sinnvollen Kompromiss aus Performance\footnote{Performance: Leistung bzw. Geschwindigkeit eines Computerprogramms} und Flexibilität dar.
 
 % Hyperebene: Eberly (3D game engine design), S. 9 (2.1.4 Homogeneous Transformations)
 % Verwendung von w in Robotik-Matrizen?
@@ -66,9 +66,10 @@ besteht aus $m$ Zeilen und $n$ Spalten, es handelt sich um eine $m \times n$-Mat
 Matrizen mit $m = n$ werden als \emph{quadratische Matrizen} bezeichnet.
 % Besondere Eigenschaften der quadratischen Matrizen? Einige Operationen sind nur für quadratische Matrizen definiert, ...
 
-Als \emph{Hauptdiagonale} einer Matrix wird die Linie vom linken obersten Element schräg zum rechten untersten Element bezeichnet; die Elemente der Hauptdiagonale sind also $a_{11}, a_{22}, \ldots, a_{nn}$. Matrizen, die außerhalb der Hauptdiagonale nur nur Elemente mit dem Wert 0 haben, werden als \emph{Diagonalmatrizen} bezeichnet. Sie lassen einige Vereinfachungen in den Berechnungen zu, auf die aber an dieser Stelle nicht wieter eingegangen werden soll.
+Als \emph{Hauptdiagonale} einer Matrix wird die Linie vom linken obersten Element schräg zum rechten untersten Element bezeichnet; die Elemente der Hauptdiagonale sind also $a_{11}, a_{22}, \ldots, a_{nn}$. Matrizen, die außerhalb der Hauptdiagonale nur nur Elemente mit dem Wert 0 haben, werden als \emph{Diagonalmatrizen} bezeichnet. Sie lassen einige Vereinfachungen in den Berechnungen zu, auf die aber an dieser Stelle nicht weiter eingegangen werden soll.
 % siehe http://de.wikipedia.org/wiki/Diagonalmatrix.
 
+Neben ihrer Verwendung in der 3D-Mathematik werden Matrizen vor allem noch zum Lösen von Gleichungssystemen verwendet. Darauf werde ich aber im Rahmen dieser Arbeit nicht weiter eingehen.
 
 \subsection{Addition}
 Zwei Matrizen der gleichen Dimensionen $m \times n$ werden addiert, indem man jeweils die Einträge der beiden Matrizen addiert:
@@ -81,7 +82,7 @@ mit $1 \leq i \leq m$ und $1 \leq j \leq n$.
 
 Folglich ist das Ergebnis der Addition wiederum eine $m \times n$-Matrix.
 
-Die Matrizenaddition ist assoziativ und kommutiativ. Es ist leicht zu erkennen, dass die Matrizenaddition ein neutrales Element besitzt: analog zur Null bei der Addition von Skalaren eine Matrix deren Elemente alle 0 sind, kurz Nullmatrix genannt.
+Die Matrizenaddition ist assoziativ und kommutativ. Es ist leicht zu erkennen, dass die Matrizenaddition ein neutrales Element besitzt: analog zur Null bei der Addition von Skalaren eine Matrix deren Elemente alle 0 sind, kurz Nullmatrix genannt.
 
 
 \subsection{Multiplikation}
@@ -132,7 +133,7 @@ Für die Multiplikation von quadratischen Matrizen gibt es ein neutrales Element
 \end{equation}
 gilt. $E$ wird als \emph{Einheitsmatrix} bezeichnet und ist eine Diagonalmatrix, deren Elemente entlang der Hauptdiagonale alle den Wert 1 haben.
 
-Fasst man einen $n$-dimensionalen Spaltenvektor als $n \times 1$-Matrix auf, so kann die Multiplikation einer Matrix mit einem Vektor als Spezialfall der Matrizenmultiplikation gesehen werden. Das Ergebnis ist wiederrum ein $n$-dimensionaler Vektor. Die Operation wird auch als \emph{Transformation} des Vektors bezeichnet, da in der Matrix Transformationen \enquote{gespeichert} sein können, die über die Multiplikation auf den Vektor angewendet werden (siehe Kapitel \ref{transformation}).
+Fasst man einen $n$-dimensionalen Spaltenvektor als $n \times 1$-Matrix auf, so kann die Multiplikation einer Matrix mit einem Vektor als Spezialfall der Matrizenmultiplikation gesehen werden. Das Ergebnis ist wiederum ein $n$-dimensionaler Vektor. Die Operation wird auch als \emph{Transformation} des Vektors bezeichnet, da in der Matrix Transformationen \enquote{gespeichert} sein können, die über die Multiplikation auf den Vektor angewendet werden (siehe Kapitel \ref{transformation}).
 
 Eine Multiplikation mit der Einheitsmatrix verändert den Vektor naheliegenderweise nicht:
 
@@ -166,12 +167,12 @@ Eine Multiplikation mit der Einheitsmatrix verändert den Vektor naheliegenderwe
  \end{pmatrix}
 \end{equation}
 
-Jetzt wird auch der Hintergrund der Verwendung von homogenen Koordinaten klarer: Wenn eine Matrix auf mehrere Vektoren angewendet werden soll, dann könnten ohne diese nur lineare Abbildungen dargestellt werden. Für die Darstellung aller \emph{affinen Transformationen} wäre ein zusätzlicher Schritt notwendig, beispielweise die Addition eines Vektors: $\vec{x'} = A \cdot \vec{x} + \vec{b}$. Durch die Verwendung von homogenen Koordinaten können diese Schritte in einer Matrix zusammengefasst werden. Außerdem sind Berechnungen wie Projektionen möglich, die eine Division durch eine Koordinate erfordern (siehe Kapitel \ref{projection}).
+Jetzt wird auch der Hintergrund der Verwendung von homogenen Koordinaten klarer: Wenn eine Matrix auf mehrere Vektoren angewendet werden soll, dann könnten ohne diese nur lineare Abbildungen dargestellt werden. Für die Darstellung aller \emph{affinen Transformationen} wäre ein zusätzlicher Schritt notwendig, beispielsweise die Addition eines Vektors: $\vec{x'} = A \cdot \vec{x} + \vec{b}$. Durch die Verwendung von homogenen Koordinaten können diese Schritte in einer Matrix zusammengefasst werden. Außerdem sind Berechnungen wie Projektionen möglich, die eine Division aller Koordinaten durch eine Linearkombination der Koordinaten erfordern (siehe Kapitel \ref{projection}).
 
 
 \subsection{Transposition}
 \label{transposition}
-Bei der Transposition werden die Zeilen und Spalten einer Matrix vertauscht, die Matrix also quasi entlang ihrer Hauptdiagonale gespiegelt. Folglich wird eine $m \times n$-Matrix zu einer $n \times m$-Matrix. Wird eine $n \times 1$-Matrix, also ein Spaltenvektor, transponiert, ergibt sich daher eine $1 \times n$-Matrix, also der dazugehörige Zeilenvektor.
+Bei der Transposition werden die Zeilen und Spalten einer Matrix vertauscht, die Matrix also quasi entlang ihrer Hauptdiagonale gespiegelt. Folglich wird eine $m \times n$-Matrix zu einer $n \times m$-Matrix. Wird eine $n \times 1$-Matrix, also ein Spaltenvektor, transponiert, ergibt sich daher eine $1 \times n$-Matrix, also der entsprechende Zeilenvektor.
 
 Beispiel:
 \begin{equation}
@@ -181,44 +182,63 @@ Beispiel:
   \end{pmatrix}^T
   =
   \begin{pmatrix}
-    1 & 3 \\
-    -2 & 4 \\
+    1 & 4 \\
+    -2 & 5 \\
     3 & -6
   \end{pmatrix}
 \end{equation}
 
-Wird die Transposition zwei Mal auf eine Matrix, hebt sie sich naheliegenderweise auf, es gilt also
+Wird die Transposition zwei Mal auf eine Matrix angewendet, hebt sie sich naheliegenderweise auf, es gilt also
 \begin{equation}
  (A^T)^T = A.
 \end{equation}
 
-Bezüglich Addition und Multiplikation ist die Transposition distributiv, es gelten also
+Bezüglich Addition ist die Transposition distributiv, bezüglich Multiplikation distributiv unter Vertauschung der Reihenfolge, es gelten also
 \begin{equation}
  (A + B)^T = A^T + B^T
 \end{equation}
 und
 \begin{equation}
- (A \cdot B)^T = A^T \cdot B^T.
+\label{transpositionmultiplication}
+ (A \cdot B)^T = B^T \cdot A^T.
 \end{equation}
+
+Der Zusammenhang aus Gleichung \ref{transpositionmultiplication} zieht einen wesentlichen Unterschied im Verhalten von Spalten- und Zeilenvektoren nach sich. Dazu ein kleines Beispiel: Gegeben sei ein Spaltenvektor $\vec s$ und eine Matrix $A$, durch Multiplikation aus mehreren Teilmatrizen $A_1, A_2, \dots, A_n$ kombiniert, die jeweils eine Transformation beinhalten. Der Vektor wird nun von \emph{rechts} an die Matrix multipliziert:
+\begin{equation}
+ \vec{s'} = A \cdot \vec{s} = A_1 \cdot A_2 \cdot \ldots \cdot A_n \cdot \vec{s} = A_1 \cdot A_2 \cdot \ldots \cdot \left( A_n \cdot \vec{s} \right).
+\end{equation}
+Wie durch die Klammernsetzung angedeutet, verhält sich der Ergebnisvektor $\vec{s'}$, als hätte man die Teiltransformationen der Reihe nach beginnend mit $A_n$, also der zuletzt zu $A$ multiplizierten Matrix, auf den Vektor angewendet.
+
+Wird nun statt einem Spaltenvektor ein Zeilenvektor $\vec z = \vec{s}^T$ verwendet, ergibt sich aus Gleichung \ref{transpositionmultiplication} (wie auch aus den für die Multiplikation nötigen Dimensionen der Argumente), dass ein Zeilenvektor von \emph{links} an die \emph{transponierte} Matrix multipliziert werden muss. Wenn diese wieder aus $n$ Teiltransformationen zusammengesetzt wird, reicht es nicht, die einzelnen Matrizen zu transformieren, es muss zusätzlich noch die Multiplikationsreihenfolge umgekehrt werden:
+\begin{equation}
+ \vec{s'}^T = \vec{s}^T \cdot A^T = \vec{s}^T \cdot A_n^T \cdot A_{n-1}^T \cdot \ldots \cdot A_1^T.
+\end{equation}
+Dies ist insofern erwähnenswert, als in der 3D-Grafik zwei große Standards existieren, von denen einer Spaltenvektoren, der andere Zeilenvektoren verwendet (mehr dazu in Kapitel \ref{direct3dopengl}) und manche Algorithmen daher nicht 1:1 von einem Standard auf den anderen übertragbar sind.
+% Welche?
 
 Übrigens entspricht die transponierte Matrix bei Matrizen über $\mathbb R$ (und um diese soll es hier ausschließlich gehen) der adjungierten Matrix. Aus diesem Grund werden die beiden Begriffe in der Fachliteratur zur Grafikprogrammierung gelegentlich synonym verwendet.
 % Quelle: http://de.wikipedia.org/wiki/Matrix_(Mathematik)#Die_transponierte_Matrix
 
 \subsection{Determinante}
-Die Determinante per se ist in der Grafikprogrammierung praktisch bedeutungslos. Allerdings wird sie für die Berechnung der inversen Matrix gebraucht.
+Die Determinante per se ist in der Grafikprogrammierung praktisch bedeutungslos. Allerdings wird sie für eine Art der Berechnung der inversen Matrix gebraucht.
+
+Formel für $2 \times 2$-Determinanten.
+
+Rückführung von größeren auf diese.
 
 Quadratische Matrizen, deren Determinante ungleich 0 ist, werden als \emph{reguläre Matrizen} bezeichnet.
 
 \subsection{Inverse Matrix}
 Eine quadratische Matrix $A$ kann eine inverse Matrix $A^{-1}$ besitzen, für die
 \begin{equation}
- A \cdot A^{-1} = E
+ A \cdot A^{-1} = A^{-1} \cdot A = E
 \end{equation}
-gilt. $A^{-1}$ wird auch kurz als Inverse bezeichnet.
+gilt. $A^{-1}$ wird auch kurz als Inverse bezeichnet. Nicht-quadratische Matrizen können prinzipiell keine inverse Matrix besitzen.
+% allerdings können unter Umständen ... http://en.wikipedia.org/wiki/Moore-Penrose_pseudoinverse
 
-Wenn man das Multiplizieren einer Matrix mit einem Vektor als Transformation betrachtet, dann entspricht die Muliplikation mit der inversen Matrix dem \emph{Rückgängig machen} der Transformation. Hat man also beispielweise einen Vektor $\vec v$ mit der Matrix $A$ transformiert, erhält man nach einer Multiplikation mit der Inversen $A^{-1}$ wieder den ursprünglichen Vektor. Dies lässt sich auch direkt aus der Definition abzuleiten: $A^{-1} \cdot ( A \cdot \vec v ) = (A^{-1} \cdot A) \cdot \vec v = E \cdot \vec v = \vec v$.
+Wenn man das Multiplizieren einer Matrix mit einem Vektor als Transformation betrachtet, dann entspricht die Multiplikation mit der inversen Matrix dem \emph{Rückgängig machen} der Transformation. Hat man also beispielsweise einen Vektor $\vec v$ mit der Matrix $A$ transformiert, erhält man nach einer Multiplikation mit der Inversen $A^{-1}$ wieder den ursprünglichen Vektor. Dies lässt sich auch direkt aus der Definition abzuleiten: $A^{-1} \cdot ( A \cdot \vec v ) = (A^{-1} \cdot A) \cdot \vec v = E \cdot \vec v = \vec v$.
 
-Nur zu regulären Matrizen existiert eine inverse Matrix. Diese Einschränkung ist oft auf den ersten Blick ersichtlich. Beispielsweise kann zu der Matrix
+Nur zu regulären Matrizen existiert eine inverse Matrix. Diese Einschränkung ist oft auf den ersten Blick ersichtlich, wenn man die Auswirkungen der Matrix auf einen Vektor betrachtet. Beispielsweise kann zu der Matrix
 \begin{equation}
  \begin{pmatrix}
   1 & 0 & 0 \\
@@ -228,12 +248,43 @@ Nur zu regulären Matrizen existiert eine inverse Matrix. Diese Einschränkung i
 \end{equation}
 keine inverse Matrix existieren, denn wenn man einen Vektor mit dieser Matrix transformiert, geht die Information aus der $y$-Koordinate \enquote{verloren}. Somit ist es nicht mehr möglich, den ursprünglichen Vektor wiederherzustellen.
 
-Weg über Gauß-Jordan-Algorithmus (Blockmatrix).
+Im Wesentlichen gibt es zwei Verfahren, um die Inverse zu einer Matrix zu berechnen, im Folgenden soll als Ausgansmatrix
+\begin{equation*}
+ A = \begin{pmatrix}
+	1 & 2 & 0 \\
+    2 & 3 & 0 \\
+    3 & 4 & 1
+ \end{pmatrix}
+\end{equation*}
+dienen.
+
+Die erste Variante beruht auf dem Gauß-Eliminationsverfahren. Dazu schreibt man die Ausgansmatrix als Blockmatrix $(A|E)$ mit der Einheitsmatrix an:
+\begin{equation}
+ \left(\begin{array}{ccc|ccc}
+    1 & 2 & 0 &  1 & 0 & 0 \\
+    2 & 3 & 0 &  0 & 1 & 0 \\
+    3 & 4 & 1 &  0 & 0 & 1
+  \end{array}\right)
+\end{equation}
+Danach wendet man den Gauß-Jordan-Algorithmus auf die Blockmatrix an, was in diesem Fall zu folgendem Ergebnis führt:
+\begin{equation}
+  \left(\begin{array}{ccc|ccc}
+    1 & 0 & 0  & -3 & 2 & 0 \\
+    0 & 1 & 0  & 2 & -1 & 0 \\
+    0 & 0 & 1  & 1 & -2 & 1
+  \end{array}\right)
+\end{equation}
+Auf der linken Seite steht nun die Einheitsmatrix, auf der rechten Seite kann die inverse Matrix $A^{-1}$ direkt abgelesen werden.
+% Beispiel von http://de.wikipedia.org/wiki/Regul%C3%A4re_Matrix
+
+Nach diesem Verfahren ist die inverse Matrix recht einfach händisch zu berechnen. Es hat allerdings den Nachteil, dass keine \enquote{fertige} Formel dafür angegeben werden kann, und es daher für den Einsatz in der Grafikprogrammierung nicht ausreichend schnell zu berechnen ist\footnote{Dies gilt nur für kleinere Matrizen, wie sie in der 3D-Grafik verwendet werden.}.
 
 Berechnung über Adjunkte und Determinante.
 
+Recht langsam.
+
 \begin{equation}
- (A^{-1})^T = (A^T)^{-1}
+ (A^{-1})^T = (A^T)^{-1}.
 \end{equation}
 
 
