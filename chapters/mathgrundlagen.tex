@@ -66,7 +66,7 @@ besteht aus $m$ Zeilen und $n$ Spalten, es handelt sich um eine $m \times n$-Mat
 Matrizen mit $m = n$ werden als \emph{quadratische Matrizen} bezeichnet.
 % Besondere Eigenschaften der quadratischen Matrizen? Einige Operationen sind nur für quadratische Matrizen definiert, ...
 
-Als \emph{Hauptdiagonale} einer Matrix wird die Linie vom linken obersten Element schräg zum rechten untersten Element bezeichnet; die Elemente der Hauptdiagonale sind also $a_{11}, a_{22}, \ldots, a_{nn}$. Matrizen, die außerhalb der Hauptdiagonale nur nur Elemente mit dem Wert 0 haben, werden als \emph{Diagonalmatrizen} bezeichnet. Sie lassen einige Vereinfachungen in den Berechnungen zu, die aber hauptsächlich im zweiten großen Einsatzgebiet der Matrizenrechnung, dem Lösen von linearen Gleichungssystemen, gebraucht werden. An dieser Stelle soll dewegen nicht weiter darauf eingegangen werden.
+Als \emph{Hauptdiagonale} einer Matrix wird die gedachte Linie vom linken obersten Element schräg zum rechten untersten Element bezeichnet; die Elemente der Hauptdiagonale sind also $a_{11}, a_{22}, \ldots, a_{nn}$. Matrizen, die außerhalb der Hauptdiagonale nur nur Elemente mit dem Wert 0 haben, werden als \emph{Diagonalmatrizen} bezeichnet. Sie lassen einige Vereinfachungen in den Berechnungen zu, die aber hauptsächlich im zweiten großen Einsatzgebiet der Matrizenrechnung, dem Lösen von linearen Gleichungssystemen, gebraucht werden. An dieser Stelle soll dewegen nicht weiter darauf eingegangen werden.
 % siehe http://de.wikipedia.org/wiki/Diagonalmatrix.
 
 
@@ -236,9 +236,25 @@ lautet
  \det A = ad - cb.
 \end{equation}
 
-Mit Hilfe des Laplace'schen Entwicklungssatzes\footnote{$\det A = \sum_{i=1}^n (-1)^{i+j} \cdot a_{ij} \cdot \det A_{ij}$, wobei $A_{ij}$ die Untermatrix von A ist, bei der die $i$-te Zeile und die $j$-te Spalte gestrichen wurden; siehe XXX} können Determinanten aller höheren Dimensionen durch $2x2$-Determinanten ausgedrückt werden.
+Mit Hilfe des Laplace'schen Entwicklungssatzes können Determinanten aller höheren Dimensionen durch $2 \times 2$-Determinanten ausgedrückt werden. Dazu wird das Konzept der \emph{Minoren} eingeführt: Der Minor $M_{ij}$ einer Matrix $A \in \mathbb{R}^{n \times n}$ ist die Determinante einer $(n-1) \times (n-1)$-Untermatrix, bei der die $i$-te Zeile und die $j$-te Spalte gestrichen wurden. Das Produkt
+\begin{equation}
+\label{cofactor}
+ \tilde a_{ij} = (-1)^{i+j} M_{ij}
+\end{equation}
+wird als \emph{Kofaktor} von A bezeichnet. Nach dem Laplace'schen Erweiterungssatz kann die Determinante einer Matrix als Summe des Produktes ihrer Elemente mit Cofaktoren \enquote{nach} einer beliebigen Zeile oder Spalte entwickelt werden, also mit $1 \leq k \leq n$
+\begin{equation}
+ \det A = a_{k1} \tilde a_{k1} + a_{k2} \tilde a_{k2} + \cdots + a_{kn} \tilde a_{kn} = a_{1k} \tilde a_{1k} + a_{2k} \tilde a_{2k} + \cdots + a_{nk} \tilde a_{nk}.
+\end{equation}
+% Literatur?!
 
-Für eine $3 \times 3$-Matrix $B$ erhält man beispielsweise nach dem Vereinfachen
+Hieraus lässt sich schon erahnen, dass die Determinante einer Matrix gleich bleibt, wenn man die Matrix transponiert. Es gilt also:
+\begin{equation}
+\label{transposeddeterminant}
+ \det A = \det A^T
+\end{equation}
+\emph{Beweis?}
+
+Nach diesem Verfahren lässt sich eine komplette Formel für die Determinante ableiten, was für die Geschwindigkeit der Berechnung am Computer von Vorteil ist\footnote{Dies gilt nur für Determinanten relativ kleiner Dimension, wie sie in der Grafikprogrammierung verwendet werden. Zur Berechnung höherdimensionaler Determinanten kann ein anderer algorithmischer Ansatz sinvoller sein, da die Komplexität dieses Verfahrens ziemlich schnell steigt.}. Für eine $3 \times 3$-Matrix $B$ erhält man beispielsweise nach dem Vereinfachen
 \begin{equation}
  \det B = b_{11} b_{22} b_{33} + b_{12} b_{23} b_{31} + b_{13} b_{21} b_{32} - b_{13} b_{22} b_{31} - b_{12} b_{21} b_{33} - b_{11} b_{23} b_{32}.
 \end{equation}
@@ -267,6 +283,12 @@ Nur zu regulären Matrizen existiert eine inverse Matrix. Diese Einschränkung i
  \end{pmatrix}
 \end{equation}
 keine inverse Matrix existieren, denn wenn man einen Vektor mit dieser Matrix transformiert, geht die Information aus der $y$-Koordinate \enquote{verloren}. Somit ist es nicht mehr möglich, den ursprünglichen Vektor wiederherzustellen.
+
+In Bezug auf Transposition gilt für die Inversion (ähnlich wie bei der Determinante, siehe Gleichung \ref{transposeddeterminant}):
+\begin{equation}
+ (A^{-1})^T = (A^T)^{-1}.
+\end{equation}
+\emph{Beweis?}
 
 Im Wesentlichen gibt es zwei Verfahren, um die Inverse zu einer Matrix zu berechnen, im Folgenden soll als Ausgansmatrix
 \begin{equation*}
@@ -297,22 +319,59 @@ Danach wendet man den Gauß-Jordan-Algorithmus auf die Blockmatrix an, was in di
 Auf der linken Seite steht nun die Einheitsmatrix, auf der rechten Seite kann die inverse Matrix $A^{-1}$ direkt abgelesen werden.
 % Beispiel von http://de.wikipedia.org/wiki/Regul%C3%A4re_Matrix, korrekt?
 
-Mit diesem Verfahren ist die inverse Matrix recht einfach händisch zu berechnen. Es hat allerdings den Nachteil, dass sich daraus keine \enquote{fertige} Formel ableiten lässt, und es daher für den Einsatz in der Grafikprogrammierung nicht ausreichend schnell zu berechnen ist\footnote{Dies gilt nur für kleinere Matrizen, wie sie in der 3D-Grafik verwendet werden, bei höherdimensionalen Matrizen kann ein iterativer Ansatz wie dieser effizienter sein.}.
+Mit diesem Verfahren ist die inverse Matrix recht einfach händisch zu berechnen. Es hat allerdings den Nachteil, dass sich daraus keine \enquote{fertige} Formel ableiten lässt, und es daher für den Einsatz in der Grafikprogrammierung nicht ausreichend schnell zu berechnen ist\footnote{Dies gilt wiederum nur für relativ kleine Matrizen.}.
 
-Daher wird in der 3D-Programmierung meist auf die zweite Variante zurückgegriffen. Sie macht sich die adjungierte Matrix und die Determinante zu nutze. Nach ihr ist die Inverse der Matrix A folgendermaßen definiert:
+Daher wird in der 3D-Programmierung meist auf die zweite Variante zurückgegriffen, nach der die Inverse zur Matrix $A$ folgendermaßen definiert ist:
 \begin{equation}
- A^{-1} = \frac{1}{\det A} \cdot \operatorname{adj} A
+ A^{-1} = \frac{1}{\det A} \cdot \adj A
 \end{equation}
 
-$\operatorname{adj} A$ bezeichnet in diesem Fall die \emph{Adjunkte} zur Matrix A. Definition.
-
-Es gilt:
+$\adj A$ bezeichnet in diesem Fall die \emph{Adjunkte} zur Matrix A, die auch als \emph{komplementäre Matrix} bezeichnet wird. Sie besteht aus der transponierten Matrix der Kofaktoren (siehe Gleichung \ref{cofactor}), es gilt also:
 \begin{equation}
- (A^{-1})^T = (A^T)^{-1}.
+ \adj A = \begin{pmatrix}
+   \tilde a_{11} & \tilde a_{21} & \cdots & \tilde a_{n1}\\
+   \tilde a_{12} & \tilde a_{22} & \cdots & \tilde a_{n2}\\
+   \vdots & \vdots & \ddots & \vdots\\
+   \tilde a_{1n} & \tilde a_{2n} & \cdots & \tilde a_{nn}
+ \end{pmatrix}.
 \end{equation}
-Beweis?
 
-Generell lässt sich sagen, dass die Matrizeninversion (z.B. im Vergleich zur Matrizenmultiplikation) eine recht rechenaufwändige Operation ist. Sie sollte in der 3D-Grafik also nach Möglichkeit vermieden werden, bei der es auf hohe Berechnungsgeschwindigkeit ankommt.
+Mit Hilfe dieses Zusammenhangs lassen sich Formeln für Matrizen beliebiger Dimension herleiten. Dabei ist allerdings zu beachten, dass die Komplexität bzw. die Anzahl der nötigen Rechenoperationen mit der Erhöhung der Dimensionen sehr schnell steigt:
+
+Ergibt sich für die Inverse einer $2 \times 2$-Matrix
+\begin{equation}
+ B = \begin{pmatrix}
+  a & b \\
+  c & d
+ \end{pmatrix}
+\end{equation}
+noch der relativ übersichtliche Ausdruck
+\begin{equation}
+ B^{-1} = \frac{1}{ad-bc} \cdot
+ \begin{pmatrix}
+  d & -b \\
+  -c & a
+ \end{pmatrix},
+\end{equation}
+führt das Verfahren für eine $3 \times 3$-Matrix
+\begin{equation}
+ C = \begin{pmatrix}
+  a & b & c \\
+  d & e & f \\
+  g & h & i
+ \end{pmatrix}
+\end{equation}
+schon zu der wesentlich komplizierteren Formel
+\begin{equation}
+ C^{-1} = \frac{1}{\det C} \cdot
+ \begin{pmatrix}
+  ei - hf & ch - bi & bf - ce \\
+  fg - di & ai - cg & cd - af \\
+  dh - eg & bg - ah & ae - bd
+ \end{pmatrix}.
+\end{equation}
+
+In Bezug auf die 3D-Grafik am Computer bleibt noch festzustellen, dass die Inversion im Vergleich zu anderen Operationen (\zb zur Matrizenmultiplikation) recht rechenaufwändig ist und daher nicht allzu oft ausgeführt werden sollte (siehe Abschnitt \ref{performance}).
 
 \section{Quaternionen}
 Erklärung zu Quaternionen. Nicht ganz alltägliches Konzept.
