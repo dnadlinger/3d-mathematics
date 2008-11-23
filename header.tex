@@ -4,7 +4,9 @@
 \documentclass[
 %draft,								% überlangen Zeilen in Ausgabe gekennzeichnet
 appendixprefix,				% Anhang wird "Anhang" vor die Überschrift gesetzt
-parskip=half
+parskip=half,
+DIV=12,
+BCOR=5mm
 %a5paper,							% alle weiteren Papierformat einstellbar
 %landscape,						% Querformat
 %12pt,								% Schriftgröße (12pt, 11pt (Standard))
@@ -58,3 +60,5 @@ parskip=half
 %\usepackage{natbib}
 
 \newcommand{\path}[1]{\texttt{#1}}
+\newcommand{\adj}[1]{\operatorname{adj}#1}
+\newcommand{\zb}{z.\thinspace B.\ }
