@@ -5,7 +5,7 @@ In den folgenden Abschnitten möchte ich die mathematischen Grundprinzipien beha
 % Kapitel über Vektoren
 % Wozu werden welche Vektoren verwendet? Erläuterung homogene Koordinaten. Schreibweisen von Vektoren.
 \section{Vektoren}
-Vektoren sind wohl die wichtigste Struktur in der 3D-Grafik. Sie werden nicht nur in ihrer dreidimensionalen Form eingesetzt, sondern auch in ihrer zweidimensionalen Form und um eine vierte Koordinate erweitert als Vektoren mit homogenen Koordinaten (dazu später mehr).
+Vektoren sind wohl die wichtigste Struktur in der 3D-Grafik. Sie werden nicht nur in ihrer dreidimensionalen Form eingesetzt, sondern auch in ihrer zweidimensionalen Ausprägung und um eine vierte Koordinate erweitert als Vektoren mit homogenen Koordinaten (dazu später mehr).
 
 Trotz der universellen Verwendung gehen die benötigten Operationen nicht über den Schulstoff hinaus. Insbesondere das Skalarprodukt und das Kreuzprodukt werden sehr häufig benötigt, zum Beispiel um über den Zusammenhang
 % Wie 'flacher' setzen?
@@ -21,15 +21,15 @@ oder in Zeilenform
  \vec{v} = \begin{pmatrix} x & y & z \end{pmatrix}.
 \end{equation*}
 
-Scheint der Unterschied zunächst noch rein kosmetischer Natur zu sein, zeigt sich spätestens beim Arbeiten mit Matrizen, dass die Entscheidung für eine der Formen doch erhebliche Konsequenzen nach sich zieht. In der Programmierung werden beide Varianten gleichermaßen verwendet; ich habe mich entschieden, in diesem Dokument Spaltenvektoren zu verwenden, da diese Variante in der Schulmathematik üblich ist.
+Scheint der Unterschied zunächst noch rein kosmetischer Natur zu sein, zeigt sich spätestens beim Arbeiten mit Matrizen, dass die Entscheidung für eine der Formen doch erhebliche Konsequenzen nach sich zieht (siehe Kapitel \ref{transposition}). In der Grafikprogrammierung werden beide Varianten gleichermaßen verwendet; in diesem Dokument werde ich Spaltenvektoren verwenden, um den Bezug zur Schulmathematik zu wahren.
 
-Eingebettet in Fließtext sind Zeilenvektoren wesentlich platzsparender -- man kann einen Spaltenvektor aber als transponierten Zeilenvektor $\vec{v} = \begin{pmatrix} x & y & z \end{pmatrix}^T$ anschreiben, um diesen Vorteil zu übernehmen (siehe Abschnitt \ref{transposition}).
+Eingebettet in Fließtext sind Zeilenvektoren zwar wesentlich platzsparender, man kann einen Spaltenvektor aber als transponierten Zeilenvektor $\vec{v} = \begin{pmatrix} x & y & z \end{pmatrix}^T$ anschreiben, um diesen Vorteil zu übernehmen (siehe Abschnitt \ref{transposition}).
 
 
 \subsection{Homogene Koordinaten}
 Homogene Koordinaten sind Koordinaten, die um eine zusätzliche Dimension -- meistens wird sie mit $w$ bezeichnet -- erweitert wurden. Das Pendant mit homogenen Koordinaten zu einem dreidimensionalen Vektor ist also ein Vektor im $\mathbb{R}^4$.
 
-Homogene Koordinaten dienen dazu, durch eine Linearkombination der einzelnen Koordinaten beliebige Transformationen darstellen zu können. Ansonsten steht man vor dem Problem, nur lineare Transformationen darstellen zu können, wenn die Koeffizienten auf mehrere Vektoren angewendet werden sollen. \emph{Beispiel?}
+Homogene Koordinaten dienen dazu, alle affinen Transformationen eines Vektors durch eine Linearkombination seiner Koordinaten darstellen zu können. Ansonsten wäre man auf lineare Transformationen beschränkt, wenn eine Transformation über gleiche Koeffizienten der Linearkombination auf mehrere Vektoren angewendet werden soll (siehe Abschnitt \ref{homogenousmultiplication}).
 
 Um einen \enquote{normalen Vektor} in einen Vektor mit homogenen Koordinaten zu überführen, setzt man einfach $w = 1$:
 \begin{equation}
@@ -42,7 +42,7 @@ Für den umgekehrten Fall dividiert man zuerst alle Komponenten durch $w$, um de
 \end{equation}
 % Beispiele nach http://de.wikipedia.org/wiki/Homogene_Koordinaten
 
-In der Grafikprogrammierung wird das meist so gelöst, dass bei den meisten Berechnungen die $w$-Komponente gar nicht berücksichtigt wird und nur bei der Multiplikation von Matrizen mit Vektoren, etc. geändert wird. Auch wenn diese Vorgehensweise aus mathematischer Sicht nicht konsequent ist, stellt sie in der Praxis einen sinnvollen Kompromiss aus Performance\footnote{Performance: Leistung bzw. Geschwindigkeit eines Computerprogramms} und Flexibilität dar.
+In der Grafikprogrammierung wird das meist so gelöst, dass von vornherein mit homogenen Koordinaten gearbeitet wird, die $w$-Komponente aber bei den meisten Berechnungen schlichtweg ignoriert wird. Sie wird nur bei Operationen, bei denen sie sich sinnvoll ändern könnte (wie bei der Multiplikation von Matrizen mit Vektoren), berücksichtigt. Auch wenn diese Vorgehensweise aus mathematischer Sicht nicht konsequent ist, stellt sie in der Praxis einen sinnvollen Kompromiss aus Performance\footnote{Performance: Leistung bzw. Geschwindigkeit eines Computerprogramms} und Flexibilität dar.
 
 % Hyperebene: Eberly (3D game engine design), S. 9 (2.1.4 Homogeneous Transformations)
 % Verwendung von w in Robotik-Matrizen?
@@ -63,12 +63,13 @@ Eine Matrix
 \end{equation}
 besteht aus $m$ Zeilen und $n$ Spalten, es handelt sich um eine $m \times n$-Matrix (sprich: \emph{m kreuz n}).
 
-Matrizen mit $m = n$ werden als \emph{quadratische Matrizen} bezeichnet.
+Matrizen mit $m = n$ werden als \emph{quadratische Matrizen} bezeichnet und nehmen bei vielen Operationen eine Sonderstellung ein.
 % Besondere Eigenschaften der quadratischen Matrizen? Einige Operationen sind nur für quadratische Matrizen definiert, ...
 
-Als \emph{Hauptdiagonale} einer Matrix wird die gedachte Linie vom linken obersten Element schräg zum rechten untersten Element bezeichnet; die Elemente der Hauptdiagonale sind also $a_{11}, a_{22}, \ldots, a_{nn}$. Matrizen, die außerhalb der Hauptdiagonale nur nur Elemente mit dem Wert 0 haben, werden als \emph{Diagonalmatrizen} bezeichnet. Sie lassen einige Vereinfachungen in den Berechnungen zu, die aber hauptsächlich im zweiten großen Einsatzgebiet der Matrizenrechnung, dem Lösen von linearen Gleichungssystemen, gebraucht werden. An dieser Stelle soll dewegen nicht weiter darauf eingegangen werden.
-% siehe http://de.wikipedia.org/wiki/Diagonalmatrix.
+Als \emph{Hauptdiagonale} wird die gedachte Linie von der linken oberen Ecke bis zur rechten unteren Ecke einer Matrix bezeichnet -- die Elemente der Hauptdiagonale sind also $a_{11}, a_{22}, \ldots, a_{nn}$. Quadratische Matrizen, die außerhalb der Hauptdiagonale nur nur Elemente mit dem Wert 0 haben, werden als \emph{Diagonalmatrizen} bezeichnet. Sie lassen viele Vereinfachungen in bestimmten Berechnungen zu. Diese werden aber hauptsächlich im zweiten großen Einsatzgebiet der Matrizenrechnung gebraucht, dem Lösen von linearen Gleichungssystemen. An dieser Stelle soll daher nicht weiter darauf eingegangen werden.
+% siehe http://de.wikipedia.org/wiki/Diagonalmatrix. Stimmt das?!
 
+% Nur Matrizen aus R
 
 \subsection{Addition}
 Zwei Matrizen der gleichen Dimensionen $m \times n$ werden addiert, indem man jeweils die Einträge der beiden Matrizen addiert:
@@ -81,9 +82,9 @@ mit $1 \leq i \leq m$ und $1 \leq j \leq n$.
 
 Folglich ist das Ergebnis der Addition wiederum eine $m \times n$-Matrix.
 
-Die Matrizenaddition ist assoziativ und kommutativ. Es ist leicht zu erkennen, dass die Matrizenaddition ein neutrales Element besitzt: analog zur Null bei der Addition von Skalaren eine Matrix deren Elemente alle 0 sind, kurz Nullmatrix genannt.
+Die Matrizenaddition ist assoziativ und kommutativ. Es ist leicht zu erkennen, dass die Matrizenaddition -- analog zur Null bei der Addition von Skalaren -- ein neutrales Element besitzt: eine Matrix deren Elemente alle 0 sind, kurz \emph{Nullmatrix} genannt.
 
-Die Addition wird in der 3D-Grafik fast nie gebraucht, da sie im Gegensatz zur Multiplikation und zur Inversion keine geometrische Entsprechung hat.
+Die Addition wird in der 3D-Grafik äußerst selten gebraucht, da sie im Gegensatz zur Multiplikation und zur Inversion keine geometrische Entsprechung hat.
 
 \subsection{Multiplikation}
 Das Produkt $C$ zweier Matrizen $A \in \mathbb{R}^{m,o}$ und $B \in \mathbb{R}^{o,n}$ ist als
@@ -131,9 +132,9 @@ Für die Multiplikation von quadratischen Matrizen gibt es ein neutrales Element
 \begin{equation}
  A \cdot E = E \cdot A = A
 \end{equation}
-gilt. $E$ wird als \emph{Einheitsmatrix} bezeichnet und ist eine Diagonalmatrix, deren Elemente entlang der Hauptdiagonale alle den Wert 1 haben.
+gilt. $E$ wird als \emph{Einheitsmatrix} bezeichnet und ist eine Diagonalmatrix, deren Elemente entlang der Hauptdiagonale alle den Wert 1 haben. Es gibt natürlich für alle verschiedenen Größen $n \times n$ jeweils eine eigene Einheitsmatrix $E_n$. Im Normalfall ist aber ohnehin ersichtlich, welche Dimensionen die verwendete Einheitsmatrix haben muss, deswegen wird in der Praxis meistens auf den Index verzichtet.
 
-Fasst man einen $n$-dimensionalen Spaltenvektor als $n \times 1$-Matrix auf, so kann die Multiplikation einer Matrix mit einem Vektor als Spezialfall der Matrizenmultiplikation gesehen werden. Das Ergebnis ist wiederum ein $n$-dimensionaler Vektor. Die Operation wird auch als \emph{Transformation} des Vektors bezeichnet, da in der Matrix Transformationen \enquote{gespeichert} sein können, die über die Multiplikation auf den Vektor angewendet werden (siehe Kapitel \ref{transformation}).
+Fasst man einen $n$-dimensionalen Spaltenvektor als $n \times 1$-Matrix auf, so kann die Multiplikation einer Matrix mit einem Vektor als Spezialfall der Matrizenmultiplikation gesehen werden. Das Ergebnis ist wiederum ein $n$-dimensionaler Vektor. Die Operation wird auch als \emph{Transformation} des Vektors bezeichnet, da in der Matrix Transformationen \enquote{gespeichert} sein können, die durch die Multiplikation auf den Vektor angewendet werden (siehe Kapitel \ref{transformation}).
 
 Eine Multiplikation mit der Einheitsmatrix verändert den Vektor naheliegenderweise nicht:
 
@@ -167,12 +168,13 @@ Eine Multiplikation mit der Einheitsmatrix verändert den Vektor naheliegenderwe
  \end{pmatrix}
 \end{equation}
 
-Jetzt wird auch der Hintergrund der Verwendung von homogenen Koordinaten klarer: Wenn eine Matrix auf mehrere Vektoren angewendet werden soll, dann könnten ohne diese nur lineare Abbildungen dargestellt werden. Für die Darstellung aller \emph{affinen Transformationen} wäre ein zusätzlicher Schritt notwendig, beispielsweise die Addition eines Vektors: $\vec{x'} = A \cdot \vec{x} + \vec{b}$. Durch die Verwendung von homogenen Koordinaten können diese Schritte in einer Matrix zusammengefasst werden. Außerdem sind Berechnungen wie Projektionen möglich, die eine Division aller Koordinaten durch eine Linearkombination der Koordinaten erfordern (siehe Kapitel \ref{projection}).
+\label{homogenousmultiplication}
+Jetzt wird auch der Hintergrund der Verwendung von homogenen Koordinaten klarer: Wenn eine Matrix auf mehrere Vektoren angewendet werden soll, dann könnten ohne diese nur lineare Abbildungen dargestellt werden. Für die Darstellung aller \emph{affinen Transformationen} wäre ein zusätzlicher Schritt notwendig, beispielsweise die Addition eines Vektors: $\vec{x'} = A \cdot \vec{x} + \vec{b}$. Durch die Verwendung von homogenen Koordinaten können diese Schritte in einer Matrix zusammengefasst werden. Außerdem sind Berechnungen wie Projektionen möglich, die eine \emph{Division} aller Koordinaten durch eine der Koordinaten beziehungsweise durch eine Linearkombination der Koordinaten erfordern (siehe Kapitel \ref{projection}).
 
 
 \subsection{Transposition}
 \label{transposition}
-Bei der Transposition werden die Zeilen und Spalten einer Matrix vertauscht, die Matrix also quasi entlang ihrer Hauptdiagonale gespiegelt. Folglich wird eine $m \times n$-Matrix zu einer $n \times m$-Matrix. Wird eine $n \times 1$-Matrix, also ein Spaltenvektor, transponiert, ergibt sich daher eine $1 \times n$-Matrix, also der entsprechende Zeilenvektor.
+Bei der Transposition werden die Zeilen und Spalten einer Matrix vertauscht, die Matrix wird quasi entlang ihrer Hauptdiagonale gespiegelt. Folglich wird eine $m \times n$-Matrix zu einer $n \times m$-Matrix. Wird eine $n \times 1$-Matrix, also ein Spaltenvektor, transponiert, ergibt sich daher eine $1 \times n$-Matrix, also der entsprechende Zeilenvektor.
 
 Beispiel:
 \begin{equation}
@@ -193,7 +195,7 @@ Wird die Transposition zwei Mal auf eine Matrix angewendet, hebt sie sich naheli
  (A^T)^T = A.
 \end{equation}
 
-Bezüglich Addition ist die Transposition distributiv, bezüglich Multiplikation distributiv unter Vertauschung der Reihenfolge, es gelten also
+Bezüglich Addition ist die Transposition distributiv, bezüglich Multiplikation distributiv unter Umkehrung der Reihenfolge, es gilt also
 \begin{equation}
  (A + B)^T = A^T + B^T
 \end{equation}
@@ -203,13 +205,13 @@ und
  (A \cdot B)^T = B^T \cdot A^T.
 \end{equation}
 
-Der Zusammenhang aus Gleichung \ref{transpositionmultiplication} zieht einen wesentlichen Unterschied im Verhalten von Spalten- und Zeilenvektoren nach sich. Dazu ein kleines Beispiel: Gegeben sei ein Spaltenvektor $\vec s$ und eine Matrix $A$, durch Multiplikation aus mehreren Teilmatrizen $A_1, A_2, \dots, A_n$ kombiniert, die jeweils eine Transformation beinhalten. Der Vektor wird nun von \emph{rechts} an die Matrix multipliziert:
+Der Zusammenhang aus Gleichung \ref{transpositionmultiplication} zieht einen wesentlichen Unterschied in der Verwendung von Spalten- und Zeilenvektoren nach sich. Dazu ein kleines Beispiel: Gegeben sei ein Spaltenvektor $\vec s$ und eine Matrix $A$, durch Multiplikation aus mehreren Teilmatrizen $A_1, A_2, \dots, A_n$ kombiniert, die jeweils einer Transformation entsprechen. Der Vektor wird nun von \emph{rechts} an die Matrix multipliziert:
 \begin{equation}
  \vec{s'} = A \cdot \vec{s} = A_1 \cdot A_2 \cdot \ldots \cdot A_n \cdot \vec{s} = A_1 \cdot A_2 \cdot \ldots \cdot \left( A_n \cdot \vec{s} \right).
 \end{equation}
 Wie durch die Klammernsetzung angedeutet, verhält sich der Ergebnisvektor $\vec{s'}$, als hätte man die Teiltransformationen der Reihe nach beginnend mit $A_n$, also der zuletzt zu $A$ multiplizierten Matrix, auf den Vektor angewendet.
 
-Wird nun statt einem Spaltenvektor ein Zeilenvektor $\vec z = \vec{s}^T$ verwendet, ergibt sich aus Gleichung \ref{transpositionmultiplication} (wie auch aus den für die Multiplikation nötigen Dimensionen der Argumente), dass ein Zeilenvektor von \emph{links} an die \emph{transponierte} Matrix multipliziert werden muss. Wenn diese wieder aus $n$ Teiltransformationen zusammengesetzt wird, reicht es nicht, die einzelnen Matrizen zu transformieren, es muss zusätzlich noch die Multiplikationsreihenfolge umgekehrt werden:
+Wird nun statt einem Spaltenvektor ein Zeilenvektor $\vec z = \vec{s}^T$ verwendet, ergibt sich aus Gleichung \ref{transpositionmultiplication} (wie auch aus den für die Multiplikation nötigen Dimensionen der Argumente), dass ein Zeilenvektor von \emph{links} an die \emph{transponierte} Matrix multipliziert werden muss. Wenn diese wieder aus $n$ Teiltransformationen zusammengesetzt wird, reicht es nicht, die einzelnen Matrizen zu transformieren, es muss zusätzlich noch die Multiplikationsreihenfolge der Teilmatrizen umgekehrt werden:
 \begin{equation}
  \vec{s'}^T = \vec{s}^T \cdot A^T = \vec{s}^T \cdot A_n^T \cdot A_{n-1}^T \cdot \ldots \cdot A_1^T.
 \end{equation}
@@ -220,9 +222,9 @@ Dies ist insofern erwähnenswert, als in der 3D-Grafik zwei große Standards exi
 % Quelle: http://de.wikipedia.org/wiki/Matrix_(Mathematik)#Die_transponierte_Matrix
 
 \subsection{Determinante}
-Die Determinante ist eine spezielle Funktion, die einer quadratischen Matrix $A$ eine Zahl $\det A$ zuordnet. Das Ergebnis kann auf verschiedene Weisen interpretiert werden, die bekannteste Verwendung ist sicherlich zur Volumenberechnung in der Vektorrechnung (der Betrag der Determinante von reelen Vektoren entspricht dem Spatprodukt). Wenn die Matrix als Koeffizientenmatrix eines linearen Gleichungssystems aufgefasst wird, besitzt sie genau dann eine eindeutige Lösung, wenn ihre Determinante ungleich 0 ist (solche Matrizen werden als \emph{reguläre Matrizen} bezeichnet).
+Die Determinante ist eine spezielle Funktion, die einer quadratischen Matrix $A$ eine Zahl $\det A$ zuordnet. Das Ergebnis kann auf verschiedene Weisen interpretiert werden, die bekannteste Verwendung ist sicherlich zur Volumenberechnung in der Vektorrechnung (der Betrag der Determinante von reellen Vektoren entspricht dem Spatprodukt). Wenn die Matrix als Koeffizientenmatrix eines linearen Gleichungssystems aufgefasst wird, besitzt dieses genau dann eine eindeutige Lösung, wenn ihre Determinante ungleich 0 ist (solche Matrizen werden als \emph{reguläre Matrizen} bezeichnet).
 
-In der Grafikprogrammierung ist die Determinante selbt praktisch bedeutungslos, allerdings wird sie für ein Verfahren zur Inversion von Matrizen benötigt (siehe Abschnitt \ref{inversion}).
+In der Grafikprogrammierung ist die Determinante selbst praktisch bedeutungslos, allerdings wird sie für ein Verfahren zur Inversion von Matrizen benötigt (siehe Abschnitt \ref{inversion}).
 
 Die Determinante einer $2 \times 2$-Matrix
 \begin{equation*}
@@ -236,30 +238,28 @@ lautet
  \det A = ad - cb.
 \end{equation}
 
-Mit Hilfe des Laplace'schen Entwicklungssatzes können Determinanten aller höheren Dimensionen durch $2 \times 2$-Determinanten ausgedrückt werden. Dazu wird das Konzept der \emph{Minoren} eingeführt: Der Minor $M_{ij}$ einer Matrix $A \in \mathbb{R}^{n \times n}$ ist die Determinante einer $(n-1) \times (n-1)$-Untermatrix, bei der die $i$-te Zeile und die $j$-te Spalte gestrichen wurden. Das Produkt
+Mit Hilfe des Laplace'schen Entwicklungssatzes können Determinanten aller höheren Dimensionen durch $2 \times 2$-Determinanten ausgedrückt werden. Dazu wird das Konzept der \emph{Minoren} eingeführt: Der Minor $M_{ij}$ einer Matrix $A \in \mathbb{R}^{n \times n}$ ist die Determinante der $(n-1) \times (n-1)$-Untermatrix, die durch Streichen der $i$-ten Zeile und der $j$-ten Spalte von A entsteht. Das Produkt
 \begin{equation}
 \label{cofactor}
  \tilde a_{ij} = (-1)^{i+j} M_{ij}
 \end{equation}
-wird als \emph{Kofaktor} von A bezeichnet. Nach dem Laplace'schen Erweiterungssatz kann die Determinante einer Matrix als Summe des Produktes ihrer Elemente mit Cofaktoren \enquote{nach} einer beliebigen Zeile oder Spalte entwickelt werden, also mit $1 \leq k \leq n$
+wird als \emph{Kofaktor} von A bezeichnet. Nach dem Laplace'schen Erweiterungssatz kann die Determinante einer Matrix als Summe der Produkte ihrer Elemente mit den zugehörigen Kofaktoren \enquote{nach} einer beliebigen Zeile oder Spalte entwickelt werden, es gilt also mit $1 \leq k \leq n$:
 \begin{equation}
  \det A = a_{k1} \tilde a_{k1} + a_{k2} \tilde a_{k2} + \cdots + a_{kn} \tilde a_{kn} = a_{1k} \tilde a_{1k} + a_{2k} \tilde a_{2k} + \cdots + a_{nk} \tilde a_{nk}.
 \end{equation}
 % Literatur?!
 
-Hieraus lässt sich schon erahnen, dass die Determinante einer Matrix gleich bleibt, wenn man die Matrix transponiert. Es gilt also:
+Hieraus lässt sich schon eine Eigenheit im Bezug auf die Transposition erahnen: Die Determinante einer Matrix verändert sich, wenn man die Matrix transponiert. Es gilt also:
 \begin{equation}
 \label{transposeddeterminant}
  \det A = \det A^T
 \end{equation}
-\emph{Beweis?}
 
-Nach diesem Verfahren lässt sich eine komplette Formel für die Determinante ableiten, was für die Geschwindigkeit der Berechnung am Computer von Vorteil ist\footnote{Dies gilt nur für Determinanten relativ kleiner Dimension, wie sie in der Grafikprogrammierung verwendet werden. Zur Berechnung höherdimensionaler Determinanten kann ein anderer algorithmischer Ansatz sinvoller sein, da die Komplexität dieses Verfahrens ziemlich schnell steigt.}. Für eine $3 \times 3$-Matrix $B$ erhält man beispielsweise nach dem Vereinfachen
+Nach diesem Verfahren lässt sich eine komplette Formel für die Determinante ableiten, was für die Geschwindigkeit der Berechnung am Computer von Vorteil ist\footnote{Dies gilt nur für Determinanten relativ kleiner Dimension, wie sie in der Grafikprogrammierung verwendet werden. Zur Berechnung höherdimensionaler Determinanten kann ein anderer algorithmischer Ansatz sinnvoller sein, da die Komplexität dieses Verfahrens ziemlich schnell steigt.}. Für eine $3 \times 3$-Matrix $B$ erhält man beispielsweise nach dem Vereinfachen
 \begin{equation}
  \det B = b_{11} b_{22} b_{33} + b_{12} b_{23} b_{31} + b_{13} b_{21} b_{32} - b_{13} b_{22} b_{31} - b_{12} b_{21} b_{33} - b_{11} b_{23} b_{32}.
 \end{equation}
-
-Für die Berechnung der Determinante gibt es noch zahlreiche weitere Verfahren, darunter auch solche, die für den Einsatz mit großen Matrizen optimiert sind. Für den Einsatz in der 3D-Programmierung sind sie aber mehr oder weniger bedeutungslos, da es hier auf schnelle Berechenbarkeit bei kleinen Dimensionen ankommt.
+Für die Berechnung der Determinante gibt es noch zahlreiche weitere Verfahren, darunter auch solche, die für den Einsatz mit großen Matrizen optimiert sind. In der 3D-Programmierung sind sie aber mehr oder weniger bedeutungslos, da es hier auf schnelle Berechenbarkeit bei kleinen Dimensionen ankommt.
 
 % http://de.wikipedia.org/wiki/Determinante_(Mathematik)
 
@@ -274,7 +274,7 @@ gilt. $A^{-1}$ wird auch kurz als Inverse bezeichnet. Wie oben schon angemerkt, 
 
 Wenn man das Multiplizieren einer Matrix mit einem Vektor als Transformation betrachtet, dann entspricht die Multiplikation mit der inversen Matrix dem \emph{Rückgängig machen} der Transformation. Hat man also beispielsweise einen Vektor $\vec v$ mit der Matrix $A$ transformiert, erhält man nach einer Multiplikation mit der Inversen $A^{-1}$ wieder den ursprünglichen Vektor. Dies lässt sich auch direkt aus der Definition abzuleiten: $A^{-1} \cdot ( A \cdot \vec v ) = (A^{-1} \cdot A) \cdot \vec v = E \cdot \vec v = \vec v$.
 
-Nur zu regulären Matrizen existiert eine inverse Matrix. Diese Einschränkung ist oft auf den ersten Blick ersichtlich, wenn man die Auswirkungen der Matrix auf einen Vektor betrachtet. Beispielsweise kann zu der Matrix
+Der Grund für die Beschränkung auf reguläre Matrizen ist oft auf den ersten Blick ersichtlich, wenn man die Auswirkungen der Matrix auf einen Vektor betrachtet. Beispielsweise kann zu der Matrix
 \begin{equation}
  \begin{pmatrix}
   1 & 0 & 0 \\
@@ -282,15 +282,14 @@ Nur zu regulären Matrizen existiert eine inverse Matrix. Diese Einschränkung i
   0 & 0 & 1
  \end{pmatrix}
 \end{equation}
-keine inverse Matrix existieren, denn wenn man einen Vektor mit dieser Matrix transformiert, geht die Information aus der $y$-Koordinate \enquote{verloren}. Somit ist es nicht mehr möglich, den ursprünglichen Vektor wiederherzustellen.
+keine inverse Matrix existieren, denn wenn man einen Vektor mit dieser Matrix transformiert, geht die Information aus der $y$-Koordinate \enquote{verloren}. Somit ist es nachträglich nicht mehr möglich, den ursprünglichen Vektor wiederherzustellen.
 
 In Bezug auf Transposition gilt für die Inversion (ähnlich wie bei der Determinante, siehe Gleichung \ref{transposeddeterminant}):
 \begin{equation}
  (A^{-1})^T = (A^T)^{-1}.
 \end{equation}
-\emph{Beweis?}
 
-Im Wesentlichen gibt es zwei Verfahren, um die Inverse zu einer Matrix zu berechnen, im Folgenden soll als Ausgansmatrix
+Im Wesentlichen gibt es zwei Verfahren, um die Inverse zu einer Matrix zu berechnen, im Folgenden soll als Ausgangsmatrix
 \begin{equation*}
  A = \begin{pmatrix}
 	1 & 2 & 0 \\
@@ -300,7 +299,7 @@ Im Wesentlichen gibt es zwei Verfahren, um die Inverse zu einer Matrix zu berech
 \end{equation*}
 dienen.
 
-Die erste Variante beruht auf dem Gauß-Eliminationsverfahren. Dazu schreibt man die Ausgansmatrix als Blockmatrix $(A|E)$ mit der Einheitsmatrix an:
+Die erste Variante beruht auf dem Gauß-Eliminationsverfahren. Dazu schreibt man die Ausgangsmatrix als Blockmatrix $(A|E)$ mit der Einheitsmatrix an:
 \begin{equation}
  \left(\begin{array}{ccc|ccc}
     1 & 2 & 0 &  1 & 0 & 0 \\
@@ -308,7 +307,7 @@ Die erste Variante beruht auf dem Gauß-Eliminationsverfahren. Dazu schreibt man
     3 & 4 & 1 &  0 & 0 & 1
   \end{array}\right)
 \end{equation}
-Danach wendet man den Gauß-Jordan-Algorithmus auf die Blockmatrix an, was in diesem Fall zu folgendem Ergebnis führt:
+Danach wendet man den Gauß-Jordan-Algorithmus auf die Blockmatrix an, bis auf der linken Seite die Einheitsmatrix steht, was in diesem Fall zu folgendem Ergebnis führt:
 \begin{equation}
   \left(\begin{array}{ccc|ccc}
     1 & 0 & 0  & -3 & 2 & 0 \\
@@ -316,7 +315,7 @@ Danach wendet man den Gauß-Jordan-Algorithmus auf die Blockmatrix an, was in di
     0 & 0 & 1  & 1 & -2 & 1
   \end{array}\right)
 \end{equation}
-Auf der linken Seite steht nun die Einheitsmatrix, auf der rechten Seite kann die inverse Matrix $A^{-1}$ direkt abgelesen werden.
+Auf der rechten Seite kann die inverse Matrix $A^{-1}$ nun direkt abgelesen werden.
 % Beispiel von http://de.wikipedia.org/wiki/Regul%C3%A4re_Matrix, korrekt?
 
 Mit diesem Verfahren ist die inverse Matrix recht einfach händisch zu berechnen. Es hat allerdings den Nachteil, dass sich daraus keine \enquote{fertige} Formel ableiten lässt, und es daher für den Einsatz in der Grafikprogrammierung nicht ausreichend schnell zu berechnen ist\footnote{Dies gilt wiederum nur für relativ kleine Matrizen.}.
@@ -326,7 +325,7 @@ Daher wird in der 3D-Programmierung meist auf die zweite Variante zurückgegriff
  A^{-1} = \frac{1}{\det A} \cdot \adj A
 \end{equation}
 
-$\adj A$ bezeichnet in diesem Fall die \emph{Adjunkte} zur Matrix A, die auch als \emph{komplementäre Matrix} bezeichnet wird. Sie besteht aus der transponierten Matrix der Kofaktoren (siehe Gleichung \ref{cofactor}), es gilt also:
+$\adj A$ bezeichnet hier die \emph{Adjunkte} der Matrix A, die auch als \emph{komplementäre Matrix} bezeichnet wird. Sie besteht aus der transponierten Matrix der Kofaktoren (siehe Gleichung \ref{cofactor}), es gilt also:
 \begin{equation}
  \adj A = \begin{pmatrix}
    \tilde a_{11} & \tilde a_{21} & \cdots & \tilde a_{n1}\\
@@ -336,7 +335,7 @@ $\adj A$ bezeichnet in diesem Fall die \emph{Adjunkte} zur Matrix A, die auch al
  \end{pmatrix}.
 \end{equation}
 
-Mit Hilfe dieses Zusammenhangs lassen sich Formeln für Matrizen beliebiger Dimension herleiten. Dabei ist allerdings zu beachten, dass die Komplexität bzw. die Anzahl der nötigen Rechenoperationen mit der Erhöhung der Dimensionen sehr schnell steigt:
+Mit Hilfe dieses Zusammenhangs lassen sich Formeln für Matrizen beliebiger Dimension herleiten. Dabei wird allerdings bald deutlich, dass die Komplexität bzw. die Anzahl der nötigen Rechenoperationen mit der Erhöhung der Dimensionen sehr schnell ansteigt:
 
 Ergibt sich für die Inverse einer $2 \times 2$-Matrix
 \begin{equation}
