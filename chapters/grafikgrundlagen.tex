@@ -1,12 +1,53 @@
 % Kapitel 'Grundlagen der 3D-Grafik'
 \chapter{Grundlagen der 3D-Grafik}
+Ging es im vorigen Kapitel um die nötigen mathematischen Konzepte, werde ich versuchen, in den folgenden Abschnitten einen Überblick über die Umsetzung der 3D-Grafik am Computer zu geben, bevor wir uns in Kapitel \ref{transformation} und \ref{viewtransformation} genauer mit den dafür nötigen Transformationen beschäftigen werden.
 
-\section{Repräsentation von Objekten}
+Rufen wir uns zunächst einmal das Ziel der 3D-Grafik in Erinnerung: Aus einer Beschreibung einer dreidimensionalen Umgebung ein zweidimensionales Bild zu erzeugen. Daraus ergibt sich mehr oder weniger von selbst eine Unterteilung in zwei Bereiche: Zum einen die Frage nach der digitalen Repräsentation einer Szene, der sogenannten \emph{Modellierung}, und der eigentlichen Berechnung des Bildes, der \emph{Bildsynthese} (viel gebräuchlicher ist der englische Begriff \emph{Rendering}).
+
+Die Modellierung ist dabei der Teil, der manuell erfolgt und kann auf vielfältige Weisen geschehen, zum Beispiel durch Digitalisierung der Umwelt durch einen 3D-Scanner oder durch händische Erstellung des Modelles mittels Modellierungssoftware am Computer. Aus den vorbereiteten Daten wird danach automatisch ein Bild erzeugt.
+
+Grundsätzlich ist zwischen zwei großen Einsatzbereichen der 3D-Grafik zu unterscheiden. Einerseits wird sie für die interaktive Erzeugung von Bildern einer 3D-Szene verwendet, zum Beispiel in einem Computerspiel oder ein einem CAD-Programm. Andererseits werden mit ihrer Hilfe möglichst fotorealistische Bilder erstellt, beispielsweise in einem Animationsfilm oder um Architektur vor dem Bau zu visualisieren.
+
+Ebenfalls gemeinsam ist den beiden Einsatzbereichen die stete Forderung nach Effizienz. Bei der interaktiven Anwendung eine gewisse Anzahl an Bilder pro Zeitintervall (typischerweise 20-30 Bilder pro Sekunde) mit einer begrenzten Rechenleistung erzeugt werden, damit die Darstellung für das Auge flüssig wirkt und die Steuereingaben ohne merkbare Verzögerung umgesetzt werden. Bei der Berechnung eines realistischen Bildes ist die Rechenzeit zwar meist nicht so begrenzt und es steht oft eine viel größere Rechenleistung zu Verfügung\footnote{Bei einer typischen Kinoproduktion eine Menge miteinander verknüpfter Hochleistungscomputer.}, aber auch hier wird versucht, die benötigte Zeit möglichst gering zu halten, da so einerseits Korrekturen leichter möglich sind, aber andererseits schlicht der Aufwand und somit die Kosten sinken.
+
+\section{Modellierung}
+Wie zu Beginn dieses Kapitels bereits erwähnt, geht es bei der Modellierung darum, eine digitale Repräsentation von (dreidimensionalen) Objekten zu erstellen, anhand welcher später ein Bild berechnet werden kann.
+% Dazu gehören im Wesentlichen die Objekte mit ihren Materialeigenschaften und die Lichtquellen, die die Szene beleuchten.
+
+Hier stößt man schnell auf das Problem, dass die Wirklichkeit viel zu komplex ist, um exakt nachgebildet zu werden, vor allem im Hinblick auf die begrenzte Rechenleistung, mit der anschließend die Abbildung erzeugt wird. Deswegen wird die Repräsentation der Objekte in zwei Teile unterteilt, nämlich die Speicherung der Form beziehungsweise der Oberfläche des Objektes und des Materials beziehungsweise der Eigenschaften dieser Oberfläche.
+
+Dieses Verfahren, das als \emph{Oberflächendarstellung} (engl. \emph{Boundary Representation}) bezeichnet wird, geht allerdings davon aus, dass die Szene aus Objekten besteht, die eine definierte Oberfläche haben. Manche Dinge, insbesondere atmosphärische Erscheinungen wie Wolken, Nebel, etc. sind daher schwer darzustellen. Außerdem erzeugen manche Technologien so genannte \emph{Voxelgitter}\footnote{Voxel: Kofferwort aus \enquote{Volumen} und \enquote{Pixel}, bezeichnet analog zum zweidimensionalen Pixel ein Element eines regelmäßigen dreidimensionalen Gitters.}, also ein dreidimensionales Gitter, bei dem jedem Element ein Wert zugeordnet ist. Dazu zählen zum Beispiel viele bildgebende Verfahren wie Computertomographie, die in der Forschung und der Medizin verwendet werden. Diese Daten lassen sich naturgemäß leichter mit den Mitteln der \emph{Voxelgrafik} darstellen. Neben einigen tendenziell sehr rechenaufwändigen Verfahren, die die Volumendaten direkt darstellen, extrahieren aber viele Verfahren aus diesen Daten erst eine Oberflächendarstellung, aus der dann schnell Bilder berechnet werden können\footnote{In manchen anderen Bereichen, beispielsweise für physikalischen Simulationen, kann es hingegen prinzipbedingt nötig sein, Volumenmodelle zu verwenden. Aber auch in solchen Programmen wird die Ausgabe meist als Oberflächengrafik gelöst.}
+
 \subsection{Geometrie}
-\subsection{Texturen}
-\label{texturing}
+Um die Frage zu klären, wie die Oberflächen am effizientesten beschrieben werden können, muss man wissen, wie diese Daten nachher weiterverarbeitet werden, im Falle der 3D-Grafik also gerendet werden -- grundsätzlich sind nämlich viele Varianten denkbar. Die folgenden Aussagen bezüglich Geschwindigkeit gehen von der derzeit in der Echtzeit-3D-Grafik eingesetzen Technik aus, für andere spezielle Rendering-Techniken können sich andere Verfahren als effizienter erweisen.
 
-\section{Berechnung der Darstellung}
+Ein Teil der Verfahren beruht direkt auf einem mathematischen Zusammenhang. Auch hier gibt es wieder viele Möglichkeiten. Zum Beispiel könnte man die Oberfläche einer Kugel (mit dem Mittelpunkt im Koordinatenursprung und dem Radius r) mit Hilfe der Gleichung $x^2 + y^2 + z^2 = r^2$ beschreiben. Dieses Beispiel wäre zwar ziemlich unflexibel, aber es sind viele andere Verfahren denkbar, die auf Beschreibungen in Gleichungsform beruhen. Ein im CAD-Bereich oft eingesetztes Verfahren ist die Darstellung als Rotationskörper einer Polynom- oder einer ähnlichen Funktion\footnote{Polynomfunktionen haben den Nachteil, dass sie bei höherer Ordnung schnell störend schwingen (Runges Phänomen). Abhilfe schaffen andere Interpolationsverfahren wie \emph{Splines}.}.
+
+Diese Darstellungen sind zwar mathematisch exakt -- auch gekrümmte Oberflächen können in jeder beliebigen Genaugkeit bereichnet werden -- und auf ihnen basierende Modellierungsprogramme sind oft intuitiv zu bedienen, aber sie haben gemein, dass es zu aufwändig ist, aus ihnen ein Bild zu errechnen.
+
+Stattdessen wird auf ein wesentlich einfacheres Verfahren zurückgegriffen, nämlich die Darstellung als \emph{Polygonnetz}. Die Oberfläche eines Objektes wird also durch Eckpunkte definiert, die jeweils zu einem Polygon gehören. Diese Punkte werden auch als als \emph{Vertex} (pl. \emph{Vertices}) bezeichnet. Jeder Vertex hat zumindest einen Vektor, der die Position des Punktes angibt; wie in den nächsten Abschnitten erläutert, können einem Vertex aber durchaus noch mehr Daten zugeordnet sein.
+
+Meist werden nur \emph{Dreiecke} verwendet, da sich viele Algorithmen für diesen Sonderfall eines Polygons stark vereinfachen lassen (beispielsweise ist ein Dreieck nie konkav, wodurch sich das Füllen von Dreiecken am Bildschirm vereinfachen lässt).
+
+Das Polygonnetz kann sowohl direkt in einem entsprechenden Modellierungsprogramm erzeugt werden, als auch aus anderen Darstellungen (zum Beispiel den oben angesprochenen) errechnet werden.
+
+Das Ergebnis kann bereits als so gennantes \emph{Drahtgittermodell} angezeigt werden, auf Englisch wird diese Darstellungsart \emph{Wireframe} genannt. Dabei werden die Vertices einfach durch Linien miteinander verbunden.
+
+% Image: wireframe model
+
+\subsection{Oberflächeneigenschaften}
+Strenggenommen könnten die Flächen des Modells bereits jetzt gefüllt dargestellt werden. Es fehlen allerdings noch jegliche Informationen über die \emph{Materialeigenschaften} des Objekts. Für die Berechnung eines Bildes ist natürlich in erster Linie das \emph{Reflexionsverhalten} des Objektes interessant, ist es doch das reflektierte Licht, das das Bild in unseren Augen entstehen lässt.
+
+\label{texturing}
+Nicht fein genug -- Texturen.
+
+Zusätzlicher Faktor: Transparenz.
+
+\section{Rendering}
+Beim Rendering (der deutsche Begriff \emph{Bildsynthese} wird kaum gebraucht) wird aus der Szene ein Bild erzeugt.
+
+Berechnungsverfahren: Ray-Tracing, Scanline-Rendering.
+
 \subsection{Koordinatensysteme}
 \subsection{Die 3D-Pipleline}
 \label{direct3dopengl}
