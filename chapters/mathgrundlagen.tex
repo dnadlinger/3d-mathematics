@@ -36,10 +36,11 @@ Um einen \enquote{normalen Vektor} in einen Vektor mit homogenen Koordinaten zu 
  \begin{pmatrix} x & y & z \end{pmatrix}^T \rightarrow \begin{pmatrix} x & y & z & 1 \end{pmatrix}^T
 \end{equation}
 
-Für den umgekehrten Fall dividiert man zuerst alle Komponenten durch $w$, um den Vektor auf $w = 1$ zu bringen, und lässt $w$ dann einfach weg:
+Für den umgekehrten Fall dividiert man zuerst alle Komponenten durch $w$:
 \begin{equation}
- \begin{pmatrix} x & y & z & w \end{pmatrix}^T \rightarrow \begin{pmatrix} \frac{x}{w} & \frac{y}{w} & \frac{z}{w} \end{pmatrix}^T
+ \begin{pmatrix} x & y & z & w \end{pmatrix}^T \rightarrow \begin{pmatrix} \frac{x}{w} & \frac{y}{w} & \frac{z}{w} & 1 \end{pmatrix}^T
 \end{equation}
+Danach kann man den Vektor wieder wie ein gewöhlicher Vektor behandeln, $w$ kann einfach weggelassen werden.
 % Beispiele nach http://de.wikipedia.org/wiki/Homogene_Koordinaten
 
 In der Grafikprogrammierung wird das meist so gelöst, dass von vornherein mit homogenen Koordinaten gearbeitet wird, die $w$-Komponente aber bei den meisten Berechnungen schlichtweg ignoriert wird. Sie wird nur bei Operationen, bei denen sie sich sinnvoll ändern könnte (wie bei der Multiplikation von Matrizen mit Vektoren), berücksichtigt. Auch wenn diese Vorgehensweise aus mathematischer Sicht nicht konsequent ist, stellt sie in der Praxis einen sinnvollen Kompromiss zwischen Performance\footnote{Performance: Leistung bzw. Geschwindigkeit eines Computerprogramms} und Flexibilität dar.
@@ -66,7 +67,7 @@ besteht aus $m$ Zeilen und $n$ Spalten, es handelt sich um eine $m \times n$-Mat
 Matrizen mit $m = n$ werden als \emph{quadratische Matrizen} bezeichnet und nehmen bei vielen Operationen eine Sonderstellung ein.
 % Besondere Eigenschaften der quadratischen Matrizen? Einige Operationen sind nur für quadratische Matrizen definiert, ...
 
-Als \emph{Hauptdiagonale} wird die gedachte Linie von der linken oberen Ecke bis zur rechten unteren Ecke einer Matrix bezeichnet -- die Elemente der Hauptdiagonale sind also $a_{11}, a_{22}, \ldots, a_{nn}$. Quadratische Matrizen, die außerhalb der Hauptdiagonale nur nur Elemente mit dem Wert 0 haben, werden als \emph{Diagonalmatrizen} bezeichnet. Sie lassen viele Vereinfachungen in bestimmten Berechnungen zu. Diese werden aber hauptsächlich im zweiten großen Einsatzgebiet der Matrizenrechnung gebraucht, dem Lösen von linearen Gleichungssystemen. An dieser Stelle soll daher nicht weiter darauf eingegangen werden.
+Als \emph{Hauptdiagonale} wird die gedachte Linie von der linken oberen Ecke bis zur rechten unteren Ecke einer Matrix bezeichnet -- die Elemente der Hauptdiagonale sind also $a_{11}, a_{22}, \ldots, a_{nn}$. Quadratische Matrizen, die außerhalb der Hauptdiagonale nur Elemente mit dem Wert 0 haben, werden als \emph{Diagonalmatrizen} bezeichnet. Sie lassen viele Vereinfachungen in bestimmten Berechnungen zu. Diese werden aber hauptsächlich im zweiten großen Einsatzgebiet der Matrizenrechnung gebraucht, dem Lösen von linearen Gleichungssystemen. An dieser Stelle soll daher nicht weiter darauf eingegangen werden.
 % siehe http://de.wikipedia.org/wiki/Diagonalmatrix. Stimmt das?!
 
 % Nur Matrizen aus R
@@ -87,13 +88,13 @@ Die Matrizenaddition ist assoziativ und kommutativ. Es ist leicht zu erkennen, d
 Die Addition wird in der 3D-Grafik äußerst selten gebraucht, da sie im Gegensatz zur Multiplikation und zur Inversion keine geometrische Entsprechung hat.
 
 \subsection{Multiplikation}
-Das Produkt $C$ zweier Matrizen $A \in \mathbb{R}^{m,o}$ und $B \in \mathbb{R}^{o,n}$ ist als
+Das Produkt $C$ zweier Matrizen $A \in \mathbb{R}^{m \times o}$ und $B \in \mathbb{R}^{o \times n}$ ist als
 \begin{equation}
  c_{ij} = \sum_{k=1}^m{a_{ik} \cdot b_{kj}}
 \end{equation}
 mit $1 \leq i \leq m$ und $1 \leq j \leq n$ definiert ($C$ ist also $\in \mathbb{R}^{m \times n}$).
 
-Etwas anschaulicher formuliert erhält man das $i$-te Element der $j$-ten Spalte des Ergebnisses, indem man das Punktprodukt der $i$-ten Zeile der linken Matrix mit der $j$-Zeile der rechten Matrix bildet -- kurz \enquote{Zeile mal Spalte}.
+Etwas anschaulicher formuliert erhält man das $i$-te Element der $j$-ten Spalte des Ergebnisses, indem man das Skalarprodukt der $i$-ten Zeile der linken Matrix mit der $j$-Zeile der rechten Matrix bildet -- kurz \enquote{Zeile mal Spalte}.
 
 Es müssen also die Spaltenanzahl der linken Matrix und die Zeilenanzahl der rechten Matrix gleich sein (oben durch $o$ ausgedrückt), damit eine Multiplikation möglich ist. Das entstehende Produkt hat dabei die Dimensionen $m \times n$, also die Zeilenanzahl der linken Matrix und die Spaltenanzahl der rechten Matrix.
 
