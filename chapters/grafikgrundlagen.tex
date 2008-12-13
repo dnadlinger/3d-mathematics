@@ -4,30 +4,37 @@ Ging es im vorigen Kapitel um die nötigen mathematischen Konzepte, werde ich ve
 
 Rufen wir uns zunächst einmal das Ziel der 3D-Grafik in Erinnerung: Aus einer Beschreibung einer dreidimensionalen Umgebung ein zweidimensionales Bild zu erzeugen. Daraus ergibt sich mehr oder weniger von selbst eine Unterteilung in zwei Bereiche: Zum einen die Frage nach der digitalen Repräsentation einer Szene, der sogenannten \emph{Modellierung}, und der eigentlichen Berechnung des Bildes, der \emph{Bildsynthese} (viel gebräuchlicher ist der englische Begriff \emph{Rendering}).
 
-Die Modellierung ist dabei der Teil, der manuell erfolgt und kann auf vielfältige Weisen geschehen, zum Beispiel durch Digitalisierung der Umwelt durch einen 3D-Scanner oder durch händische Erstellung des Modelles mittels Modellierungssoftware am Computer. Aus den vorbereiteten Daten wird danach automatisch ein Bild erzeugt.
+Die Modellierung ist dabei der Teil, der manuell erfolgt und kann auf vielfältige Weisen geschehen, zum Beispiel durch Digitalisierung von realen Gegenständen durch einen 3D-Scanner oder durch händische Erstellung des Modelles mittels Modellierungssoftware am Computer. Diese vorbereiteten Daten sind dann die Ausgangsbasis für das Rendering, das automatisch abläuft.
 
-Grundsätzlich ist zwischen zwei großen Einsatzbereichen der 3D-Grafik zu unterscheiden. Einerseits wird sie für die interaktive Erzeugung von Bildern einer 3D-Szene verwendet, zum Beispiel in einem Computerspiel oder ein einem CAD-Programm. Andererseits werden mit ihrer Hilfe möglichst fotorealistische Bilder erstellt, beispielsweise in einem Animationsfilm oder um Architektur vor dem Bau zu visualisieren.
+Grundsätzlich ist zwischen zwei großen Einsatzbereichen der 3D-Grafik zu unterscheiden. Der eine ist die interaktive Erzeugung von Ansichten einer 3D-Szene in Echtzeit, zum Beispiel in einem Computerspiel oder ein einem CAD-Programm. Der andere ist die Berechnung mehr oder weniger realistischer Bilder, beispielsweise in einem Animationsfilm oder zur Architekturvisualisierung.
 
-Ebenfalls gemeinsam ist den beiden Einsatzbereichen die stete Forderung nach Effizienz. Bei der interaktiven Anwendung eine gewisse Anzahl an Bilder pro Zeitintervall (typischerweise 20-30 Bilder pro Sekunde) mit einer begrenzten Rechenleistung erzeugt werden, damit die Darstellung für das Auge flüssig wirkt und die Steuereingaben ohne merkbare Verzögerung umgesetzt werden. Bei der Berechnung eines realistischen Bildes ist die Rechenzeit zwar meist nicht so begrenzt und es steht oft eine viel größere Rechenleistung zu Verfügung\footnote{Bei einer typischen Kinoproduktion eine Menge miteinander verknüpfter Hochleistungscomputer.}, aber auch hier wird versucht, die benötigte Zeit möglichst gering zu halten, da so einerseits Korrekturen leichter möglich sind, aber andererseits schlicht der Aufwand und somit die Kosten sinken.
+Den beiden Einsatzbereichen gemein ist die stete Forderung nach Effizienz. Bei der interaktiven Anwendung muss eine gewisse Anzahl an Bilder pro Zeitintervall (typischerweise 20-30 Bilder pro Sekunde) mit einer begrenzten Rechenleistung erzeugt werden, damit die Darstellung für das Auge flüssig wirkt und die Eingaben des Benutzers ohne merkbare Verzögerung umgesetzt werden. Bei der Berechnung eines realistischen Bildes wird zwar im Normalfall viel mehr Rechenaufwand pro Bild akzeptiert, aber auch hier wird versucht, die benötigte Zeit möglichst gering zu halten, da so Korrekturen leichter möglich sind, aber auch schlicht der Aufwand und somit die Kosten sinken.
+
+Deswegen wird immer nach Verfahren gesucht, die mit möglichst geringem Rechenaufwand und möglichst niedrigem Platzbedarf die Ergebnisse aufwändiger Berechnungen möglichst gut annähern. Diese Verfahren haben mit der Art und Weise, wie die Dinge funktionieren, oft nicht mehr viel zu tun.
 
 \section{Modellierung}
 Wie zu Beginn dieses Kapitels bereits erwähnt, geht es bei der Modellierung darum, eine digitale Repräsentation von (dreidimensionalen) Objekten zu erstellen, anhand welcher später ein Bild berechnet werden kann.
 % Dazu gehören im Wesentlichen die Objekte mit ihren Materialeigenschaften und die Lichtquellen, die die Szene beleuchten.
 
-Hier stößt man schnell auf das Problem, dass die Wirklichkeit viel zu komplex ist, um exakt nachgebildet zu werden, vor allem im Hinblick auf die begrenzte Rechenleistung, mit der anschließend die Abbildung erzeugt wird. Deswegen wird die Repräsentation der Objekte in zwei Teile unterteilt, nämlich die Speicherung der Form beziehungsweise der Oberfläche des Objektes und des Materials beziehungsweise der Eigenschaften dieser Oberfläche.
+Hier stößt man schnell auf das Problem, dass die Wirklichkeit viel zu komplex ist, um exakt nachgebildet zu werden, vor allem im Hinblick auf die begrenzte Rechenleistung, mit der anschließend die Abbildung erzeugt wird.
 
-Dieses Verfahren, das als \emph{Oberflächendarstellung} (engl. \emph{Boundary Representation}) bezeichnet wird, geht allerdings davon aus, dass die Szene aus Objekten besteht, die eine definierte Oberfläche haben. Manche Dinge, insbesondere atmosphärische Erscheinungen wie Wolken, Nebel, etc. sind daher schwer darzustellen. Außerdem erzeugen manche Technologien so genannte \emph{Voxelgitter}\footnote{Voxel: Kofferwort aus \enquote{Volumen} und \enquote{Pixel}, bezeichnet analog zum zweidimensionalen Pixel ein Element eines regelmäßigen dreidimensionalen Gitters.}, also ein dreidimensionales Gitter, bei dem jedem Element ein Wert zugeordnet ist. Dazu zählen zum Beispiel viele bildgebende Verfahren wie Computertomographie, die in der Forschung und der Medizin verwendet werden. Diese Daten lassen sich naturgemäß leichter mit den Mitteln der \emph{Voxelgrafik} darstellen. Neben einigen tendenziell sehr rechenaufwändigen Verfahren, die die Volumendaten direkt darstellen, extrahieren aber viele Verfahren aus diesen Daten erst eine Oberflächendarstellung, aus der dann schnell Bilder berechnet werden können\footnote{In manchen anderen Bereichen, beispielsweise für physikalischen Simulationen, kann es hingegen prinzipbedingt nötig sein, Volumenmodelle zu verwenden. Aber auch in solchen Programmen wird die Ausgabe meist als Oberflächengrafik gelöst.}
+Ein Verfahren, um diese Komplexität Herr zu werden, beruht darauf, die Speicherung der Form des Objektes (also der Oberfläche) von der des Materials (also der Eigenschaften dieser Oberfläche) zu trennen. Dieses Verfahren, das als \emph{Oberflächendarstellung} (engl. \emph{Boundary Representation}) bezeichnet wird, geht allerdings davon aus, dass die Szene aus Objekten besteht, die eine definierte Oberfläche haben. Manche Dinge, insbesondere atmosphärische Erscheinungen wie Wolken, Nebel, etc. sind daher schwer darzustellen.
+
+Außerdem liefern manche Verfahren ihre Ergebnisse prinzipbedingt in der Form eines \emph{Voxelgitters}\footnote{Voxel: Kofferwort aus \enquote{Volumen} und \enquote{Pixel}, bezeichnet analog zum zweidimensionalen Pixel ein Element eines regelmäßigen dreidimensionalen Gitters.}, also eines dreidimensionales Gitters, bei dem jedem Element ein Wert zugeordnet ist. Dazu zählen unter anderem viele bildgebende Verfahren wie Computertomographie, die in der Forschung und der Medizin verwendet werden. Diese Daten lassen sich naturgemäß leichter mit den Mitteln der \emph{Voxelgrafik} darstellen\footnote{Neben einigen tendenziell sehr rechenaufwändigen Verfahren, die die Volumendaten direkt darstellen, extrahieren aber viele Verfahren aus diesen Daten erst wieder eine Oberflächendarstellung, aus der dann schnell Bilder berechnet werden können.
+
+In manchen anderen Bereichen, beispielsweise für physikalischen Simulationen, kann es hingegen prinzipbedingt nötig sein, Volumenmodelle zu verwenden. Die Ausgabe am Bildschirm erfolgt aber auch in solchen Programmen meist als Oberflächengrafik.}.
 
 \subsection{Geometrie}
-Um die Frage zu klären, wie die Oberflächen am effizientesten beschrieben werden können, muss man wissen, wie diese Daten nachher weiterverarbeitet werden, im Falle der 3D-Grafik also gerendet werden -- grundsätzlich sind nämlich viele Varianten denkbar. Die folgenden Aussagen bezüglich Geschwindigkeit gehen von der derzeit in der Echtzeit-3D-Grafik eingesetzen Technik aus, für andere spezielle Rendering-Techniken können sich andere Verfahren als effizienter erweisen.
+Um die Frage zu klären, wie die Oberflächen am effizientesten beschrieben werden können, muss man wissen, wie diese Daten nachher weiterverarbeitet werden, im Falle der 3D-Grafik also gerendet werden -- grundsätzlich sind nämlich viele Varianten denkbar. Die folgenden Aussagen bezüglich Geschwindigkeit gehen von der derzeit in der Echtzeit-3D-Grafik eingesetzen Technik aus, für andere spezielle Rendering-Techniken können sich andere Repräsentationen als effizienter erweisen (dieses Verfahren wird in Abschnitt \ref{rendering} beschrieben).
 
-Ein Teil der Verfahren beruht direkt auf einem mathematischen Zusammenhang. Auch hier gibt es wieder viele Möglichkeiten. Zum Beispiel könnte man die Oberfläche einer Kugel (mit dem Mittelpunkt im Koordinatenursprung und dem Radius r) mit Hilfe der Gleichung $x^2 + y^2 + z^2 = r^2$ beschreiben. Dieses Beispiel wäre zwar ziemlich unflexibel, aber es sind viele andere Verfahren denkbar, die auf Beschreibungen in Gleichungsform beruhen. Ein im CAD-Bereich oft eingesetztes Verfahren ist die Darstellung als Rotationskörper einer Polynom- oder einer ähnlichen Funktion\footnote{Polynomfunktionen haben den Nachteil, dass sie bei höherer Ordnung schnell störend schwingen (Runges Phänomen). Abhilfe schaffen andere Interpolationsverfahren wie \emph{Splines}.}.
+Ein Teil der Verfahren beruht direkt auf einem mathematischen Zusammenhang. Auch hier gibt es wieder viele Möglichkeiten. Zum Beispiel könnte man die Oberfläche einer Kugel (mit dem Mittelpunkt im Koordinatenursprung und dem Radius r) mit Hilfe der Gleichung $x^2 + y^2 + z^2 = r^2$ beschreiben. Sich nur auf mathematische Grundkörper zu beschränken, wäre für die Modellierung realistischer Objekte natürlich viel zu unflexibel, aber es sind viele andere Verfahren denkbar, die auf Beschreibungen in Gleichungsform beruhen. Ein im CAD-Bereich oft eingesetztes Verfahren ist die Darstellung als Rotationskörper einer Polynom- oder einer ähnlichen Funktion\footnote{Polynomfunktionen haben den Nachteil, dass sie bei höherer Ordnung schnell störend schwingen (Runges Phänomen). Abhilfe schaffen andere Interpolationsverfahren wie \emph{Splines}.}.
+% Raymarching, prozedurale Geometrie
 
-Diese Darstellungen sind zwar mathematisch exakt -- auch gekrümmte Oberflächen können in jeder beliebigen Genaugkeit bereichnet werden -- und auf ihnen basierende Modellierungsprogramme sind oft intuitiv zu bedienen, aber sie haben gemein, dass es zu aufwändig ist, aus ihnen ein Bild zu errechnen.
+Diese Darstellungen sind zwar mathematisch exakt -- auch gekrümmte Oberflächen können in jeder beliebigen Genaugkeit bereichnet werden -- und auf ihnen basierende Modellierungsprogramme sind oft intuitiv zu bedienen, aber sie haben gemein, dass es zu aufwändig ist, aus ihnen in Echtzeit Bilder zu errechnen.
 
-Stattdessen wird auf ein wesentlich einfacheres Verfahren zurückgegriffen, nämlich die Darstellung als \emph{Polygonnetz}. Die Oberfläche eines Objektes wird also durch Eckpunkte definiert, die jeweils zu einem Polygon gehören. Diese Punkte werden auch als als \emph{Vertex} (pl. \emph{Vertices}) bezeichnet. Jeder Vertex hat zumindest einen Vektor, der die Position des Punktes angibt; wie in den nächsten Abschnitten erläutert, können einem Vertex aber durchaus noch mehr Daten zugeordnet sein.
+Stattdessen wird auf ein wesentlich einfacheres Verfahren zurückgegriffen, nämlich die Darstellung als \emph{Polygonnetz}. Die Oberfläche eines Objektes wird also durch Eckpunkte definiert, die jeweils zu einem Polygon gehören. Diese Punkte werden auch als als \emph{Vertex} (pl. \emph{Vertices}) bezeichnet. Jeder Vertex umfasst zumindest einen Ortsvektor wie in den nächsten Abschnitten erläutert, können einem Vertex aber durchaus noch mehr Daten zugeordnet sein.
 
-Meist werden nur \emph{Dreiecke} verwendet, da sich viele Algorithmen für diesen Sonderfall eines Polygons stark vereinfachen lassen (beispielsweise ist ein Dreieck nie konkav, wodurch sich das Füllen von Dreiecken am Bildschirm vereinfachen lässt).
+Meist werden nur Polygone mit drei Eckpunkten, also \emph{Dreiecke} verwendet, da sich für diesen Sonderfall viele Algorithmen zur Bildberechnung stark vereinfachen lassen (beispielsweise ist ein Dreieck nie konkav, wodurch sich das Füllen der Bereiche am Bildschirm vereinfachen lässt).
 
 Das Polygonnetz kann sowohl direkt in einem entsprechenden Modellierungsprogramm erzeugt werden, als auch aus anderen Darstellungen (zum Beispiel den oben angesprochenen) errechnet werden.
 
@@ -36,21 +43,59 @@ Das Ergebnis kann bereits als so gennantes \emph{Drahtgittermodell} angezeigt we
 % Image: wireframe model
 
 \subsection{Oberflächeneigenschaften}
-Strenggenommen könnten die Flächen des Modells bereits jetzt gefüllt dargestellt werden. Es fehlen allerdings noch jegliche Informationen über die \emph{Materialeigenschaften} des Objekts. Für die Berechnung eines Bildes ist natürlich in erster Linie das \emph{Reflexionsverhalten} des Objektes interessant, ist es doch das reflektierte Licht, das das Bild in unseren Augen entstehen lässt.
+Strenggenommen könnten die Flächen des Modells bereits jetzt gefüllt dargestellt werden. Es fehlen allerdings noch jegliche Informationen über das Material des Objekts. Für die Berechnung eines Bildes sind natürlich in erster Linie die \emph{Reflexionseigenschaften} des Objektes interessant, ist es doch das reflektierte Licht, das das Bild entstehen lässt.
 
+In der Materialdefinition der Objekte werden die Informationen über das für das Material typsiche Reflexionsverhalten gespeichert. Diese Parameter beeinflussen zum Beispiel das Aussehen der Glanzlichter -- auf einer polierten Metallkugel ist die direkte (spekulare) Reflektion der Lichtquelle deutlich abgegrenzt zu erkennen, während eine rauhe Plastikkugel hauptsächlich diffuse Reflexionen zeigen wird. Daneben sind noch einige andere Parameter für Spezialeffekte denkbar. Ein Beispiel dafür wären sogenannte selbstleuchtende Materialien, die auch in der Dunkelheit sichtbar sind.
+
+Zusätzlich werden jedem Vertex zwei Eigenschaften zugeordnet: die \emph{Farbe} des Eckpunkts und sein \emph{Normalvektor}. Aus diesen Werten, den genannten Materialeigenschaften und den Informationen über die in der Szene vorhandenen Lichtquellen wird der Farbwert des Dreiecks an bestimmten Stellen (und damit der Pixel, die von dem Dreieck abgedeckt werden) berechnet (genaueres in Abschnitt \ref{lighting}).
+
+Mittlerweile sollte sich das mathematische Unterbewusstsein schon zu Wort gemeldet haben -- auf einen Vertex, also einen einzelnen Ortsvektor, lässt sich natürlich keine Normale bilden. Der Grund für diese seltsame Konstruktion liegt in der Verwendung der Normalvektoren für die Lichtberechnung. Zunächst würde man annehmen, dass die Normalvektoren der Eckpunkte eines Polygons ohnehin in die gleiche Richtung zeigen würden. Dies ist grundsätzlich richtig, und mit einer Normale pro Dreieck kann man die Lichtberechnungen auch schon ausführen. Diese Berechnungsart, deren Ergebnis in Abbildung XX zu sehen ist, wird als \emph{Flat Shading} bezeichnet.
+
+% Image: Flat shaded cube
+
+Der Nachteil dieses Methode wird deutlich, wenn man bedenkt, dass ja aus Effizienzgründen auch alle runden Körper mit Dreiecksnetz angenähert werden. Bei Verwendung von Flat Shading ergeben sich dann hässliche Kanten zwischen den Flächen, wie in Abbildung XX zu sehen.
+
+% Image: Flat shaded sphere
+
+Um dieses Problem zu umgehen, wird nun jedem Vertex ein Normalvektor zugeordnet. Für harte Kanten entspricht dieser weiterhin der Flächennormale des Dreiecks. Für weiche Kanten hingegen wird dieser Vektor als Mittelwert der Normalektoren aller angenzenden Flächen berechnet. Bei der Helligkeitsberechnung der Pixel, die zu diesem Dreieck gehören, wird dann linear zwischen den Normalvektoren der Eckpunkte interpoliert. Das Ergebnis dieser als \emph{Phong Shading} bezeichneten Methode ist in Abbildung XX zu sehen.
+
+% Image: Phong shaded model
+
+Eine weitere wichtige Materialeigenschaft ist die Transparenz. Dazu ist noch anzumerken, dass eine physikalisch korrekte Simulation der Lichtbrechung und der dadurch hervorgerufenen Phänomäne für Echtzeitanwendungen viel zu rechenaufwändig wäre. Statdessen wird im Normalfall das Objekt einfach durchsichtig gezeichnet, die Farbe des dahinter befindlichen Objekts also nicht vollständig überdeckt.
+
+\subsection{Texturen}
 \label{texturing}
-Nicht fein genug -- Texturen.
+Bis jetzt sind alle Informationen, also Farbe, etc. in den Vertices gespeichert. Dadurch sind die Daten zwar praktisch handzuhaben, aber es gibt ein Problem: Für die fotorealistische Darstellung eines Objektes würden viel zu viele Eckpunkte benötigt, um alle Details abzubilden. Beispielweise lässt sich die Form einer typischen Holztür recht gut mit einem einfachen Quader darstellen, die feinen Strukturen des Holzes mit Geometrie darzustellen, wäre aber bereits um mehrere Größenordnungen zu aufwändig. Genauso verhält es sich mit vielen anderen Oberflächen, von polierten Steinen bis zu bedruckten Metallschildern, von Plakaten bis hin zu den Gebrauchs- und Schmutzspuren, die Abbildungen von Gegenständen erst richtig realistisch aussehen lassen.
 
-Zusätzlicher Faktor: Transparenz.
+Die Antwort der 3D-Grafik auf diese Probleme sind die sogenannten \emph{Texturen}. Dabei handelt es sich um Bilder, die gleichsam wie eine Tapete auf die Geometrie der Objekte \enquote{geklebt} werden. Dazu werden in den Vertices die (zweidimensionalen) \emph{Texturkoordinaten} gespeichert, die dem Vertex eine bestimmte Position auf der Textur, ein sogenanntes \emph{Texel}\footnote{An sich gibt es keinen Unterschied zwischen Pixel und Texel, der Begriff dient nur zur Verdeutlichung, dass auf eine Textur Bezug genommen wird und nicht etwa auf ein Pixel im Ergebnisbild.}, zuordnen. Beim Zeichnen eines Dreiecks werden dann für jedes Pixel die Texturkoordinaten aus denen der Eckpunkte interpoliert und der Wert der Textur an dieser Stelle ausgelesen.
+
+% Image: Texture mapping
+
+Im einfachsten und häufigsten Fall handelt es sich dabei um die Farbe des Objektes. Texturen können aber auch zur Modifikation vieler anderer Parameter eingesetzt werden, beispielsweise als \emph{Alpha Map}, die die Transparenz des Objektes steuert, oder als \emph{Normal Map} für die Flächennormalen, um eine rauhe Oberfläche zu simulieren.
+
+Bei allen Arten von Texturen (mit Ausnahme einiger moderner Verfahren) muss aber beachtet werden, dass sie die eigentliche Geometrie eines Objektes nicht verändern und damit Vorgänge wie Schatten- und Verdeckungsberechnung nicht beeinflussen. Auch wenn etwa durch eine Normal Map eine strukturierte Oberfläche simuliert wird, erscheint der Rand des Objektes also als gerade Linie, was schnell unrealistisch wirken kann.
 
 \section{Rendering}
+\label{rendering}
 Beim Rendering (der deutsche Begriff \emph{Bildsynthese} wird kaum gebraucht) wird aus der Szene ein Bild erzeugt.
 
-Berechnungsverfahren: Ray-Tracing, Scanline-Rendering.
+Berechnungsverfahren: Ray-Tracing, Rasterisierung.
 
-\subsection{Koordinatensysteme}
-\subsection{Die 3D-Pipleline}
+\subsection{Beleuchtung}
+\label{lighting}
+% http://en.wikipedia.org/wiki/Lambert%27s_cosine_law
+
+\subsection{3D-Pipleline in Hardware}
 \label{direct3dopengl}
 
 \section{Effizienz}
 \label{performance}
+Für die 3D-Grafik am Computer gelten die gleichen Performance-Regeln wie für alle anderen Programme auch. Sepziell für die 3D-Grafik ist hingegen, dass die gleichen oder gleichartige Operationen auf eine große Menge Daten angewendet werden.
+
+Am schnellsten sind Addition und Subtraktion, gefolgt von der Multiplikation. Die Division ist bereits wesentlich langsamer. Nach Möglichkeit zu vermeiden sind die Funktionen, die der Prozessor annähern muss. Dazu zählen insbesondere das Radizieren und die transzendenten Funktionen wie Sinus und Cosinus.
+
+Ganzzahlen schneller als Fließkommazahlen.
+
+Optimierung kann grundsätzlich auf zwei Ebenen ablaufen: Zum einen, die Berechnungen selbst möglichst schnell zu machen. Zum anderen, durch intelligente Filterung der Eingangsdaten von vornherein zu versuchen, unnötige Berechnungen zu vermeiden.
+
+Idee der Grafikkarte/-pipeline ist, dass alle Operationen hochparalell ablaufen können (moderne Grafikkarten haben etwa ... Einheiten). Dadurch muss jeder Vertex- und Pixel-Shader autark arbeiten können, es kann also zum Beispiel nicht auf Ergebnisse der umliegenden Pixel zugegriffen werden.
