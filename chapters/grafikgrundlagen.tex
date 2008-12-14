@@ -1,6 +1,6 @@
 % Kapitel 'Grundlagen der 3D-Grafik'
 \chapter{Grundlagen der 3D-Grafik}
-Ging es im vorigen Kapitel um die nötigen mathematischen Konzepte, werde ich versuchen, in den folgenden Abschnitten einen Überblick über die Umsetzung der 3D-Grafik am Computer zu geben, bevor wir uns in Kapitel \ref{transformation} und \ref{viewtransformation} genauer mit den dafür nötigen Transformationen beschäftigen werden.
+Ging es im vorigen Kapitel um die nötigen mathematischen Konzepte, werde ich versuchen, in den folgenden Abschnitten einen Überblick über die Umsetzung der 3D-Grafik am Computer zu geben, bevor wir uns in Kapitel \ref{transformation} und \ref{viewtransformation} genauer mit den dafür nötigen mathematischen Operationen und Algorithmen beschäftigen werden.
 
 Rufen wir uns zunächst einmal das Ziel der 3D-Grafik in Erinnerung: Aus einer Beschreibung einer dreidimensionalen Umgebung ein zweidimensionales Bild zu erzeugen. Daraus ergibt sich mehr oder weniger von selbst eine Unterteilung in zwei Bereiche: Zum einen die Frage nach der digitalen Repräsentation einer Szene, der sogenannten \emph{Modellierung}, und der eigentlichen Berechnung des Bildes, der \emph{Bildsynthese} (viel gebräuchlicher ist der englische Begriff \emph{Rendering}).
 
@@ -10,7 +10,7 @@ Grundsätzlich ist zwischen zwei großen Einsatzbereichen der 3D-Grafik zu unter
 
 Den beiden Einsatzbereichen gemein ist die stete Forderung nach Effizienz. Bei der interaktiven Anwendung muss eine gewisse Anzahl an Bilder pro Zeitintervall (typischerweise 20-30 Bilder pro Sekunde) mit einer begrenzten Rechenleistung erzeugt werden, damit die Darstellung für das Auge flüssig wirkt und die Eingaben des Benutzers ohne merkbare Verzögerung umgesetzt werden. Bei der Berechnung eines realistischen Bildes wird zwar im Normalfall viel mehr Rechenaufwand pro Bild akzeptiert, aber auch hier wird versucht, die benötigte Zeit möglichst gering zu halten, da so Korrekturen leichter möglich sind, aber auch schlicht der Aufwand und somit die Kosten sinken.
 
-Deswegen wird immer nach Verfahren gesucht, die mit möglichst geringem Rechenaufwand und möglichst niedrigem Platzbedarf die Ergebnisse aufwändiger Berechnungen möglichst gut annähern. Diese Verfahren haben mit der Art und Weise, wie die Dinge funktionieren, oft nicht mehr viel zu tun.
+Deswegen wird immer nach Verfahren gesucht, die mit möglichst geringem Rechenaufwand und möglichst niedrigem Platzbedarf die Ergebnisse aufwändiger Berechnungen möglichst gut annähern. Diese Verfahren müssen mit den realen Phänomen nicht mehr unbedingt viel zu tun haben, so lange das Ergebnis nahe genug an der Realität ist, um das Auge zu täuschen.
 
 \section{Modellierung}
 Wie zu Beginn dieses Kapitels bereits erwähnt, geht es bei der Modellierung darum, eine digitale Repräsentation von (dreidimensionalen) Objekten zu erstellen, anhand welcher später ein Bild berechnet werden kann.
@@ -21,10 +21,10 @@ Hier stößt man schnell auf das Problem, dass die Wirklichkeit viel zu komplex 
 Ein Verfahren, um diese Komplexität Herr zu werden, beruht darauf, die Speicherung der Form des Objektes (also der Oberfläche) von der des Materials (also der Eigenschaften dieser Oberfläche) zu trennen. Dieses Verfahren, das als \emph{Oberflächendarstellung} (engl. \emph{Boundary Representation}) bezeichnet wird, geht allerdings davon aus, dass die Szene aus Objekten besteht, die eine definierte Oberfläche haben. Manche Dinge, insbesondere atmosphärische Erscheinungen wie Wolken, Nebel, etc. sind daher schwer darzustellen.
 
 Außerdem liefern manche Verfahren ihre Ergebnisse prinzipbedingt in der Form eines \emph{Voxelgitters}\footnote{Voxel: Kofferwort aus \enquote{Volumen} und \enquote{Pixel}, bezeichnet analog zum zweidimensionalen Pixel ein Element eines regelmäßigen dreidimensionalen Gitters.}, also eines dreidimensionales Gitters, bei dem jedem Element ein Wert zugeordnet ist. Dazu zählen unter anderem viele bildgebende Verfahren wie Computertomographie, die in der Forschung und der Medizin verwendet werden. Diese Daten lassen sich naturgemäß leichter mit den Mitteln der \emph{Voxelgrafik} darstellen\footnote{Neben einigen tendenziell sehr rechenaufwändigen Verfahren, die die Volumendaten direkt darstellen, extrahieren aber viele Verfahren aus diesen Daten erst wieder eine Oberflächendarstellung, aus der dann schnell Bilder berechnet werden können.
-
 In manchen anderen Bereichen, beispielsweise für physikalischen Simulationen, kann es hingegen prinzipbedingt nötig sein, Volumenmodelle zu verwenden. Die Ausgabe am Bildschirm erfolgt aber auch in solchen Programmen meist als Oberflächengrafik.}.
 
 \subsection{Geometrie}
+\label{vertex}
 Um die Frage zu klären, wie die Oberflächen am effizientesten beschrieben werden können, muss man wissen, wie diese Daten nachher weiterverarbeitet werden, im Falle der 3D-Grafik also gerendet werden -- grundsätzlich sind nämlich viele Varianten denkbar. Die folgenden Aussagen bezüglich Geschwindigkeit gehen von der derzeit in der Echtzeit-3D-Grafik eingesetzen Technik aus, für andere spezielle Rendering-Techniken können sich andere Repräsentationen als effizienter erweisen (dieses Verfahren wird in Abschnitt \ref{rendering} beschrieben).
 
 Ein Teil der Verfahren beruht direkt auf einem mathematischen Zusammenhang. Auch hier gibt es wieder viele Möglichkeiten. Zum Beispiel könnte man die Oberfläche einer Kugel (mit dem Mittelpunkt im Koordinatenursprung und dem Radius r) mit Hilfe der Gleichung $x^2 + y^2 + z^2 = r^2$ beschreiben. Sich nur auf mathematische Grundkörper zu beschränken, wäre für die Modellierung realistischer Objekte natürlich viel zu unflexibel, aber es sind viele andere Verfahren denkbar, die auf Beschreibungen in Gleichungsform beruhen. Ein im CAD-Bereich oft eingesetztes Verfahren ist die Darstellung als Rotationskörper einer Polynom- oder einer ähnlichen Funktion\footnote{Polynomfunktionen haben den Nachteil, dass sie bei höherer Ordnung schnell störend schwingen (Runges Phänomen). Abhilfe schaffen andere Interpolationsverfahren wie \emph{Splines}.}.
@@ -77,15 +77,55 @@ Bei allen Arten von Texturen (mit Ausnahme einiger moderner Verfahren) muss aber
 
 \section{Rendering}
 \label{rendering}
-Beim Rendering (der deutsche Begriff \emph{Bildsynthese} wird kaum gebraucht) wird aus der Szene ein Bild erzeugt.
+Beim Rendering wird aus der Beschreibung einer Szene eine zweidimensionale Abbildung, ein \enquote{gerendertes} Bild erzeugt.
+% Objekte, Lichter, Kamera
 
-Berechnungsverfahren: Ray-Tracing, Rasterisierung.
+Wie oben schon erwähnt, sind grundsätzlich viele Verfahren denkbar, um das Bild zu berechnen. In Anlehnung an die physikalischen Vorgänge in der Realität könnte man zum Beispiel die Photonen, die von den Lichtquellen ausgesendet werden, verfolgen, bis sie absorbiert werden oder auf die virtuelle Kamera treffen. Dieses Verfahren existiert tatsächlich, es ist unter dem Namen \emph{Photon Tracing} (wörtlich \enquote{Photonenverfolgung}) bekannt. Es erlaubt eine hochrealistische Darstellung der Szene, ist aber lieder zu langsam, um in irgendeiner Form praktisch eingesetzt zu werden.
 
-\subsection{Beleuchtung}
+Die Idee der Nachverfolung von Strahlen wird von einem anderen Berechnungsverfahren aufgegriffen, dass als \emph{Ray Tracing} (wörtlich \enquote{Strahlverfolgung}) bezeichnet wird. Hier wird aber die Richtung umgekehrt -- statt von den Lichtquelle, wird für jedes Pixel des Bildes ein Strahl von der Kamera emittiert. Wenn dieser Strahl auf ein Objekt trifft, dann werden vom Schnittpunkt neue Strahlen ausgesendet, um Refraktion und Reflexion zu berechnen und zu bestimmen, ob der Punkt von einer Lichtquelle beleuchtet wird oder im Schatten liegt. Da dieses Verfahren je nach Rechenaufwand sehr realistische Ergebnisse liefern kann (beispielweise können Phänomene wie Lichtbrechung optisch korrekt simuliert werden), wird es gerne in Situationen verwendet, in denen Bildqualität wichtiger ist als Rechenaufwand, beispielweise für Filme.
+
+% Other concepts: ray casting, ...
+
+Für den Einsatz in Echtzeitsituationen ist aber auch Ray Tracing (derzeit) nicht schnell genug. Deswegen wird auf ein anderes Verfahren zurückgegriffen, das als \emph{Rasterisierung} oder \emph{Scanline Rendering} bezeichnet wird. Dahinter verbirgt sich folgende Idee: Die Abbildung der Szene aus Sicht der virtuellen Kamera kann als Koordinatentransformation in das Koordinatensystem des Bildschirms betrachtet werden. Wenn diese Transformation auf alle Vertices in der Szene angewendet wird, kennt man die Position alle Dreiecke am Bildschirm, man braucht diese also nur noch zu füllen. Dieser Prozess wird als \emph{Rendering-} oder \emph{Grafikpipeline} bezeichnet und wird im Normalfall von der Grafikkarte übernommen, deren Architektur darauf optimiert ist.
+% Geschichtliches zu Grafikkarten?
+
+Die Grafikpipeline lässt sich in zwei Teile aufteilen: Zuerst erfolgen die Koordinatentransformationen, die auf der Ebene der Vertices stattfinden. In einer modernen Grafikkarte wird diese Aufgabe von programmierbaren \emph{Vertex Shardern} erledigt. Danach werden die Farbwerte des Ergebnisses (das im Normalfall am Bildschirm präsentiert wird) berechnet, es wird also auf Pixel-Ebene gearbeitet. In einer Grafikkarte sind hierfür die ebenfalls programmierbaren \emph{Pixel Shader} zuständig.
+
+% Image: graphics pipeline blocks
+
+In den folgenden Abschnitten werde ich einen kurzen Überblick über nötigen die Arbeitsschritte geben. Im Detail werden diese in den nachfolgenden Kapiteln behandeln.
+
+\subsection{Koordinatentransformationen}
+% Vertical image: Geometry pipeline
+Wie schon in Abschnitt \ref{vertex} besprochen, wird jeder Körper aus Dreiecken zusammengesetzt, deren Eckpunkte durch Ortsvektoren angegeben werden. Die Koordinaten dieser Vektoren beziehen sich aber auf das \emph{Modellkoordinatensystem}, das für jedes Objekt speziell ist. Ursprung und Skalierung dieses Systems können im Prinzip beliebig gewählt werden. In der Praxis wird man natürlich versuchen, sinnvolle Werte zu wählen, also beispielsweise den Ursprung in die Mitte des Objektes zu legen und eine Einheit als einen Zentimeter zu interpretieren.
+
+Der erste Schritt der Verarbeitung besteht nun darin, die Koordinaten in das \emph{Weltkoordinatensystem} zu übertragen, das eine Bezugsbasis für die gesamte Szene herstellt. Dafür sind normalerweise drei Operationen notwendig, nämlich Translation (um das Objekt an eine bestimmte Stelle zu bewegen), Skalierung (um das Objekt in die richtige Größe zu bringen), und Rotation (um die Ausrichtung des Objekts zu korrigieren). Die Matrix, die diese Transformation beinhaltet, wird \emph{World Matrix} (Weltmatrix) genannt. Im Weltkoordinatensystem sind auch alle anderen Objekte der Szene definiert, etwa die Positionen der Lichtquellen oder der Standpunkt der virtuellen Kamera.
+
+Im nächsten Schritt wird die Szene so transformiert, dass sich die Kamera im Koordinatenursprung befindet und in Richtung der $z$-Achse blickt. Die Matrix, die die Weltkoordinaten in dieses \emph{Kamerakoordinatensystem} transformiert, wird als \emph{View Matrix} (Sichtmatrix) bezeichnet. Sinn dieser Transformation ist es, die nachfolgenden Operationen zu vereinfachen. An dieser Stelle werden auch die Berechnungen ausgeführt, auf die später beim Füllen der Dreiecke zurückgegriffen wird, zum Beispiel Lichtberechnungen auf Vertex-Ebene (mehr dazu in Abschnitt \ref{lighting}).
+
+Als nächstes folgt das \enquote{Herzstück} der 3D-Grafik, die \emph{Projektion}. Diese Operation bildet den gesamten sichtbaren Raum in einen Würfel mit den Eckpunkten $(-1 | -1 | -1)$ und $(1 | 1 | 1)$ ab. Der Begriff Projektion mag etwas irreführend erscheinen, da das Ergebnis ja wieder ein Volumen ist, aber die $z$-Koordinate wird nur noch zur Bestimmung der Sichtbarkeit gebraucht, die Position der Vertices am Bildschirm ist in den $x$- und $y$-Koordinaten gespeichert. Nach diesem Schritt werden alle Bereiche verworfen, die sich außerhalb des Sichtvolumens befinden. Dieser Vorgang wird  \emph{Clipping} genannt, die Koordinaten nach der Multiplikation mit der \emph{Projection Matrix} werden daher auch als \emph{Clipping-Koordinaten} bezeichnet.
+
+Um die endgültige Position der Dreiecke am Bildschirm zu erhalten, muss das Ergebnis der Projektion nur noch auf die Auflösung des Bildschirms \enquote{gestreckt} werden. Dieser Schritt wird als \emph{Viewport Transformation} bezeichnet, die Eckpunkte der Dreiecke liegen nun in \emph{Bildschirm-Koordinaten} vor.
+
+\subsection{Rasterung}
+Nach der Viewport Transformation sind die Koordinatentransformationen abgeschlossen, nun gilt es, die Dreiecke am Bildschirm zu füllen. Der Speicherbereich, in den die Farbinformationen geschrieben werden, wird als \emph{Framebuffer} bezeichnet.
+
+Dabei muss darauf geachtet werden, dass Dreiecke, die weiter vom Betrachter entfernt sind (deren $z$-Wert nach der Projektion also größer ist) von den Dreiecken überdeckt werden, die näher beim Betrachter liegen. Dieses sogenannte \emph{Sichtbarkeitsproblem} ist keineswegs so trivial, wie es auf den ersten Blick wirken mag. Zur Lösung dieses Problems hat sich der \emph{Z-Buffer-Algorithmus} durchgesetzt. Dabei wird ein Z-Buffer angelegt, der die gleiche Auflösung wie der Framebuffer hat, zu jedem Pixel des Bildes existiert also ein Wert im Z-Buffer. Zu Beginn der Berechnung werden alle Tiefenwerte auf den größtmöglichen Wert gesetzt, danach werden alle Dreiecke in willkürlicher Reihenfolge gerastert.
+
+Für jedes Pixel wird nun überprüft, ob sein $z$-Wert kleiner ist als der Wert im Buffer, es also näher beim Betrachter ist, als alle vorherigen Pixel. Wenn dies der Fall ist, werden der neue Farbwert und die $z$-Koordinate in den Framebuffer beziehungsweise in den Z-Buffer geschrieben. Andernfalls wird das Pixel verworfen.
+% Nachteile des Z-Bufferings, Front-to-Back Rendering
+
+In die Berechnung des Farbwertes der Pixel fleißen mehrere Faktoren ein: Die Farbe des Vertices, die Textur(en), die auf das Dreieck angewendet wurden und die Beleuchtung.
+
+Die Berechnung der Farbe an einer bestimmten Stelle des Dreieckes ist einfach, es muss nur linear zwischen den Farben der Eckpunkte interpoliert werden. Ähnlich verhält es sich auch mit den Texturen -- ausgehend von den Texturkoordinaten der Vertices wird die Stelle interpoliert, an der die Textur ausgelesen werden muss.
+
 \label{lighting}
 % http://en.wikipedia.org/wiki/Lambert%27s_cosine_law
 
-\subsection{3D-Pipleline in Hardware}
+% Extra-Kapitel über Berechnungen auf Pixel-Ebene (perspective-corrected mapping, lighting)?
+Bei allen Interpolationen im Bildschirmkoordinatensystem muss bedacht werden, dass ...
+
+\section{Umsetzung in Hardware}
 \label{direct3dopengl}
 
 \section{Effizienz}
