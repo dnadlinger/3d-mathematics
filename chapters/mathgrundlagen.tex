@@ -1,5 +1,6 @@
 % Kapitel 'Mathematische Grundlagen'
 \chapter{Mathematische Grundlagen}
+\label{Mathgrundlagen}
 In den folgenden Abschnitten möchte ich die mathematischen Grundprinzipien behandeln, auf denen nahezu alle Konzepte und Operationen der 3D-Grafik aufbauen.
 
 % Kapitel über Vektoren
@@ -43,11 +44,10 @@ Für den umgekehrten Fall dividiert man zuerst alle Komponenten durch $w$:
 Danach kann man den Vektor wieder wie ein gewöhlicher Vektor behandeln, $w$ kann einfach weggelassen werden.
 % Beispiele nach http://de.wikipedia.org/wiki/Homogene_Koordinaten
 
-In der Grafikprogrammierung wird das meist so gelöst, dass von vornherein mit homogenen Koordinaten gearbeitet wird, die $w$-Komponente aber bei den meisten Berechnungen schlichtweg ignoriert wird. Sie wird nur bei Operationen, bei denen sie sich sinnvoll ändern könnte (wie bei der Multiplikation von Matrizen mit Vektoren), berücksichtigt. Auch wenn diese Vorgehensweise aus mathematischer Sicht nicht konsequent ist, stellt sie in der Praxis einen sinnvollen Kompromiss zwischen Performance\footnote{Performance: Leistung bzw. Geschwindigkeit eines Computerprogramms} und Flexibilität dar.
+In der Grafikprogrammierung werden homogenen Koordinaten nur dort verwendet, wo sie gebraucht werden, um bestimmte Operationen auszuführen, etwa bei der Multiplikationen von Matrizen mit Vektoren. Bei allen anderen Berechnungen wird mit dreidimensionalen Koordinaten gearbeitet, zwischen den beiden Koordinatentypen wird nach Bedarf hin- und hergesprungen. Auch wenn diese Vorgehensweise aus mathematischer Sicht nicht konsequent ist, stellt sie in der Praxis einen sinnvollen Kompromiss zwischen Performance\footnote{Performance: Leistung bzw. Geschwindigkeit eines Computerprogramms} und Flexibilität dar.
 
 % Hyperebene: Eberly (3D game engine design), S. 9 (2.1.4 Homogeneous Transformations)
 % Verwendung von w in Robotik-Matrizen?
-
 
 \section{Matrizen}
 Auf den ersten Blick gleichen Matrizen einfachen Tabellen von Zahlen, es gibt aber einen wesentlichen Unterschied: Für sie sind Rechenoperationen wie Addition und Multiplikation definiert.
@@ -96,7 +96,7 @@ mit $1 \leq i \leq m$ und $1 \leq j \leq n$ definiert ($C$ ist also $\in \mathbb
 
 Etwas anschaulicher formuliert erhält man das $i$-te Element der $j$-ten Spalte des Ergebnisses, indem man das Skalarprodukt der $i$-ten Zeile der linken Matrix mit der $j$-Zeile der rechten Matrix bildet -- kurz \enquote{Zeile mal Spalte}.
 
-Es müssen also die Spaltenanzahl der linken Matrix und die Zeilenanzahl der rechten Matrix gleich sein (oben durch $o$ ausgedrückt), damit eine Multiplikation möglich ist. Das entstehende Produkt hat dabei die Dimensionen $m \times n$, also die Zeilenanzahl der linken Matrix und die Spaltenanzahl der rechten Matrix.
+Die Spaltenanzahl der linken Matrix und die Zeilenanzahl der rechten Matrix müssen also gleich sein (oben durch $o$ ausgedrückt), damit eine Multiplikation möglich ist. Das entstehende Produkt hat dabei die Dimensionen $m \times n$, also die Zeilenanzahl der linken Matrix und die Spaltenanzahl der rechten Matrix.
 
 Ein Beispiel zur Veranschaulichung:
 \begin{equation}
@@ -169,6 +169,8 @@ Eine Multiplikation mit der Einheitsmatrix verändert den Vektor naheliegenderwe
  \end{pmatrix}
 \end{equation}
 
+
+% In Kapitel 4?
 \label{homogenousmultiplication}
 Jetzt wird auch der Hintergrund der Verwendung von homogenen Koordinaten klarer: Wenn eine Matrix auf mehrere Vektoren angewendet werden soll, dann könnten ohne diese nur lineare Abbildungen dargestellt werden. Für die Darstellung aller \emph{affinen Transformationen} wäre ein zusätzlicher Schritt notwendig, beispielsweise die Addition eines Vektors: $\vec{x'} = A \cdot \vec{x} + \vec{b}$. Durch die Verwendung von homogenen Koordinaten können diese Schritte in einer Matrix zusammengefasst werden. Außerdem sind Berechnungen wie Projektionen möglich, die eine \emph{Division} aller Koordinaten durch eine der Koordinaten beziehungsweise durch eine Linearkombination der Koordinaten erfordern (siehe Kapitel \ref{projection}).
 
@@ -371,7 +373,7 @@ schon zu der wesentlich komplizierteren Formel
  \end{pmatrix}.
 \end{equation}
 
-In Bezug auf die 3D-Grafik am Computer bleibt noch festzustellen, dass die Inversion im Vergleich zu anderen Operationen (\zb zur Matrizenmultiplikation) recht rechenaufwändig ist und daher nicht allzu oft ausgeführt werden sollte (siehe Abschnitt \ref{performance}).
+In Bezug auf die 3D-Grafik am Computer bleibt noch festzustellen, dass die Inversion im Vergleich zu anderen Operationen (etwa der Matrizenmultiplikation) recht rechenaufwändig ist und daher nicht allzu oft ausgeführt werden sollte (siehe Abschnitt \ref{performance}).
 
 \section{Quaternionen}
 Erklärung zu Quaternionen. Nicht ganz alltägliches Konzept.
