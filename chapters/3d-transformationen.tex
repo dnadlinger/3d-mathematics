@@ -2,11 +2,290 @@
 \chapter{3D-Transformationen}
 \label{transformation}
 
+Nach diesem kurzen Gesamtüberblick über die 3D-Grafik wenden wir uns nun wieder dem mathematischen Teil zu.
+
+Das Thema dieses Kapitels sind die Transformationen, die auf die Objekte angewendet werden können und die direkte Entsprechungen in der realen Welt haben. In Bezug auf die im vorigen Kapitel beschrieben Grafikpipeline werden diese normalerweise beim Übergang vom Modellkoordinatensystem in das Weltkoordinatensystem, also in der World Matrix, angewendet (unter leicht anderen Vorzeichen auch in der View Matrix, mehr dazu in Kapitel \ref{view}). Im Speziellen soll es natürlich um die Darstellung dieser Transformationen als Matrix gehen.
+
+Neben den im Weiteren behandelten Transformationen, nämlich Skalierung, Translation und Rotation, sind in der Geometrie noch einige weitere Transformationen bekannt, etwa Scherung und Spiegelung, diese sind aber für die 3D-Grafik kaum relevant -- nicht zuletzt deshalb, weil sie in der realen Welt auch nicht so häufig vorkommen.
+
+Das Ziel der Repräsentation der Transformationen als Matrizen ist ja, eine durch Matrizenmultiplikation auf jeden Vektor einfach anwendbare Form parat zu haben. Deswegen darf in der Berechnung der Koeffizienten der Matrix nicht auf die konkreten Werte der Koordinaten bezug genommen werden -- die Variablen $x$, $y$, $z$ und $w$ sind im Ergebnis also tabu.
+
 \section{Skalierung}
+% Drawing 'Skalierung'
+Die erste und einfachste Transformation, die ich hier vorstellen möchte, ist die Skalierung.
+
+Um ein Objekt zu skalieren, multipliziert man die Koordinaten seiner Eckpunkte jeweils mit einem Skalierungsfaktor $\lambda_i$. Gesucht ist also eine Matrix $S$, für die gilt:
+\begin{equation}
+ S \cdot
+ \begin{pmatrix}
+  x \\
+  y \\
+  z \\
+  w
+ \end{pmatrix}
+ =
+ \begin{pmatrix}
+  x \cdot \lambda_x \\
+  y \cdot \lambda_y \\
+  z \cdot \lambda_z \\
+  w
+ \end{pmatrix}
+\end{equation}
+
+Wenn man die Teilgleichung der Multiplikation für eine Koordinate aufstellt (in diesem Fall $x$), erkennt man recht schnell, wie die dazugehörige Zeile der Matrix aussehen muss:
+\begin{equation}
+\begin{split}
+ x \cdot m_{11} + y \cdot m_{12} + z \cdot m_{13} + w \cdot m_{14} = x \cdot \lambda_x \\
+ m_{11} = \lambda_x; m_{12} = 0; m_{13} = 0; m_{14} = 0
+\end{split}
+\end{equation}
+
+Löst man auf die gleiche Weise auch die Teilgleichungen für die anderen Koordinaten, erhält man schließlich folgende Matrix für die \emph{Skalierung um den Koordinatenursprung}:
+\begin{equation}
+\label{scalingmatrix}
+ S{(\lambda_x, \lambda_y, \lambda_z)} =
+ \begin{pmatrix}
+  \lambda_x & 0 & 0 & 0 \\
+  0 & \lambda_y & 0 & 0 \\
+  0 & 0 & \lambda_z & 0 \\
+  0 & 0 & 0 & 1
+ \end{pmatrix}
+\end{equation}
+
+Es handelt sich dabei also um eine Diagonalmatrix mit den Skalierungsfaktoren der einzelnen Koordinaten in der Hauptdiagonale (man könnte sie auch als Skalierungsfaktoren der Einheiten der Koordinatenachsen betrachten).
+
+% Quelle: Wikipedia en: Scaling (geometry).
+Wenn die Skalierungsfaktoren aller drei Achsen gleich sind, spricht man von einer gleichförmigen oder \emph{isotropen} Skalierung, andernfalls von einer ungleichförmigen oder \emph{antisotropen} Skalierung. Da sich bei einer isotropen Skalierung die Achsen relativ zueinander nicht ändern, sondern auf dreidimensionale Geometrie bezogen nur die Größe des Objektes, wird die isotrope Skalierung zuweilen auch als \emph{Maßstabsänderung} bezeichnet.
+
+Haben alle drei Koeffizienten den Wert $1$, hat die Skalierung keine Auswirkungen -- wie sich leicht überprüfen lässt, ergibt sich aus Gleichung \ref{scalingmatrix} die \emph{Einheitsmatrix}.
+
+Wie man leicht vermuten kann, ist die Skalierung umkehrbar (solange keiner der Faktoren 0 ist). Die inverse Skalierungsmatrix $S^{-1}$ ist dabei die Saklierungsmatrix mit dem Kehrwert der Faktoren:
+\begin{equation}
+ S^{-1}{(\lambda_x, \lambda_y, \lambda_z)} =
+ \begin{pmatrix}
+  \frac{1}{\lambda_x} & 0 & 0 & 0 \\
+  0 & \frac{1}{\lambda_y} & 0 & 0 \\
+  0 & 0 & \frac{1}{\lambda_z} & 0 \\
+  0 & 0 & 0 & 1
+ \end{pmatrix}
+ = S{(\lambda_x^{-1}, \lambda_y^{-1}, \lambda_z^{-1})}
+\end{equation}
+
+
+In manchen Situationen möchte man ein Objekt nicht um den Koordinatenursprung, sondern um einen anderen Punkt im Raum skalieren. In diesem Fall ist die einfachste Lösung, das Objekt zuerst mit einer Translationsmatrix in den Ursprung zu verschieben, die Skalierung durchzuführen und dann das Objekt wieder zurück zu verschieben. Die drei Operationen können in einer Matrix kombiniert werden.
+
+% Matrix 'Skalierung um einen beliebigen Punkt im Raum'?
 
 \section{Translation}
+Die nächste Transformation ist die Translation, also die Verschiebung von Objekten beziehungsweise des Koordinatenursprungs im Raum.
+
+Um alle Eckpunkte eines Objekts um den Vektor $\vec v$ zu verschieben, addiert man die beiden Vektoren einfach nach den Gesetzen der Vektorrechnung komponentenweise. Die gesuchte Translationsmatrix $T$ muss also die folgende Bedingung erfüllen:
+\begin{equation}
+ T \cdot 
+ \begin{pmatrix}
+  x \\
+  y \\
+  z \\
+  w
+ \end{pmatrix}
+ =
+ \begin{pmatrix}
+  x + v_x \\
+  y + v_y \\
+  z + v_z \\
+  w
+ \end{pmatrix}
+\end{equation}
+
+Beim Aufstellen der Teilgleichungen (hier exemplarisch für die $y$-Koordinate) wird aber bald ein Problem deutlich:
+\begin{equation}
+\begin{split}
+ x \cdot m_{21} + y \cdot m_{22} + z & \cdot m_{23} + w \cdot m_{24} = y + v_y \\
+ m_{21} = 0; m_{23} = & 0; m_{24} = 0 \\
+ y \cdot m_{22} & = y + v_y \\
+ m_{22} & = \frac{y + v_y}{y} \\
+ & = 1 + \frac{v_y}{y}
+\end{split}
+\end{equation}
+
+Anscheinend gibt es keinen Weg, um die für die Translation nötigen Koeffizienten zu berechnen, ohne die Koordinaten des Vektors zu kennen, der transformiert werden soll. Genau das ist aber Vorraussetzung, um die Matrix für mehrere Vektoren verallgemeinern zu können!
+
+Der Ausweg aus diesem Dilemma liegt in der Definition der homogenen Koordinaten. $w$ hat ja nicht irgendeinen beliebigen Wert, sondern (zumindest vor der Transformation) den Wert 1. Die dementsprechend geänderten Bedingungen für die Translationsmatrix lauten:
+\begin{equation}
+ T \cdot 
+ \begin{pmatrix}
+  x \\
+  y \\
+  z \\
+  1
+ \end{pmatrix}
+ =
+ \begin{pmatrix}
+  x + v_x \\
+  y + v_y \\
+  z + v_z \\
+  1
+ \end{pmatrix}
+\end{equation}
+
+Stellt man nun die Teilgleichung für die $y$-Koordinate auf, erhält man:
+\begin{equation}
+ x \cdot m_{21} + y \cdot m_{22} + z \cdot m_{23} + 1 \cdot m_{24} = y + v_y
+\end{equation}
+
+Diese Bedingung ist einfach erfüllt, indem man
+\begin{equation}
+ m_{21} = 0; m_{22} = 1; m_{23} = 0; m_{24} = v_y
+\end{equation}
+setzt.
+
+Auf die gleiche Art kann man auch die anderen Teilgleichungen auflösen. Man erhält als Ergebnis die \emph{Translationsmatrix}
+\begin{equation}
+ T{(\vec v)} =
+ \begin{pmatrix}
+  1 & 0 & 0 & v_x \\
+  0 & 1 & 0 & v_y \\
+  0 & 0 & 1 & v_z \\
+  0 & 0 & 0 & 1
+ \end{pmatrix}.
+\end{equation}
+
+So wie die Skalierung ist auch die Translation einfach umkehrbar. Wenn man die inverse Matrix zu der Translationsmatrix $T{(\vec v)}$ berechnet, kommt man dabei auf
+\begin{equation}
+ T^{-1}{(\vec v)} =
+ \begin{pmatrix}
+  1 & 0 & 0 & -v_x \\
+  0 & 1 & 0 & -v_y \\
+  0 & 0 & 1 & -v_z \\
+  0 & 0 & 0 & 1
+ \end{pmatrix} = T{(-\vec v)},
+\end{equation}
+also auf die Verschiebung um einen Vektor gleicher Länge in die entgegengesetzte Richtung.
+
+Wie sich leicht zeigen lässt, kann man, um mehrere Translationen nacheinander auf einen Vektor anzuwenden, einfach die einzelnen Verschiebungsvektoren addieren und so eine gemeinsame Matrix erzeugen:
+\begin{equation}
+ \label{translationaddition}
+ T{(\vec a)} \cdot T{(\vec b)} \cdot \vec p = 
+ \begin{pmatrix}
+  1 & 0 & 0 & a_x + b_x \\
+  0 & 1 & 0 & a_y + b_y \\
+  0 & 0 & 1 & a_z + b_z \\
+  0 & 0 & 0 & 1
+ \end{pmatrix} \cdot \vec p = T{(\vec a + \vec b)} \cdot \vec p
+\end{equation}
+
+Dieser Zusammenhang mag trivial erscheinen, aber aus Gleichung \ref{translationaddition} ergibt sich noch eine weitere interessante Eigenheit von Translationsmatrizen: Nachdem die Vektoraddition kommutativ ist, mit der man die Translationen zusammenfassen kann, ist auch die \emph{Multiplikation von Translationsmatrizen kommutativ}.
 
 \section{Rotation}
-\subsection{Darstellung als Matrix}
+Die Herleitung der dritten und letzen der hier behandelten Transformationen, der Rotation, ist etwas schwieriger als die vorangegangenen. Am einfachsten ist es, sich zunächst auf die Rotation um eine der Koordinatenachsen zu beschränken, im Folgenden wollen wir zunächst die \emph{Rotation um die z-Achse}, also in der \emph{$xy$-Ebene} betrachten.
+
+\subsection{Rotation um die Koordinatenachsen}
+Abbildung X zeigt einen Vektor $\vec p = \begin{pmatrix} x & y & z \end{pmatrix}^T$. Nach der Rotation um den Winkel $\gamma$ um die $z$-Achse ergibt sich der Vektor $\vec{p'} = \begin{pmatrix} x' & y' & z' \end{pmatrix}^T$.
+
+Da die Rotation in der $xy$-Ebene stattfindet, ändert sich die $z$-Koordinate des Vektors nicht. Es gilt also
+\begin{equation}
+ z' = z.
+\end{equation}
+
+Für die $x$- und $y$-Koordinaten kann man über die Definition von Sinus und Cosinus ebenfalls direkt aus der Skizze die folgenden Zusammenhänge ableiten:
+\begin{align}
+  x &= r \cdot \cos{\gamma_0}            &   y &= r \cdot \sin{\gamma_0} \label{rot1} \\
+ x' &= r \cdot \cos{(\gamma_0 + \gamma)} &  y' &= r \cdot \sin{(\gamma_0 + \gamma)} \label{rot2}
+\end{align}
+
+Unter Zuhilfenahme der trigonometrischen Additionstheoreme erhält man für $x'$ und $y'$ aus \ref{rot2} nach Ausmultiplizieren:
+\begin{align}
+ \label{rot3}
+ x' &= r \cdot \cos \gamma_0 \cos \gamma - r \cdot \sin \gamma_0 \sin \gamma &  y' &= r \cdot \cos \gamma_0 \cos \gamma + r \cdot \sin \gamma_0 \sin \gamma
+\end{align}
+
+Die Gleichungen \ref{rot1} ergeben umgeformt:
+\begin{align}
+ \label{rot4}
+ \cos \gamma_0 &= \frac{x}{r} & \sin \gamma_0 &= \frac{y}{r}
+\end{align}
+
+Setzt man \ref{rot4} in \ref{rot3} ein, ergibt sich schließlich:
+\begin{align}
+ x' &= x \cdot \cos \gamma - y \sin \gamma &  y' &= y \cos \gamma + x \sin \gamma
+\end{align}
+
+Die gesuchte Rotationsmatrix $R_{z}$ muss also die folgende Bedingung erfüllen:
+\begin{equation}
+ R_{z} \cdot
+ \begin{pmatrix}
+  x \\
+  y \\
+  z \\
+  w
+ \end{pmatrix}
+ = 
+ \begin{pmatrix}
+  x \cdot \cos \gamma - y \sin \gamma \\
+  x \sin \gamma + y \cos \gamma \\
+  z \\
+  w
+ \end{pmatrix}
+\end{equation}
+
+Nun ist es ein leichtes, wie für die anderen Transformationen auch die passende Rotationsmatrix für die \emph{Rotation um die $z$-Achse} herzuleiten:
+\begin{equation}
+ R_z{(\gamma)}
+ = 
+ \begin{pmatrix}
+  \cos \gamma & -\sin \gamma & 0 & 0 \\
+  \sin \gamma &  \cos \gamma & 0 & 0 \\
+  0 & 0 & 1 & 0 \\
+  0 & 0 & 0 & 1 \\
+ \end{pmatrix}
+\end{equation}
+
+Analog lassen sich auch die anderen beiden Matrizen herleiten. Man erhält als Ergebnis für die \emph{Rotation um die $x$-Achse}
+\begin{equation}
+ R_x{(\alpha)}
+ = 
+ \begin{pmatrix}
+  1 & 0 & 0 & 0 \\
+  0 & \cos \alpha & -\sin \alpha & 0 \\
+  0 & \sin \alpha &  \cos \alpha & 0 \\
+  0 & 0 & 0 & 1 \\
+ \end{pmatrix}
+\end{equation}
+
+und für die \emph{Rotation um die $y$-Achse}
+\begin{equation}
+ R_y{(\beta)}
+ = 
+ \begin{pmatrix}
+  \cos \beta & 0 & \sin \beta & 0 \\
+  0 & 1 & 0 & 0 \\
+  -\sin \beta & 0 & \cos \beta & 0 \\
+  0 & 0 & 0 & 1 \\
+ \end{pmatrix}.
+\end{equation}
+
+Auch die Rotation lässt sich selbstverständlich durch nochmalige Rotation um den gleichen Betrag in die andere Richtung umkehren. Beim Aufstellen der inversen Matrix
+\begin{equation}
+ R_z^{-1}{(\gamma)}
+ = 
+ \begin{pmatrix}
+  \cos \gamma & -\sin \gamma & 0 & 0 \\
+  \sin \gamma &  \cos \gamma & 0 & 0 \\
+  0 & 0 & 1 & 0 \\
+  0 & 0 & 0 & 1 \\
+ \end{pmatrix}^{-1}
+ = 
+ \begin{pmatrix}
+   \cos \gamma & \sin \gamma & 0 & 0 \\
+  -\sin \gamma & \cos \gamma & 0 & 0 \\
+  0 & 0 & 1 & 0 \\
+  0 & 0 & 0 & 1 \\
+ \end{pmatrix}
+ = R_z{(-\gamma)}
+\end{equation}
+fällt einem auf, dass die Inverse der Rotationsmatrix gleich ihrer Transponierten ist. Dies ist auch tatsächlich eine Eigenheit aller Rotationsmatrizen. Beweis? Verbindung zu transponierter Inversen bei Normalvektoren?
+
 \subsection{Euler-Winkel}
+Gimbal Lock
+
 \subsection{Darstellung als Quaternion}

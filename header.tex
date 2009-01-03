@@ -2,34 +2,31 @@
 %% Optionen zum Layout des Buchs                                     %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[
-%draft,								% überlangen Zeilen in Ausgabe gekennzeichnet
-appendixprefix,				% Anhang wird "Anhang" vor die Überschrift gesetzt
+%draft,				% überlangen Zeilen in Ausgabe gekennzeichnet
+appendixprefix,			% Anhang wird "Anhang" vor die Überschrift gesetzt
 parskip=half,
 DIV=12,
-BCOR=5mm
-%a5paper,							% alle weiteren Papierformat einstellbar
-%landscape,						% Querformat
-%12pt,								% Schriftgröße (12pt, 11pt (Standard))
-%BCOR1cm,							% Bindekorrektur, bspw. 1 cm
-%DIVcalc,							% führt die Satzspiegelberechnung neu aus (scrguide 2.4)
-%oneside,							% einseitiges Layout
-%twocolumn,						% zweispaltiger Satz
-%openany,							% Kapitel können auch auf linken Seiten beginnen
-%headsepline,					% Trennline zum Seitenkopf
-%footsepline,					% Trennline zum Seitenfuß
-%notitlepage,					% in-page-Titel, keine eigene Titelseite
-%chapterprefix,				% vor Kapitelüberschrift wird "Kapitel Nummer" gesetzt
-%normalheadings,			% Überschriften etwas kleiner (smallheadings)
-%idxtotoc,						% Index im Inhaltsverzeichnis
-%liststotoc,					% Abb.- und Tab.verzeichnis im Inhalt
-%bibtotoc,						% Literaturverzeichnis im Inhalt
-%leqno,								% Nummerierung von Gleichungen links
-%fleqn								% Ausgabe von Gleichungen linksbündig
+BCOR=5mm,
+%12pt,				% Schriftgröße (12pt, 11pt (Standard))
+%BCOR1cm,			% Bindekorrektur, bspw. 1 cm
+%DIVcalc,			% führt die Satzspiegelberechnung neu aus (scrguide 2.4)
+%oneside,			% einseitiges Layout
+%openany,			% Kapitel können auch auf linken Seiten beginnen
+%headsepline,			% Trennline zum Seitenkopf
+%footsepline,			% Trennline zum Seitenfuß
+%notitlepage,			% in-page-Titel, keine eigene Titelseite
+%chapterprefix,			% vor Kapitelüberschrift wird "Kapitel Nummer" gesetzt
+%normalheadings,		% Überschriften etwas kleiner (smallheadings)
+%idxtotoc,			% Index im Inhaltsverzeichnis
+%liststotoc,			% Abb.- und Tab.verzeichnis im Inhalt
+%bibtotoc,			% Literaturverzeichnis im Inhalt
+%leqno,				% Nummerierung von Gleichungen links
+%fleqn				% Ausgabe von Gleichungen linksbündig
 ]
 {scrbook}
 
-%\pagestyle{empty}		% keine Kopf und Fußzeile (k. Seitenzahl)
-%\pagestyle{headings}	% lebender Kolumnentitel
+\usepackage{fancyhdr}
+%\pagestyle{fancy}
 
 %% Deutsche Anpassungen %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage[ngerman]{babel}
@@ -37,28 +34,19 @@ BCOR=5mm
 \usepackage[babel,german=guillemets]{csquotes}
 \usepackage[T1]{fontenc}
 
+\usepackage[square]{natbib}
+
 \usepackage{amsmath, amsthm, amssymb}
 
-%% Packages für Grafiken & Abbildungen %%%%%%%%%%%%%%%%%%%%%%
-\usepackage{graphicx} %%Zum Laden von Grafiken
+
+\usepackage{graphicx} %%Zum Laden von Grafiken: .jpg .png .pdf .mps
 %\usepackage{subfig} %%Teilabbildungen in einer Abbildung
 %\usepackage{pst-all} %%PSTricks - nicht verwendbar mit pdfLaTeX
 
-%% Beachten Sie:
-%% Die Einbindung einer Grafik erfolgt mit \includegraphics{Dateiname}
-%% bzw. über den Dialog im Einfügen-Menü.
-%%
-%% Im Modus "LaTeX => PDF" können Sie u.a. folgende Grafikformate verwenden:
-%%   .jpg  .png  .pdf  .mps
-%%
-%% In den Modi "LaTeX => DVI", "LaTeX => PS" und "LaTeX => PS => PDF"
-%% können Sie u.a. folgende Grafikformate verwenden:
-%%   .eps  .ps  .bmp  .pict  .pntg
+% PDF-Inhaltsverzeichnis und Links
+\usepackage{hyperref}
 
-
-%% Bibliographiestil %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\usepackage{natbib}
-
-\newcommand{\path}[1]{\texttt{#1}}
+%\newcommand{\path}[1]{\texttt{#1}}
 \newcommand{\adj}[1]{\operatorname{adj}#1}
 \newcommand{\zb}{z.\thinspace B.\ }
+\newcommand{\vgl}{vgl.\thinspace }
