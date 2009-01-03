@@ -1,0 +1,19 @@
+\begin{thebibliography}{1}
+% this bibliography was produced with the style dinat.bst v2.5
+\makeatletter
+\newcommand{\dinatlabel}[1]%
+{\ifNAT@numbers\else\NAT@biblabelnum{#1}\hspace{2\labelsep}\fi}
+\makeatother
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\expandafter\ifx\csname url\endcsname\relax\def\url#1{\texttt{#1}}\fi
+
+\bibitem[Wikipedia(2008)]{wiki:grafikkarte}
+\dinatlabel{Wikipedia 2008} \textsc{Wikipedia}:
+\newblock \emph{Grafikkarte --- Wikipedia{,} Die freie Enzyklopädie}.
+\newblock 2008. --
+\newblock URL
+  \url{http://de.wikipedia.org/w/index.php?title=Grafikkarte&oldid=54372393}.
+  --
+\newblock [Online; Stand 3. Januar 2009]
+
+\end{thebibliography}
