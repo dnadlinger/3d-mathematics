@@ -41,7 +41,7 @@ Für den umgekehrten Fall dividiert man zuerst alle Komponenten durch $w$:
 \begin{equation}
  \begin{pmatrix} x & y & z & w \end{pmatrix}^T \rightarrow \begin{pmatrix} \frac{x}{w} & \frac{y}{w} & \frac{z}{w} & 1 \end{pmatrix}^T
 \end{equation}
-Danach kann man den Vektor wieder wie ein gewöhlicher Vektor behandeln, $w$ kann einfach weggelassen werden.
+Danach kann man aus den ersten drei Komponenten des Vektors wieder einen gewöhnlichen dreidimensionalen Vektor bilden, $w$ kann also einfach weggelassen werden.
 % Beispiele nach http://de.wikipedia.org/wiki/Homogene_Koordinaten
 
 In der Grafikprogrammierung werden homogenen Koordinaten nur dort verwendet, wo sie gebraucht werden, um bestimmte Operationen auszuführen, etwa bei der Multiplikationen von Matrizen mit Vektoren. Bei allen anderen Berechnungen wird mit dreidimensionalen Koordinaten gearbeitet, zwischen den beiden Koordinatentypen wird nach Bedarf hin- und hergesprungen. Auch wenn diese Vorgehensweise aus mathematischer Sicht nicht konsequent ist, stellt sie in der Praxis einen sinnvollen Kompromiss zwischen Performance\footnote{Performance: Leistung bzw. Geschwindigkeit eines Computerprogramms} und Flexibilität dar.
@@ -135,6 +135,8 @@ Für die Multiplikation von quadratischen Matrizen gibt es ein neutrales Element
 \end{equation}
 gilt. $E$ wird als \emph{Einheitsmatrix} bezeichnet und ist eine Diagonalmatrix, deren Elemente entlang der Hauptdiagonale alle den Wert 1 haben. Es gibt natürlich für alle verschiedenen Größen $n \times n$ jeweils eine eigene Einheitsmatrix $E_n$. Im Normalfall ist aber ohnehin ersichtlich, welche Dimensionen die verwendete Einheitsmatrix haben muss, deswegen wird in der Praxis meistens auf den Index verzichtet.
 
+Die Multiplikation zweier Matrizen ist assoziativ, aber nicht kommutativ.
+
 Fasst man einen $n$-dimensionalen Spaltenvektor als $n \times 1$-Matrix auf, so kann die Multiplikation einer Matrix mit einem Vektor als Spezialfall der Matrizenmultiplikation gesehen werden. Das Ergebnis ist wiederum ein $n$-dimensionaler Vektor. Die Operation wird auch als \emph{Transformation} des Vektors bezeichnet, da in der Matrix Transformationen \enquote{gespeichert} sein können, die durch die Multiplikation auf den Vektor angewendet werden (siehe Kapitel \ref{transformation}).
 
 Eine Multiplikation mit der Einheitsmatrix verändert den Vektor naheliegenderweise nicht:
@@ -169,6 +171,7 @@ Eine Multiplikation mit der Einheitsmatrix verändert den Vektor naheliegenderwe
  \end{pmatrix}
 \end{equation}
 
+Herleitung der Zusammenfassung mehrerer Transformationen.
 
 % In Kapitel 4?
 \label{homogenousmultiplication}
@@ -328,7 +331,7 @@ Daher wird in der 3D-Programmierung meist auf die zweite Variante zurückgegriff
  A^{-1} = \frac{1}{\det A} \cdot \adj A
 \end{equation}
 
-$\adj A$ bezeichnet hier die \emph{Adjunkte} der Matrix A, die auch als \emph{komplementäre Matrix} bezeichnet wird. Sie besteht aus der transponierten Matrix der Kofaktoren (siehe Gleichung \ref{cofactor}), es gilt also:
+$\adj A$ bezeichnet hier die \emph{Adjunkte} der Matrix A, die auch \emph{komplementäre Matrix} genannt wird. Sie besteht aus der transponierten Matrix der Kofaktoren (siehe Gleichung \ref{cofactor}), es gilt also:
 \begin{equation}
  \adj A = \begin{pmatrix}
    \tilde a_{11} & \tilde a_{21} & \cdots & \tilde a_{n1}\\
@@ -376,7 +379,97 @@ schon zu der wesentlich komplizierteren Formel
 In Bezug auf die 3D-Grafik am Computer bleibt noch festzustellen, dass die Inversion im Vergleich zu anderen Operationen (etwa der Matrizenmultiplikation) recht rechenaufwändig ist und daher nicht allzu oft ausgeführt werden sollte (siehe Abschnitt \ref{performance}).
 
 \section{Quaternionen}
-Erklärung zu Quaternionen. Nicht ganz alltägliches Konzept.
+Der Körper der komplexen Zahlen $\mathbb C$ als Erweiterung der reelen Zahlen ist ja bereits aus dem Schulunterricht bekannt. Neben einigen anderen wichtigen Eigenschaften wie der algebraischen Abgeschlossenheit\footnote{Dies ist der Inhalt des Fundamentalsatzes der Algebra, der Ende des 18. Jahrhunderts von Carl Friedrich Gauß bewiesen wurde.}, haben die komplexen Zahlen die angenehme Eigenschaft, dass sie gleichzeitig ein zweidimensionaler reeler Vektorraum sind und sich über sie viele Brücken zwischen Geometrie und Algebra schlagen lassen.
 
-\subsection{Rechenregeln}
-Kurze Zusammenfassung der Rechenregeln für Quaternionen.
+Es verwundert deshalb nicht, dass viele Mathematiker versuchten, ein dreidimensionales Äquivalent zu den komplexen Zahlen zu finden. Einer von ihnen war auch der irische Mathematiker Hamilton, der wie alle anderen zunächst an dem Problem scheiterte, dass für \enquote{dreidimensionale komplexe Zahlen} keine vernünftigen Rechenregeln zu finden waren. Schließlich kam ihm die entscheidende Idee (angeblich, während er mit seiner Frau über die Broom Bridge in Dublin spazierte), das Konzept um eine zusätzliche vierte Komponente zu erweitern.
+
+Eine \emph{Quaternion}\footnote{In der Literatur wird der Begriff sowohl im Maskulinum, als auch im Femininum gebraucht. Ich habe mich in diesem Dokument dazu entschlossen, laut Duden die weibliche Form zu verwenden.} ist also eine Zahl der Form
+\begin{equation}
+ q = w + xi + yj + zk = \left[ w; \left(x, y, z \right) \right]
+\end{equation}
+mit $w, x, y, z \in \mathbb R$, wobei $j$ und $k$ analog zu dem von den komplexen Zahlen bekannten $i$ zwei weitere voneinander verschiedene imaginäre Einheiten sind. Der Raum aller Quaternionen wird in Anlehnung an den Namen ihres geistigen Vaters als $\mathbb H$ bezeichnet.
+
+Für $i$, $j$ und $k$ gilt der folgende Zusammenhang
+\begin{equation}
+ i^2 = j^2 = k^2 = ijk = -1,
+\end{equation} 
+der auch als Hamilton'sche Regel bekannt ist.
+
+Zwischen den drei imaginären Einheiten besteht eine zyklische Abhängigkeit, es gilt:
+\begin{align}
+ i \cdot j = -j \cdot i &= k \\
+ j \cdot k = -k \cdot j &= i \\
+ k \cdot i = -i \cdot k &= j
+\end{align}
+Die Multiplikation der imaginären Einheiten ist also nicht kommutativ!
+
+Der (reelle) Betrag einer Quaternion ist analog zu den komplexen Zahlen und den Vektoren als 
+\begin{equation}
+ \lvert q \rvert = \sqrt{w^2 + x^2 + y^2 + z^2}
+\end{equation}
+definiert. Eine Quaternion mit $\lvert q \rvert = 1$ wird als \emph{Einheitsquaternion} bezeichnet.
+
+Wie schon durch die Zeichen $x$, $y$ und $z$ angedeutet, kann man eine Quaternion auch als Struktur mit einem skalaren Anteil $w$ und einem vektoriellen Anteil $\begin{pmatrix} x & y & z \end{pmatrix}^T$ gesehen werden. Eine alternative Schreibweise für die Quaternion $q = w + v_{x}i + v_{y}j + v_{z}k$ lautet daher $\left[w; \vec v \right]$.
+
+Die konjugierte Quaternion zu einer Quaternion $q = w + v_{x}i + v_{y}j + v_{z}k$ ist als
+\begin{equation}
+ q^* = w - v_{x}i - v_{y}j - v_{z}k = \left[ w; -\vec v \right]
+\end{equation}
+definiert. Die Konjugation dreht also den Vektorteil der Quaternion um, lässt den Skalarteil aber unverändert.
+
+Zwei Quaternionen $q_1$ und $q_2$ werden addiert und subtrahiert, indem man so wie bei Vektoren und komplexen Zahlen die einzelnen Koeffizienten addiert bzw. subtrahiert:
+\begin{equation}
+\begin{split}
+ q_1 \pm q_2 &= w_1 + x_{1}i + y_{1}j + z_{1}k \pm \left( w_2 + x_{2}i + y_{2}j + z_{2}k \right) \\
+ &= w_1 \pm w_2 + \left( x_1 \pm x_2 \right) \cdot i + \left( y_1 \pm y_2 \right) \cdot j + \left( z_1 \pm z_2 \right) \cdot z \\
+ &= \left[ w_1 \pm w_2; \vec{v_1} \pm \vec{v_2} \right]
+\end{split}
+\end{equation}
+
+Eine Quaternion $q$ kann nach den ganz gewöhnlichen Rechenregeln mit einem Skalar $\lambda$ multipliziert werden:
+\begin{equation}
+ \lambda \cdot q = \lambda \cdot (w + xi + yj + zk) = \lambda w + \lambda xi + \lambda yj + \lambda zk = \left[ \lambda w; \lambda \cdot \vec v \right]
+\end{equation}
+
+Zwei Quaternionen $q_1$ und $q_2$ können ebenfalls ganz gewöhnlich (unter Beachtung der Hamilton-Regeln) miteinander multipliziert werden, Ausmultiplizieren und Anwenden des Distributivgesetzes ergibt:
+\begin{equation}
+\begin{split}
+ q_1 \cdot q_2 &= ( w_1 + x_{1}i + y_{1}j + z_{1}k ) \cdot ( w_2 + x_{2}i + y_{2}j + z_{2}k ) \\
+ &= w_1 w_2 - ( x_1 x_2 + y_1 y_2 + z_1 z_2 ) \\
+    & + ( w_1 x_2 + w_2 x_1 + y_1 z_2 - y_2 z_1 ) \cdot i \\
+    & + ( w_1 y_2 + w_2 y_1 + z_1 x_2 - x_1 z_2 ) \cdot j \\
+    & + ( w_1 z_2 + w_2 z_1 + x_1 y_2 - x_2 y_1 ) \cdot k
+\end{split}
+\end{equation}
+Fasst man den Imaginärteil der Quaternion als Vektor auf, kann man das Ergebnis auch wie folgt anschreiben:
+\begin{equation}
+ q_1 \cdot q_2 = \left[ \left( w_1 w_2 - \vec{v_1} \cdot \vec{v_2} \right); \vec{v_1} \times \vec{v_2} + w_1 \cdot \vec{v_2} + w_2 \cdot \vec{v_1} \right]
+\end{equation}
+Das Produkt zweier Quaternionen ist nicht kommutativ, aber assoziativ und distributiv.
+
+Wenn man eine Quaternion mit ihrer konjugierten Quaternion multipliziert
+\begin{equation}
+\begin{split}
+ q \cdot q^* &= \left[ w; \vec v \right] \cdot \left[ w; -\vec v \right] \\
+ & = \left[ \left( w \cdot w - \vec{w} \cdot (-\vec{w}) \right); \vec{w} \times (-\vec{w}) + w_1 \cdot (-\vec{w}) + w_2 \cdot (-\vec{w}) \right],
+\end{split}
+\end{equation}
+fällt auf, dass der gesamte Imaginärteil des Ergebnisses Null wird. Übrig bleibt, wie auch bei den komplexen Zahlen, eine reelle Zahl, die dem Betrag der Quaternion entspricht:
+\begin{equation}
+\begin{split}
+ q \cdot q^* &= w \cdot w + \vec v \cdot \vec v \\
+ &= w^2 + x^2 + y^2 + z^2 \\
+ &= \lvert q \rvert
+\end{split}
+\end{equation}
+
+Die \emph{Division} ist für Quaternionen nicht definiert, aber analog zu den Matrizen gibt es zu einer Quaternion $q$ ein \emph{inverses Element} $q^{-1}$, für das gilt:
+\begin{equation}
+ q \cdot q^{-1} = q^{-1} \cdot q = 1
+\end{equation}
+Diese \emph{Inverse} einer Quaternion $q$ ist definiert als:
+\begin{equation}
+ q^{-1} = \frac{q^*}{\lvert q \rvert}
+\end{equation}
+
+(\vgl \citep{quaternionrotation}, 29-37)
