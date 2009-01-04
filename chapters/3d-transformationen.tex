@@ -283,9 +283,77 @@ Auch die Rotation lässt sich selbstverständlich durch nochmalige Rotation um d
  \end{pmatrix}
  = R_z{(-\gamma)}
 \end{equation}
-fällt einem auf, dass die Inverse der Rotationsmatrix gleich ihrer Transponierten ist. Dies ist auch tatsächlich eine Eigenheit aller Rotationsmatrizen. Beweis? Verbindung zu transponierter Inversen bei Normalvektoren?
+fällt einem auf, dass die Inverse der Rotationsmatrix gleich ihrer Transponierten ist. Dies ist auch tatsächlich eine Eigenheit aller Rotationsmatrizen, beziehungsweise aller Transformationen, bei denen eine beliebige Länge erhalten bleibt. Beweis? Verbindung zu transponierter Inversen bei Normalvektoren?
 
-\subsection{Euler-Winkel}
-Gimbal Lock
+\subsection{Eulersche Winkel}
+Die gerade behandelten Rotationsmatrizen sind auf Drehungen um die Koordinatenachsen beschränkt, aber natürlich lassen sich mehrere der Matrizen kombinieren, um jede beliebige Rotation ausdrücken zu können.
+
+Ein beliebtes Verfahren, um Ausrichtungen im Raum anzugeben, sind die sogenannten Eulerschen Winkel. Dabei handelt es sich um drei Rotationswinkel um jeweils eine Achse, durch die jede beliebige Rotation ausgedrückt werden kann. Es gibt mehrere Konventionen, in welcher Reihenfolge die Rotationen auf welche Achsen angewendet werden. Eine der am häufigsten benutzten sind die aus der Luftfahrt bekannten \emph{Roll-Nick-Gier-Winkel}, auch als \emph{Tait–Bryan-Rotation} bezeichnet (engl. \emph{yaw, pitch, roll}). Sie geben die Rotation als Kombination einer Rotation um die $z$-Achse ($\gamma$), gefolgt von einer Rotation um die $y$-Achse ($\beta$) und schließlich einer Rotation um die $x$-Achse ($\alpha$) an.
+
+Mit einem Wertebereich von $-\pi$ bis $\pi$ für $\alpha$ und $\gamma$ und von $-\frac{\pi}{2}$ bis $\frac{\pi}{2}$ für $\beta$ lassen sich alle Ausrichtungen im Raum angeben. Bis auf zwei Ausnahmen (dazu gleich mehr) ist auch jedem Rotationszustand genau ein Satz an Winkeln zugeordnet, die Abbildung ist also bis auf ebendiese Ausnahmen bijektiv.
+
+Um eine Rotationsdarstellung in Eulerschen Winkeln in Matrixform zu überführen, muss man einfach die Rotationsmatrizen für die einzelnen Achsen miteinander multiplizieren:
+
+\begin{equation}
+\begin{split}
+ &R_{zyx}( \gamma, \beta, \alpha ) = R_x( \alpha ) \cdot R_y( \beta ) \cdot R_z( \gamma ) \\
+ &=
+ \begin{pmatrix}
+  1 & 0 & 0 & 0 \\
+  0 & \cos \alpha & -\sin \alpha & 0 \\
+  0 & \sin \alpha &  \cos \alpha & 0 \\
+  0 & 0 & 0 & 1 \\
+ \end{pmatrix} \cdot
+ \begin{pmatrix}
+  \cos \beta & 0 & \sin \beta & 0 \\
+  0 & 1 & 0 & 0 \\
+  -\sin \beta & 0 & \cos \beta & 0 \\
+  0 & 0 & 0 & 1 \\
+ \end{pmatrix} \cdot
+ \begin{pmatrix}
+  \cos \gamma & -\sin \gamma & 0 & 0 \\
+  \sin \gamma &  \cos \gamma & 0 & 0 \\
+  0 & 0 & 1 & 0 \\
+  0 & 0 & 0 & 1 \\
+ \end{pmatrix} \\
+ &=
+ \begin{pmatrix}
+  \cos \beta \cos \gamma & \cos \beta \sin \gamma & - \sin \beta & 0 \\
+  \sin \alpha \sin \beta \cos \gamma - \cos \alpha \sin \gamma & \sin \alpha \sin \beta \sin \gamma + \cos \alpha \cos \gamma & \sin \alpha \cos \beta & 0\\
+  \cos \alpha \sin \beta \cos \gamma + \sin \alpha \sin \gamma & \cos \alpha \sin \beta \sin \gamma - \sin \alpha \cos \gamma & \cos \alpha \cos \beta & 0\\
+  0 & 0 & 0 & 1
+ \end{pmatrix}
+\end{split}
+\end{equation}
+
+Eulersche Winkel sind ein vergleichbar einfaches und intuitives Mittel, um beliebige Rotationen anzugeben, und werden in der 3D-Grafik gerne für statische Angaben von Rotationen verwendet. Im Bezug auf Animationen haben sie jedoch einige Nachteile:
+
+Zum einen ist es schwer, zwischen zwei in Eulerschen Winkeln gegebenen Rotationszuständen so zu interpolieren, dass die Wineklgeschwindigkeit der resultierenden Rotationsbewegung konstant bleibt. Dies ist für manche Anwendungen wünschenswert, etwa Kamerafahrten, damit die Animation flüssig erscheint.
+
+Zum anderen gibt es wie schon erwähnt für die Zuordnung von Eulerschen Winkeln zu Rotationen zwei kritische Punkte, im Falle der $zyx$-Konvention bei $\beta = \pm \frac{\pi}{2}$, also bei einer Rotation von $90^\circ$ um die $y$-Achse. Setzt man $\frac{\pi}{2}$ in die Matrix ein, erhält man
+\begin{equation}
+\begin{split}
+ R_{zyx}{\left(\alpha, \frac{\pi}{2}, \gamma \right)}
+ & = 
+ \begin{pmatrix}
+  0 & 0 & -1 & 0 \\
+  \sin \alpha \cos \gamma - \cos \alpha \sin \gamma & \sin \alpha \sin \gamma + \cos \alpha \cos \gamma & 0 & 0 \\
+  \cos \alpha \cos \gamma + \sin \alpha \sin \gamma & \cos \alpha \sin \gamma - \sin \alpha \cos \gamma & 0 & 0 \\
+  0 & 0 & 0 & 1
+ \end{pmatrix} \\
+ & = 
+ \begin{pmatrix}
+  0 & 0 & -1 & 0 \\
+  \sin ( \alpha - \gamma ) &  \cos ( \alpha - \gamma ) & 0 & 0 \\
+  \cos ( \alpha - \gamma ) & -\sin ( \alpha - \gamma ) & 0 & 0 \\
+  0 & 0 & 0 & 1
+ \end{pmatrix}
+\end{split}
+\end{equation}
+
+Die Rotation hängt nun ausschließlich von der Differenz $\alpha - \gamma$ ab -- das System hat einen Freiheitsgrad eingebüßt! Es gibt jetzt unendlich viele Kombinationen von $\alpha$ und $\gamma$, die zu der gleichen Ausrichtung im Raum führen; die Abbildung der Eulerschen Winkel auf die Rotationsmatrizen ist also nicht injektiv.
+
+Dieses Problem tritt auch bei kardanischen Aufhängungen in der Mechanik auf, beispielweise bei Trägheitsnavigationssystemen\footnote{Ein echtes Problem ist der Gimbal Lock in der Raumfahrt, wo die kardanische Aufhängung tatsächlich Drehungen um alle drei Freiheitsgrade kompensieren muss. (\vgl irgendein NASA-Dokument)}. Es wird daher als \emph{Gimbal Lock} bezeichnet (engl. \emph{gimbal} bezeichnet einen Kardanring, zu Deutsch also etwa Kardanring-Blockade). In der Mechanik hat man oft die Möglichkeit, Situationen, die zu einem Gimbal Lock führen können, rechtzeitig zu erkennen und den Gimbal Lock zu vermeiden, etwa durch Änderung des Flugmanövers. In der 3D-Grafik ist dies aber nicht so leicht möglich, dewegen greift man normalerweise auf ein anderes Verfahren zurück, um Rotationen darzustellen.
+% Picture 'Gimbal lock in mechanics'?
 
 \subsection{Darstellung als Quaternion}
