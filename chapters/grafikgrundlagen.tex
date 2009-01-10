@@ -93,6 +93,7 @@ Die Grafikpipeline lässt sich in zwei Teile aufteilen: Zuerst erfolgen die Koor
 % In einer modernen Grafikkarte wird diese Aufgabe von programmierbaren \emph{Vertex Shardern} erledigt. In einer Grafikkarte sind hierfür die ebenfalls programmierbaren \emph{Pixel Shader} zuständig.
 
 \subsection{Koordinatentransformationen}
+\label{coordinatesystems}
 % Nur karthesische Koordinatensysteme
 % Vertical image: Geometry pipeline
 Wie schon in Abschnitt \ref{vertex} besprochen, wird jeder Körper aus Dreiecken zusammengesetzt, deren Eckpunkte durch Ortsvektoren angegeben werden. Die Koordinaten dieser Vektoren beziehen sich auf das \emph{Modellkoordinatensystem}, das nur für ein Objekt Gültigkeit hat. Ursprung und Einheiten dieses Systems können von dem Künstler, der die Modelle erstellt, im Prinzip beliebig gewählt werden\footnote{In der Praxis wird man natürlich versuchen, sinnvolle Werte zu wählen, also beispielsweise den Ursprung in die Mitte des Objektes zu legen und eine Einheit als einen Zentimeter zu interpretieren.}.

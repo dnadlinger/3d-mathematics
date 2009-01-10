@@ -1,24 +1,27 @@
-\begin{thebibliography}{2}
-% this bibliography was produced with the style dinat.bst v2.5
-\makeatletter
-\newcommand{\dinatlabel}[1]%
-{\ifNAT@numbers\else\NAT@biblabelnum{#1}\hspace{2\labelsep}\fi}
-\makeatother
-\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
-\expandafter\ifx\csname url\endcsname\relax\def\url#1{\texttt{#1}}\fi
+\begin{thebibliography}{Wik08}
 
-\bibitem[Koch(2008)]{quaternionrotation}
-\dinatlabel{Koch 2008} \textsc{Koch}, Thomas:
-\newblock \emph{Rotation mit Quaternionen in der Computergrafik},
-  Fachhochschule Gelsenkirchen, Diplomarbeit, Januar 2008
+\bibitem[Ebe02]{rotationissues}
+{\sc Eberly, David}: {\em Rotation Representations and Performance Issues},
+  Januar 2002.
+\newblock (Online; Stand 4. Januar 2009).
 
-\bibitem[Wikipedia(2008)]{wiki:grafikkarte}
-\dinatlabel{Wikipedia 2008} \textsc{Wikipedia}:
-\newblock \emph{Grafikkarte --- Wikipedia{,} Die freie Enzyklopädie}.
-\newblock 2008. --
-\newblock URL
-  \url{http://de.wikipedia.org/w/index.php?title=Grafikkarte&oldid=54372393}.
-  --
-\newblock [Online; Stand 3. Januar 2009]
+\bibitem[FF05]{script:spain}
+{\sc Formella, Arno} \btxandlong{}\ {\sc W.~D. Fellner}: {\em Grundlagen der
+  Computergrafik}, Vorlesung WS 2004/2005.
+\newblock (Online; Stand 4. Januar 2009).
+
+\bibitem[Koc08]{quaternionrotation}
+{\sc Koch, Thomas}: {\em Rotation mit Quaternionen in der Computergrafik}.
+\newblock \btxmastthesis{}, Fachhochschule Gelsenkirchen, Januar 2008.
+
+\bibitem[Sha00]{quaternionproof}
+{\sc Shankel, Jason}: {\em An Explanation of Quaternion Rotation in Euclidean
+  Space}, Oktober 2000.
+\newblock (Online; Stand 4. Januar 2009).
+
+\bibitem[Wik08]{wiki:grafikkarte}
+{\sc Wikipedia}: {\em Grafikkarte --- Wikipedia{,} Die freie Enzyklopädie},
+  2008.
+\newblock (Online; Stand 3. Januar 2009).
 
 \end{thebibliography}
