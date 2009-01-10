@@ -2,11 +2,11 @@
 %% Optionen zum Layout des Buchs                                     %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[
-%draft,				% überlangen Zeilen in Ausgabe gekennzeichnet
 appendixprefix,			% Anhang wird "Anhang" vor die Überschrift gesetzt
 parskip=half,
 DIV=12,
 BCOR=5mm,
+%draft,				% überlangen Zeilen in Ausgabe gekennzeichnet
 %12pt,				% Schriftgröße (12pt, 11pt (Standard))
 %BCOR1cm,			% Bindekorrektur, bspw. 1 cm
 %DIVcalc,			% führt die Satzspiegelberechnung neu aus (scrguide 2.4)
@@ -34,10 +34,10 @@ BCOR=5mm,
 \usepackage[babel,german=guillemets]{csquotes}
 \usepackage[T1]{fontenc}
 
-\usepackage[square]{natbib}
+\usepackage{bibgerm}
+\usepackage[square, numbers]{natbib}
 
 \usepackage{amsmath, amsthm, amssymb}
-
 
 \usepackage{graphicx} %%Zum Laden von Grafiken: .jpg .png .pdf .mps
 %\usepackage{subfig} %%Teilabbildungen in einer Abbildung
