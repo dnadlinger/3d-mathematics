@@ -2,13 +2,13 @@
 \BOOKMARK [0][-]{chapter.1}{Einleitung}{}
 \BOOKMARK [0][-]{chapter.2}{Mathematische Grundlagen}{}
 \BOOKMARK [1][-]{section.2.1}{Vektoren}{chapter.2}
-\BOOKMARK [2][-]{subsection.2.1.1}{Homogene Koordinaten}{section.2.1}
 \BOOKMARK [1][-]{section.2.2}{Matrizen}{chapter.2}
 \BOOKMARK [2][-]{subsection.2.2.1}{Addition}{section.2.2}
 \BOOKMARK [2][-]{subsection.2.2.2}{Multiplikation}{section.2.2}
-\BOOKMARK [2][-]{subsection.2.2.3}{Transposition}{section.2.2}
-\BOOKMARK [2][-]{subsection.2.2.4}{Determinante}{section.2.2}
-\BOOKMARK [2][-]{subsection.2.2.5}{Inverse Matrix}{section.2.2}
+\BOOKMARK [2][-]{subsection.2.2.3}{Transformation von Vektoren}{section.2.2}
+\BOOKMARK [2][-]{subsection.2.2.4}{Transposition}{section.2.2}
+\BOOKMARK [2][-]{subsection.2.2.5}{Determinante}{section.2.2}
+\BOOKMARK [2][-]{subsection.2.2.6}{Inverse Matrix}{section.2.2}
 \BOOKMARK [1][-]{section.2.3}{Quaternionen}{chapter.2}
 \BOOKMARK [0][-]{chapter.3}{Grundlagen der 3D-Grafik}{}
 \BOOKMARK [1][-]{section.3.1}{Modellierung}{chapter.3}

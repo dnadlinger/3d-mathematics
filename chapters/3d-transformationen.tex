@@ -8,9 +8,37 @@ Das Thema dieses Kapitels sind die Transformationen, die auf die Objekte angewen
 
 Neben den im Weiteren behandelten Transformationen, nämlich Skalierung, Translation und Rotation, sind in der Geometrie noch einige weitere Transformationen bekannt, etwa Scherung und Spiegelung, diese sind aber für die 3D-Grafik kaum relevant -- nicht zuletzt deshalb, weil sie in der realen Welt auch nicht so häufig vorkommen.
 
-Das Ziel der Repräsentation der Transformationen als Matrizen ist ja, eine durch Matrizenmultiplikation auf jeden Vektor einfach anwendbare Form parat zu haben. Deswegen darf in der Berechnung der Koeffizienten der Matrix nicht auf die konkreten Werte der Koordinaten bezug genommen werden -- die Variablen $x$, $y$, $z$ und $w$ sind im Ergebnis also tabu. Lineare Transformationen -- die gleiche Matrix $A$ auf alle Vektoren anwendbar: $T( \vec v ) = A \cdot v $.
+An dieser Stelle sei noch eine Eigenschaft von Transformationen im Bezug auf Normalvektoren erwähnt. Es ist in der 3D-Grafik oft erforderlich, bei der Transformation eines Objektes einen vorher berechneten Normalvektor ebenfalls zu transformieren. Es reicht nicht immer aus, einfach die gleiche Transformationsmatrix anzuwenden, beispielsweise bei der Scherung, die nicht winkeltreu ist. 
+% Drawing 'Normal vectors transformed'
+
+Es sei $\vec v$ ein Vektor zwischen zwei Punkten auf einer Ebene mit dem Normalvektor $n$. Offensichtlich gilt der Zusammenhang
+\begin{equation}
+ \vec n \cdot \vec v = 0,
+\end{equation}
+den man auch so anschreiben kann
+\begin{equation}
+ \vec{n}^T \cdot \vec{v'} = 0,
+\end{equation}
+wenn man die Vektoren als Matrizen auffasst. Es gilt dann natürlich auch
+\begin{equation}
+ \vec{n}^T \cdot M^{-1} \cdot M \cdot \vec{v'} = 0,
+\end{equation}
+die Matrix $M$ entspricht dabei der auf den Vektor angewendeten Transformation, aus welcher der Vektor $\vec{v'}$ hervorgeht:
+\begin{equation}
+ \left( \vec{n}^T \cdot M^{-1} \right) \cdot \vec{v'} = 0
+\end{equation}
+Wenn man den ersten Teil der Gleichung transponiert
+\begin{equation}
+ \left( \vec{n}^T \cdot M^{-1} \right)^T \cdot \vec{v'} = 0,
+\end{equation}
+erhält man mit Hilfe des Zusammenhangs aus Gleichung \ref{transpositionmultiplication} das Ergebnis
+\begin{equation}
+ \left( \left(M^{-1}\right)^T \cdot \vec{n} \right) \cdot \vec{v'} = 0.
+\end{equation}
+Der Normalvektor einer Fläche wird also transponiert, indem man ihn mit der \emph{transponierten Inversen der Transformationsmatrix} multipliziert. Die Länge des Vektors ist in den Bedingungen allerdings nicht enhalten -- wird ein Einheitsvektor gebraucht, muss das Ergebnis noch normalisiert werden.
 
 \section{Skalierung}
+\label{scaling}
 % Drawing 'Skalierung'
 Die erste und einfachste Transformation, die ich hier vorstellen möchte, ist die Skalierung.
 
@@ -79,6 +107,7 @@ In manchen Situationen möchte man ein Objekt nicht um den Koordinatenursprung, 
 Sonderfall Spiegelung.
 
 \section{Translation}
+\label{translation}
 Die nächste Transformation ist die Translation, also die Verschiebung von Objekten beziehungsweise des Koordinatenursprungs im Raum.
 
 Um alle Eckpunkte eines Objekts um den Vektor $\vec v$ zu verschieben, addiert man die beiden Vektoren einfach nach den Gesetzen der Vektorrechnung komponentenweise. Die gesuchte Translationsmatrix $T$ muss also die folgende Bedingung erfüllen:
@@ -289,8 +318,6 @@ fällt einem auf, dass die Inverse der Rotationsmatrix gleich ihrer Transponiert
 
 Beweis von http://mathworld.wolfram.com/RotationMatrix.html
 
-Verbindung zu transponierter Inversen bei Normalvektoren?
-
 \subsection{Eulersche Winkel}
 Die gerade behandelten Rotationsmatrizen sind auf Drehungen um die Koordinatenachsen beschränkt, aber natürlich lassen sich mehrere der Matrizen kombinieren, um jede beliebige Rotation ausdrücken zu können.
 
@@ -363,7 +390,7 @@ Dieses Problem tritt auch bei kardanischen Aufhängungen in der Mechanik auf, be
 % Picture 'Gimbal lock in mechanics'?
 
 \subsection{Herleitung über transformierte Basisvektoren}
-\label{matrixbasevectors}
+\label{rotationbasevectors}
 In den vorigen beiden Abschnitten haben wir die Konstruktion einer Rotationsmatrix ausgehend von einem oder mehreren Rotationswinkeln besprochen. In manchen Fällen kennt man aber bereits die \emph{Basisvektoren} des neuen Koordinatensystems (in den Koordinaten des alten Systems) und will eine Matrix aufstellen, um alle anderen Vektoren zu transformieren.
 
 Hat man drei linear unabhängige Vektoren im alten und im neuen (dreidimensionalen) Koordinatensystem gegeben, lässt sich die Transformationsmatrix $T$ für jede lineare Transformation bestimmen, indem man die Vektoren in die Gleichung $\vec{v'} = T \cdot \vec v$ einsetzt und das Gleichungssystem löst. Daraus ergeben sich allerdings neun Gleichungen in neun Variablen -- händisch eine nervige und für den Computer eine relativ rechenaufwändige Angelegenheit. Kennt man aber die transformierten \emph{kanonischen Basisvektoren}, $\begin{pmatrix} 1 & 0 & 0 \end{pmatrix}^T$, $\begin{pmatrix} 0 & 1 & 0 \end{pmatrix}^T$ und $\begin{pmatrix} 0 & 0 & 1 \end{pmatrix}^T$, vereinfachen sich die Gleichungen wesentlich:
@@ -549,7 +576,7 @@ Quaternionen stellen also wegen ihrer Beziehung zu Rotationswinkel und -achse ei
 
 Nachdem ja $\hat{x}'= q \cdot \hat{x} \cdot \overline{q}$ gilt, liegt es nahe, dass man auch nach einer Matrix suchen kann, für die $\vec{x}' = M \cdot \vec{x}$ gilt, die also bei entsprechender Interpretation von reinen Quaternionen als Vektoren die Bedingung $q \cdot \hat{x} \cdot \overline{q} = M \cdot \vec{x}$ erfüllt. Es gibt zahlreiche Wege, die Matrix direkt aus diesem Zusammenhang herzuleiten (\vgl \citep{quaternionrotation}, 56-58; \citep{script:spain}, 93-96), ich möchte aber stattdessen eine andere Möglichkeit zur Herleitung anführen, die leichter nachzuvollziehen ist.
 
-Wie in Abschnitt \ref{matrixbasevectors} besprochen, kann man eine Transformationsmatrix als Aneinanderreihung der transformierten kanonischen Basisvektoren aufstellen. Um eine Matrix aus einem Rotationsquaternion zu erzeugen, muss man also nur die drei Basisvektoren direkt transformieren und die Ergebnisse in die Matrix schreiben.
+Wie in Abschnitt \ref{rotationbasevectors} besprochen, kann man eine Transformationsmatrix als Aneinanderreihung der transformierten kanonischen Basisvektoren aufstellen. Um eine Matrix aus einem Rotationsquaternion zu erzeugen, muss man also nur die drei Basisvektoren direkt transformieren und die Ergebnisse in die Matrix schreiben.
 
 Dafür multiplizieren wir zunächst einmal die Rotationsformel aus und vereinfachen (\vgl \citep{quaternionrotation}, 52):
 \begin{equation}
