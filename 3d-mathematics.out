@@ -27,7 +27,6 @@
 \BOOKMARK [2][-]{subsection.4.3.2}{Eulersche Winkel}{section.4.3}
 \BOOKMARK [2][-]{subsection.4.3.3}{Herleitung \374ber transformierte Basisvektoren}{section.4.3}
 \BOOKMARK [2][-]{subsection.4.3.4}{Darstellung als Quaternion}{section.4.3}
-\BOOKMARK [2][-]{subsection.4.3.5}{SLERP und andere Interpolationsverfahren}{section.4.3}
 \BOOKMARK [0][-]{chapter.5}{Betrachtungstransformationen}{}
 \BOOKMARK [1][-]{section.5.1}{View Matrix}{chapter.5}
 \BOOKMARK [1][-]{section.5.2}{Projection Matrix}{chapter.5}

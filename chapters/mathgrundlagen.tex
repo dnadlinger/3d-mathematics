@@ -6,7 +6,7 @@ In den folgenden Abschnitten möchte ich die mathematischen Grundprinzipien beha
 % Kapitel über Vektoren
 % Wozu werden welche Vektoren verwendet? Erläuterung homogene Koordinaten. Schreibweisen von Vektoren.
 \section{Vektoren}
-Vektoren sind wohl die wichtigste Struktur in der 3D-Grafik. Sie werden nicht nur in ihrer dreidimensionalen Form eingesetzt, sondern auch in ihrer zweidimensionalen Ausprägung und um eine vierte Komponente erweitert als Vektoren mit homogenen Koordinaten (siehe Abschnitt \ref{homogenousmultiplication}).
+Vektoren sind wohl die wichtigste Struktur in der 3D-Grafik. Sie werden nicht nur in ihrer dreidimensionalen Form eingesetzt, sondern auch in ihrer zweidimensionalen Ausprägung und um eine vierte Komponente erweitert als Vektoren mit homogenen Koordinaten (siehe Abschnitt \ref{homogeneouscoordinates}).
 
 Trotz der universellen Verwendung gehen die benötigten Operationen nicht über den Schulstoff hinaus. Insbesondere das Skalarprodukt und das Kreuzprodukt werden sehr häufig benötigt, zum Beispiel um über den Zusammenhang
 % Wie 'flacher' setzen?
@@ -90,12 +90,12 @@ Ein Beispiel zur Veranschaulichung:
   8 & -9 \\
   -10 & 11
  \end{pmatrix}
- =
+ &=
  \begin{pmatrix}
   0 \cdot 6 + 1 \cdot 8 + 2 \cdot (-10) & 0 \cdot 7 + 1 \cdot (-9) + 2 \cdot 11 \\
   3 \cdot 6 + 4 \cdot 8 + 5 \cdot (-10) & 3 \cdot 7 + 4 \cdot (-9) + 5 \cdot 11
  \end{pmatrix}\\
- =
+ &=
  \begin{pmatrix}
   0 + 8 - 20 & 0 - 9 + 22 \\
   18 + 32 - 50 & 21 - 36 + 55
@@ -117,45 +117,27 @@ gilt. $E$ wird als \emph{Einheitsmatrix} bezeichnet und ist eine Diagonalmatrix,
 Die Multiplikation zweier Matrizen ist assoziativ, aber nicht kommutativ.
 
 \subsection{Transformation von Vektoren}
-Fasst man einen $n$-dimensionalen Spaltenvektor als $n \times 1$-Matrix auf, so kann die Multiplikation einer Matrix mit einem Vektor als Spezialfall der Matrizenmultiplikation gesehen werden. Das Ergebnis ist wiederum ein $n$-dimensionaler Vektor. Die Operation wird auch als \emph{Transformation} des Vektors bezeichnet, da in der Matrix Transformationen \enquote{gespeichert} sein können, die durch die Multiplikation auf den Vektor angewendet werden (siehe Kapitel \ref{transformation}).
-
-Eine Multiplikation mit der Einheitsmatrix verändert den Vektor naheliegenderweise nicht:
-
+Da ein $n$-dimensionaler Spaltenvektor ja im Grunde nichts anderes ist als eine $n \times 1$-Matrix, kann man natürlich auch eine Matrix mit einem Vektor multiplizieren. Wenn es sich dabei um eine quadratische $n \times n$-Matrix handelt, ist das Ergebnis wiederum ein $n$-dimensionaler Vektor. Rechnet man eine solche Multiplikation in ihrer allgemeinen Form aus
 \begin{equation}
  \begin{pmatrix}
-  1 & 0 & 0 & 0 \\
-  0 & 1 & 0 & 0 \\
-  0 & 0 & 1 & 0 \\
-  0 & 0 & 0 & 1
- \end{pmatrix}
- \cdot
+  m_{11} & m_{12} & m_{13} \\
+  m_{21} & m_{22} & m_{23} \\
+  m_{31} & m_{32} & m_{33}
+ \end{pmatrix} \cdot
  \begin{pmatrix}
-  2 \\
-  3 \\
-  4 \\
-  1
- \end{pmatrix}
- =
+  x \\ y \\ z
+ \end{pmatrix} =
  \begin{pmatrix}
-  1 \cdot 2 + 0 \cdot 3 + 0 \cdot 4 + 0 \cdot 1 \\
-  0 \cdot 2 + 1 \cdot 3 + 0 \cdot 4 + 0 \cdot 1 \\
-  0 \cdot 2 + 0 \cdot 3 + 1 \cdot 4 + 0 \cdot 1 \\
-  0 \cdot 2 + 0 \cdot 3 + 0 \cdot 4 + 1 \cdot 1
- \end{pmatrix}
- =
- \begin{pmatrix}
-  2 \\
-  3 \\
-  4 \\
-  1
- \end{pmatrix}
+  m_{11} \cdot x + m_{12} \cdot y + m_{13} \cdot z \\
+  m_{21} \cdot x + m_{22} \cdot y + m_{23} \cdot z \\
+  m_{31} \cdot x + m_{32} \cdot y + m_{33} \cdot z
+ \end{pmatrix},
 \end{equation}
+so bemerkt man, dass die Zeilen der Matrix jeweils die Koeffizienten einer Linearkombination der Komponenten des Vektors darstellen. Es kann daher jede lineare Abbildung zwischen zwei (endlichdimensionalen) Vektorräumen als Matrix dargestellt werden. Die Multiplikation einer Matrix mit einem Vektor wird aus diesem Grund auch als \emph{Transformation} des Vektors bezeichnet. Wie man auch leicht durch Einsetzen überprüfen kann, ändert eine Multiplikation mit der Einheitsmatrix den Vektor naheliegenderweise nicht.
+% http://de.wikipedia.org/wiki/Lineare_Abbildung
 
-Herleitung der Zusammenfassung mehrerer Transformationen.
-
-Homogene Koordinaten sind Koordinaten, die um eine zusätzliche Dimension -- meistens wird sie mit $w$ bezeichnet -- erweitert wurden. Das Pendant mit homogenen Koordinaten zu einem dreidimensionalen Vektor ist also ein Vektor im $\mathbb{R}^4$.
-
-Homogene Koordinaten dienen dazu, alle \emph{affinen Transformationen} eines Vektors durch eine Linearkombination seiner Koordinaten darstellen zu können. Ansonsten wäre man auf lineare Transformationen beschränkt, wenn eine Transformation über gleiche Koeffizienten der Linearkombination auf mehrere Vektoren angewendet werden soll (siehe Abschnitt \ref{homogenousmultiplication}).
+\label{homogeneouscoordinates}
+Allerdings reicht eine Linearkombination der Komponenten nicht aus, um alle in der 3D-Grafik benötigten Transformationen darzustellen -- manchmal ist es nötig, alle Komponenten des Vektors durch eine von ihnen zu dividieren oder von den Komponenten unabhängige Werte zu addieren. Um auch diesen größeren Raum der \emph{affinen Transformationen} in Matrixform darstellen zu können, bedient man sich eines Tricks und erweitert den Vektor um eine zusätzliche Dimension, die meistens mit $w$ bezeichnet wird. Man erhält die sogenannten \emph{homogenen Koordinaten} -- das Pendant mit homogenen Koordinaten zu einem dreidimensionalen Vektor ist also ein Vektor im $\mathbb{R}^4$.
 
 Um einen Vektor mit \enquote{normalen} kartesischen Koordinaten in einen Vektor mit homogenen Koordinaten zu überführen, setzt man einfach $w = 1$:
 \begin{equation}
@@ -169,15 +151,18 @@ Für den umgekehrten Fall dividiert man zuerst alle Komponenten durch $w$:
 Danach kann man aus den ersten drei Komponenten des Vektors wieder einen Vektor mit kartesischen Koordinaten bilden, $w$ kann also einfach weggelassen werden.
 % Beispiele nach http://de.wikipedia.org/wiki/Homogene_Koordinaten
 
-In der Grafikprogrammierung werden homogenen Koordinaten nur dort verwendet, wo sie gebraucht werden, um bestimmte Operationen auszuführen, etwa bei der Multiplikationen von Matrizen mit Vektoren. Bei allen anderen Berechnungen wird mit kartesischen Koordinaten gearbeitet, zwischen den beiden Koordinatentypen wird nach Bedarf hin- und hergesprungen. Auch wenn diese Vorgehensweise aus mathematischer Sicht nicht konsequent ist, stellt sie in der Praxis einen sinnvollen Kompromiss zwischen Performance\footnote{Performance: Leistung bzw. Geschwindigkeit eines Computerprogramms} und Flexibilität dar.
+In der Grafikprogrammierung werden homogenen Koordinaten meist nur dort verwendet, wo sie gebraucht werden, wenn also affine Transformationen durchgeführt werden sollen. Bei allen anderen Berechnungen wird mit kartesischen Koordinaten gearbeitet, zwischen den beiden Koordinatentypen wird nach Bedarf hin- und hergesprungen. Auch wenn diese Vorgehensweise aus mathematischer Sicht nicht konsequent ist, stellt sie in der Praxis einen sinnvollen Kompromiss zwischen Performance\footnote{Performance: Leistung bzw. Geschwindigkeit eines Computerprogramms} und Flexibilität dar.
 
 % Hyperebene: Eberly (3D game engine design), S. 9 (2.1.4 Homogeneous Transformations)
 % Verwendung von w in Robotik-Matrizen?
 
-\label{homogenousmultiplication}
-% Das Ziel der Repräsentation der Transformationen als Matrizen ist ja, eine durch Matrizenmultiplikation auf jeden Vektor einfach anwendbare Form parat zu haben. Deswegen darf in der Berechnung der Koeffizienten der Matrix nicht auf die konkreten Werte der Koordinaten bezug genommen werden -- die Variablen $x$, $y$, $z$ und $w$ sind im Ergebnis also tabu. Lineare Transformationen -- die gleiche Matrix $A$ auf alle Vektoren anwendbar: $T( \vec v ) = A \cdot v $.
-Jetzt wird auch der Hintergrund der Verwendung von homogenen Koordinaten klarer: Wenn eine Matrix auf mehrere Vektoren angewendet werden soll, dann könnten ohne diese nur lineare Abbildungen dargestellt werden. Für die Darstellung aller \emph{affinen Transformationen} wäre ein zusätzlicher Schritt notwendig, beispielsweise die Addition eines Vektors: $\vec{x'} = A \cdot \vec{x} + \vec{b}$. Durch die Verwendung von homogenen Koordinaten können diese Schritte in einer Matrix zusammengefasst werden. Außerdem sind Berechnungen wie Projektionen möglich, die eine \emph{Division} aller Koordinaten durch eine der Koordinaten beziehungsweise durch eine Linearkombination der Koordinaten erfordern (siehe Kapitel \ref{projection}).
+Die Darstellung von Transformationen als Matrizen hat den großen Vorteil, dass beliebig viele Transformationen mittels Multiplikation in eine Matrix kombiniert werden können, die dann wiederum auf viele Vektoren angewendet werden kann. Dies ist möglich, weil die Matrizenmultiplikation assoziativ ist:
+\begin{equation}
+ \left( M_3 \cdot \left( M_2 \cdot \left( M_1 \cdot \vec v \right) \right) \right) = \left( M_3 \cdot M_2 \cdot M_1 \right) \cdot \vec v
+\end{equation} 
 
+Durch diese Universalität von Matrizen ist es möglich, bestimmte zeitintensive Berechnungen in der Computergrafik sehr effizient zu gestalten (siehe Kapitel \ref{coordinatesystems}).
+% Citation?!
 
 \subsection{Transposition}
 \label{transposition}
@@ -397,19 +382,19 @@ Für $i$, $j$ und $k$ gilt der Zusammenhang
 \end{equation} 
 der auch als Hamilton'sche Regel bekannt ist.
 
-Zwischen den drei imaginären Einheiten besteht eine zyklische Abhängigkeit, es gilt:
+Zwischen den drei imaginären Einheiten besteht eine zyklische Abhängigkeit:
 \begin{align}
  i \cdot j = -j \cdot i &= k \\
  j \cdot k = -k \cdot j &= i \\
  k \cdot i = -i \cdot k &= j
 \end{align}
-Die Multiplikation der imaginären Einheiten ist also nicht kommutativ!
+Die Multiplikation der imaginären Einheiten und damit auch der Quaternionen generell ist also nicht kommutativ!
 
 Der (reelle) Betrag einer Quaternion ist analog zu den komplexen Zahlen und den Vektoren als 
 \begin{equation}
- \lvert q \rvert = \sqrt{w^2 + x^2 + y^2 + z^2}
+ \left| q \right| = \sqrt{w^2 + x^2 + y^2 + z^2}
 \end{equation}
-definiert. Eine Quaternion mit $\lvert q \rvert = 1$ wird als \emph{Einheitsquaternion} bezeichnet.
+definiert. Eine Quaternion mit $\left| q \right| = 1$ wird als \emph{Einheitsquaternion} bezeichnet.
 
 Wie schon durch die Zeichen $x$, $y$ und $z$ angedeutet, kann man eine Quaternion auch als Struktur mit einem \emph{skalaren Anteil} $w$ und einem \emph{vektoriellen Anteil} $\begin{pmatrix} x & y & z \end{pmatrix}^T$ gesehen werden. Eine alternative Schreibweise für die Quaternion $q = w + v_{x}i + v_{y}j + v_{z}k$ lautet daher $\left[w; \vec v \right]$. Quaternionen mit dem Realteil 0 heißen auch \emph{reine Quaternionen}, eine reine Quaternion $q = 0 + v_{x}i + v_{y}j + v_{z}$ kann jederzeit als Vektor $ \vec v = \begin{pmatrix} x & y & z \end{pmatrix}^T \in \mathbb R^3$ ausgedrückt werden und umgekehrt. Die einem Vektor $\vec v$ zugeordnete reine Quaternion wird als $\hat{v}$ abgekürzt. (\vgl \citep{script:spain}, 92 und \citep{rotationissues}, 4)
 
@@ -417,7 +402,7 @@ Die konjugierte Quaternion zu einer Quaternion $q = w + v_{x}i + v_{y}j + v_{z}k
 \begin{equation}
  \overline{q} = w - v_{x}i - v_{y}j - v_{z}k = \left[ w; -\vec v \right]
 \end{equation}
-definiert. Die Konjugation dreht also den Vektorteil der Quaternion um, lässt den Skalarteil aber unverändert.
+definiert. Die Konjugation ändert also das Vorzeichen des Vektorteil der Quaternion, lässt den Skalarteil aber unverändert.
 
 Zwei Quaternionen $q_1$ und $q_2$ werden \emph{addiert} und \emph{subtrahiert}, indem man so wie bei Vektoren und komplexen Zahlen die einzelnen Koeffizienten addiert bzw. subtrahiert:
 \begin{equation}
@@ -468,7 +453,7 @@ fällt auf, dass der gesamte Imaginärteil des Ergebnisses Null wird. Übrig ble
 \begin{split}
  q \cdot \overline{q} &= w \cdot w + \vec v \cdot \vec v \\
  &= w^2 + x^2 + y^2 + z^2 \\
- &= \lvert q \rvert
+ &= \left| q \right|
 \end{split}
 \end{equation}
 
@@ -478,7 +463,7 @@ Die \emph{Division} ist für Quaternionen nicht definiert, aber analog zu den Ma
 \end{equation}
 Diese \emph{Inverse} einer Quaternion $q$ ist als
 \begin{equation}
- q^{-1} = \frac{1}{\lvert q \rvert} \cdot \overline{q}
+ q^{-1} = \frac{1}{\left| q \right|} \cdot \overline{q}
 \end{equation}
 definiert. Für den speziellen Fall, dass der Betrag einer Quaternion $1$ ist, es sich also um eine Einheitsquaternionen handelt, gilt also:
 \begin{equation}

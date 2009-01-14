@@ -19,7 +19,7 @@ den man auch so anschreiben kann
 \begin{equation}
  \vec{n}^T \cdot \vec{v'} = 0,
 \end{equation}
-wenn man die Vektoren als Matrizen auffasst. Es gilt dann natürlich auch
+wenn man die Vektoren als Matrizen auffasst. (\vgl \citep{script:german}, 155) Es gilt dann natürlich auch
 \begin{equation}
  \vec{n}^T \cdot M^{-1} \cdot M \cdot \vec{v'} = 0,
 \end{equation}
@@ -139,7 +139,7 @@ Beim Aufstellen der Teilgleichungen (hier exemplarisch für die $y$-Koordinate) 
 \end{split}
 \end{equation}
 
-Anscheinend gibt es keinen Weg, um die für die Translation nötigen Koeffizienten zu berechnen, ohne die Koordinaten des Vektors zu kennen, der transformiert werden soll. Genau das ist aber Voraussetzung, um die Matrix für mehrere Vektoren verallgemeinern zu können!
+Anscheinend gibt es keinen Weg, um die für die Translation nötigen Koeffizienten zu berechnen, ohne die Koordinaten des Vektors zu kennen, der transformiert werden soll. Genau das ist aber Voraussetzung, um die Matrix für mehrere Vektoren verallgemeinern zu können -- die Translation ist offensichtlich keine lineare Transformation!
 
 Der Ausweg aus diesem Dilemma liegt in der Verwendung von homogenen Koordinaten. $w$ hat ja nicht irgendeinen beliebigen Wert, sondern (zumindest vor der Transformation) den Wert 1. Die dementsprechend geänderten Bedingungen für die Translationsmatrix lauten:
 \begin{equation}
@@ -396,7 +396,7 @@ In den vorigen beiden Abschnitten haben wir die Konstruktion einer Rotationsmatr
 Hat man drei linear unabhängige Vektoren im alten und im neuen (dreidimensionalen) Koordinatensystem gegeben, lässt sich die Transformationsmatrix $T$ für jede lineare Transformation bestimmen, indem man die Vektoren in die Gleichung $\vec{v'} = T \cdot \vec v$ einsetzt und das Gleichungssystem löst. Daraus ergeben sich allerdings neun Gleichungen in neun Variablen -- händisch eine nervige und für den Computer eine relativ rechenaufwändige Angelegenheit. Kennt man aber die transformierten \emph{kanonischen Basisvektoren}, $\begin{pmatrix} 1 & 0 & 0 \end{pmatrix}^T$, $\begin{pmatrix} 0 & 1 & 0 \end{pmatrix}^T$ und $\begin{pmatrix} 0 & 0 & 1 \end{pmatrix}^T$, vereinfachen sich die Gleichungen wesentlich:
 
 \begin{equation}
- T \cdot \begin{pmatrix} 1 \\ 0 \\ 0 \end{pmatrix} = \begin{pmatrix} x_x \\ x_y \\ x_z \end{pmatrix} \\
+ T \cdot \begin{pmatrix} 1 \\ 0 \\ 0 \end{pmatrix} = \begin{pmatrix} x_x \\ x_y \\ x_z \end{pmatrix} \qquad 
 \begin{aligned}
  1 \cdot t_{11} + 0 \cdot t_{12} + 0 \cdot t_{13} = t_{11} &= x_x \\
  1 \cdot t_{21} + 0 \cdot t_{22} + 0 \cdot t_{23} = t_{21} &= x_y \\
@@ -405,7 +405,7 @@ Hat man drei linear unabhängige Vektoren im alten und im neuen (dreidimensional
 \end{equation}
 
 \begin{equation}
- T \cdot \begin{pmatrix} 0 \\ 1 \\ 0 \end{pmatrix} = \begin{pmatrix} y_x \\ y_y \\ y_z \end{pmatrix} \\
+ T \cdot \begin{pmatrix} 0 \\ 1 \\ 0 \end{pmatrix} = \begin{pmatrix} y_x \\ y_y \\ y_z \end{pmatrix} \qquad
 \begin{aligned}
  0 \cdot t_{11} + 1 \cdot t_{12} + 0 \cdot t_{13} = t_{12} &= y_x \\
  0 \cdot t_{21} + 1 \cdot t_{22} + 0 \cdot t_{23} = t_{22} &= y_y \\
@@ -414,7 +414,7 @@ Hat man drei linear unabhängige Vektoren im alten und im neuen (dreidimensional
 \end{equation}
 
 \begin{equation}
- T \cdot \begin{pmatrix} 0 \\ 0 \\ 1 \end{pmatrix} = \begin{pmatrix} z_x \\ z_y \\ z_z \end{pmatrix} \\
+ T \cdot \begin{pmatrix} 0 \\ 0 \\ 1 \end{pmatrix} = \begin{pmatrix} z_x \\ z_y \\ z_z \end{pmatrix} \qquad
 \begin{aligned}
  0 \cdot t_{11} + 0 \cdot t_{12} + 1 \cdot t_{13} = t_{13} &= z_x \\
  0 \cdot t_{21} + 0 \cdot t_{22} + 1 \cdot t_{23} = t_{23} &= z_y \\
@@ -447,7 +447,7 @@ In Worten ausgedrückt, enthält eine Transformationsmatrix also in ihren Spalte
 \subsection{Darstellung als Quaternion}
 Wie schon bei der Einführung der Quaternionen in Kapitel \ref{quaternionmath} erwähnt, können Quaternionen als Verbindung eines Skalars und eines dreidimensionalen Vektors aufgefasst werden, wobei der Realteil $w$ den Skalar und der Imaginärteil $xi + yj + zk$ den Vektor $\begin{pmatrix}x & y & z\end{pmatrix}^T$ darstellt. Sie eigenen sich deshalb gut für die Darstellung einer Rotation um einen bestimmten Winkel um eine beliebige Achse -- der Rotationswinkel entspricht dem Realteil, die Rotationsachse dem Imaginärteil.
 
-Um mit der Hilfe von Quaternionen die Rotation eines Vektors $\vec x$ um den Winkel $2 \phi$ mit der Achse $\vec n$ durchzuführen, bildet man zunächst die Quaternion $q = \left[ \cos \phi; \vec n \cdot \sin \phi \right]$. Das Ergebnis der Rotation lautet dann $q \cdot \hat{x} \cdot \overline{q}$. Der Vektor $\vec x$ wird hier, wie in Kapitel \ref{quaternionmath} besprochen, als reine Quaternion behandelt. Das Ergebnis der Berechnung ist ebenfalls wieder eine reine Quaternion, kann also wieder als dreidimensionaler Vektor aufgefasst werden. So lautet die Rotationsformel (mit $\lvert n \rvert = 1$) schließlich:
+Um mit der Hilfe von Quaternionen die Rotation eines Vektors $\vec x$ um den Winkel $2 \phi$ mit der Achse $\vec n$ durchzuführen, bildet man zunächst die Quaternion $q = \left[ \cos \phi; \vec n \cdot \sin \phi \right]$. Das Ergebnis der Rotation lautet dann $q \cdot \hat{x} \cdot \overline{q}$. Der Vektor $\vec x$ wird hier, wie in Kapitel \ref{quaternionmath} besprochen, als reine Quaternion behandelt. Das Ergebnis der Berechnung ist ebenfalls wieder eine reine Quaternion, kann also wieder als dreidimensionaler Vektor aufgefasst werden. So lautet die Rotationsformel (mit $\left| n \right| = 1$) schließlich:
 \begin{equation}
  \hat{x}' = \left[ \cos \phi; \vec n \cdot \sin \phi \right] \cdot \hat{x} \cdot \left[ \cos \phi; -\vec n \cdot \sin \phi \right]
 \end{equation}
@@ -496,7 +496,7 @@ Wir setzen nun den Zusammenhang aus \ref{equality1} in Gleichung \ref{quaternion
 \begin{split}
  \label{step1}
  \hat{v_1} \cdot \overline{\hat{v_0}} \cdot \hat{v_0} \cdot \overline{q} &= \hat{v_2} \\
- \hat{v_1} \cdot \lvert \hat{v_0} \rvert \cdot \overline{q} &= \hat{v_2}
+ \hat{v_1} \cdot \left| \hat{v_0} \right| \cdot \overline{q} &= \hat{v_2}
 \end{split}
 \end{equation}
 
@@ -518,7 +518,7 @@ Nachdem $\hat{v_1}$ eine reine Quaternion und $v_1$ ein Einheitsvektor ist, vere
 \begin{equation}
 \begin{split}
  \hat{v_1} \cdot \hat{v_1} &= \left[ \left( 0 - \vec{v_1} \cdot \vec{v_1} \right); \vec{v_1} \times \vec{v_1} + 0 \cdot \vec{v_1} + 0 \cdot \vec{v_1} \right] \\
- &= \left[ -\lvert \vec{v_1} \rvert; \vec 0 \right] \\
+ &= \left[ -\left| \vec{v_1} \right|; \vec 0 \right] \\
  &= -1
 \end{split}
 \end{equation}
@@ -542,7 +542,7 @@ Für $q$ eingesetzt:
  \left[ ( \vec{v_0} \cdot \vec{v_1} ); \vec{v_0} \times \vec{v_1} \right] \cdot \hat{v_0} \cdot \left[ ( \vec{v_0} \cdot \vec{v_1} ); -(\vec{v_0} \times \vec{v_1} ) \right] = \hat{v_2}
 \end{equation*} 
 
-Unter Beachtung der Zusammenhänge $\vec a \cdot \vec b = \lvert a \rvert \cdot \lvert b \rvert \cdot \cos \phi$ und $\lvert \vec a \times \vec b \rvert = \lvert a \rvert \cdot \lvert b \rvert \cdot \sin \phi$ und der Tatsache, dass $\vec{v_0}$ und $\vec{v_1}$ Einheitsvektoren sind, können wir nun einsetzen:
+Unter Beachtung der Zusammenhänge $\vec a \cdot \vec b = \left| a \right| \cdot \left| b \right| \cdot \cos \phi$ und $\left| \vec a \times \vec b \right| = \left| a \right| \cdot \left| b \right| \cdot \sin \phi$ und der Tatsache, dass $\vec{v_0}$ und $\vec{v_1}$ Einheitsvektoren sind, können wir nun einsetzen:
 \begin{equation}
  \left[ \cos \phi; \vec n \cdot \sin \phi \right] \cdot \hat{v_0} \cdot \left[ \cos \phi; -\vec n \cdot \sin \phi \right] = \hat{v_2}
 \end{equation}
@@ -551,7 +551,7 @@ Nun brauchen wir nur noch beide Seiten mit einem beliebigen Skalar $a$ zu multip
 \begin{equation}
 \begin{split}
  \left[ \cos \phi; \vec n \cdot \sin \phi \right] \cdot a \cdot \hat{v_0} \cdot \left[ \cos \phi; -\vec n \cdot \sin \phi \right] &= a \cdot \hat{v_2} \\
- \left[ \cos \phi; \vec n \cdot \sin \phi \right] \cdot \hat{x} \cdot \left[ \cos \phi; -\vec n \cdot \sin \phi \right] &= \hat{x}' \qed
+ \left[ \cos \phi; \vec n \cdot \sin \phi \right] \cdot \hat{x} \cdot \left[ \cos \phi; -\vec n \cdot \sin \phi \right] &= \hat{x}'
 \end{split}
 \end{equation}
 
@@ -567,7 +567,7 @@ schreiben können, was wir gleich zu
 \begin{equation}
 \begin{split}
  \hat{x}' &= ( q_3 \cdot q_2 \cdot q_1 ) \cdot \hat{x} \cdot \overline{( q_3 \cdot q_2 \cdot q_1 )} \\
- &= q \cdot \hat{x} \cdot \overline{q} \qed
+ &= q \cdot \hat{x} \cdot \overline{q}
 \end{split}
 \end{equation} 
 vereinfachen können, da sich die Quaternionenmultiplikation ja bezüglich der Konjugation distributiv unter Vertauschung der Reihenfolge verhält (siehe Gleichung \ref{quaternionconjugationmultiplication}).
@@ -652,4 +652,4 @@ beziehungsweise zur Verwendung mit homogenen Koordinaten
  \end{pmatrix}.
 \end{equation}
 
-\subsection{SLERP und andere Interpolationsverfahren}
+%\subsection{SLERP und andere Interpolationsverfahren}
