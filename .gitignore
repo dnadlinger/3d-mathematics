@@ -7,3 +7,6 @@
 *.tcp
 *.tps
 *.log
+*.bbl
+*.lof
+*.out
