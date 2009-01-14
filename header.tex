@@ -1,50 +1,49 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Optionen zum Layout des Buchs                                     %%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[
-appendixprefix,			% Anhang wird "Anhang" vor die Überschrift gesetzt
-parskip=half,
 DIV=12,
 BCOR=5mm,
-%draft,				% überlangen Zeilen in Ausgabe gekennzeichnet
-%12pt,				% Schriftgröße (12pt, 11pt (Standard))
-%BCOR1cm,			% Bindekorrektur, bspw. 1 cm
-%DIVcalc,			% führt die Satzspiegelberechnung neu aus (scrguide 2.4)
-%oneside,			% einseitiges Layout
-%openany,			% Kapitel können auch auf linken Seiten beginnen
-%headsepline,			% Trennline zum Seitenkopf
-%footsepline,			% Trennline zum Seitenfuß
-%notitlepage,			% in-page-Titel, keine eigene Titelseite
-%chapterprefix,			% vor Kapitelüberschrift wird "Kapitel Nummer" gesetzt
-%normalheadings,		% Überschriften etwas kleiner (smallheadings)
-%idxtotoc,			% Index im Inhaltsverzeichnis
-%liststotoc,			% Abb.- und Tab.verzeichnis im Inhalt
-%bibtotoc,			% Literaturverzeichnis im Inhalt
-%leqno,				% Nummerierung von Gleichungen links
-%fleqn				% Ausgabe von Gleichungen linksbündig
+11pt,
+parskip=half,
+%appendixprefix,
+%draft
 ]
 {scrbook}
 
 \usepackage{fancyhdr}
 %\pagestyle{fancy}
 
-%% Deutsche Anpassungen %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% German language settings
 \usepackage[ngerman]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[babel,german=guillemets]{csquotes}
-\usepackage[T1]{fontenc}
 
+% Bibliography
 \usepackage{bibgerm}
 \usepackage[square, numbers]{natbib}
 
-\usepackage{amsmath, amsthm, amssymb}
+% Font settings
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage{microtype}
+\usepackage[fullfamily,opticals,footnotefigures,mathlf,mathtabular]{MinionPro}
+\renewcommand{\sfdefault}{\rmdefault}
+\usepackage[toc,bib]{tabfigures}
+%\usepackage{amsmath, amsthm, amssymb}
+
+%\renewcommand{\thefootnote}{\fnsymbol{footnote}}
 
 \usepackage{graphicx} %%Zum Laden von Grafiken: .jpg .png .pdf .mps
 %\usepackage{subfig} %%Teilabbildungen in einer Abbildung
 %\usepackage{pst-all} %%PSTricks - nicht verwendbar mit pdfLaTeX
 
-% PDF-Inhaltsverzeichnis und Links
-\usepackage[colorlinks,linkcolor=blue]{hyperref}
+% TOC and links in PDF
+\usepackage[pdftex]{hyperref}
+\hypersetup{
+  colorlinks,
+  citecolor=black,
+  filecolor=black,
+  linkcolor=black,
+  urlcolor=black
+}
 
 %\newcommand{\path}[1]{\texttt{#1}}
 \newcommand{\adj}[1]{\operatorname{adj}#1}
