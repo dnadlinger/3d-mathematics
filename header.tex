@@ -38,12 +38,26 @@ parskip=half,
 % TOC and links in PDF
 \usepackage[pdftex]{hyperref}
 \hypersetup{
-  colorlinks,
-  citecolor=black,
-  filecolor=black,
-  linkcolor=black,
-  urlcolor=black
+    bookmarks=true,         % show bookmarks bar?
+    unicode=true,          % non-Latin characters in Acrobat’s bookmarks
+    pdftoolbar=true,        % show Acrobat’s toolbar?
+    pdfmenubar=true,        % show Acrobat’s menu?
+    pdffitwindow=false,     % window fit to page when opened
+    pdfstartview={FitH},    % fits the width of the page to the window
+    pdftitle={Mathematische Grundlagen der 3D-Grafik},    % title
+    pdfauthor={David Nadlinger},     % author
+    pdfsubject={Mathematik/3D-Grafik},   % subject of the document
+%    pdfcreator={Creator},   % creator of the document
+%    pdfproducer={Producer}, % producer of the document
+%    pdfkeywords={keywords}, % list of keywords
+    pdfnewwindow=true,      % links in new window
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=black,          % color of internal links
+    citecolor=black,        % color of links to bibliography
+    filecolor=black,      % color of file links
+    urlcolor=black           % color of external links
 }
+
 
 %\newcommand{\path}[1]{\texttt{#1}}
 \newcommand{\adj}[1]{\operatorname{adj}#1}
