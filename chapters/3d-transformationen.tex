@@ -39,7 +39,14 @@ Der Normalvektor einer Fläche wird also transponiert, indem man ihn mit der \em
 
 \section{Skalierung}
 \label{scaling}
-% Drawing 'Skalierung'
+
+\begin{wrapfigure}{r}{0.5\textwidth}
+  \vspace{-10pt}
+  \includegraphics[width=0.49\textwidth]{scaling}
+  \vspace{-10pt}
+  \caption{Isotrope Skalierung eines Dreiecks um den Faktor $\lambda$.}
+\end{wrapfigure}
+
 Die erste und einfachste Transformation, die ich hier vorstellen möchte, ist die Skalierung.
 
 Um ein Objekt zu skalieren, multipliziert man die Koordinaten seiner Eckpunkte jeweils mit einem Skalierungsfaktor $\lambda_i$. Gesucht ist also eine Matrix $S$, für die gilt:
@@ -108,6 +115,13 @@ Sonderfall Spiegelung.
 
 \section{Translation}
 \label{translation}
+
+\begin{wrapfigure}{r}{0.5\textwidth}
+  \includegraphics[width=0.49\textwidth]{translation}
+  \vspace{-10pt}
+  \caption{Translation um $\vec v$.}
+\end{wrapfigure}
+
 Die nächste Transformation ist die Translation, also die Verschiebung von Objekten beziehungsweise des Koordinatenursprungs im Raum.
 
 Um alle Eckpunkte eines Objekts um den Vektor $\vec v$ zu verschieben, addiert man die beiden Vektoren einfach nach den Gesetzen der Vektorrechnung komponentenweise. Die gesuchte Translationsmatrix $T$ muss also die folgende Bedingung erfüllen:
@@ -211,7 +225,15 @@ Dieser Zusammenhang mag trivial erscheinen, aber aus Gleichung \ref{translationa
 Die Herleitung der dritten und letzten der hier behandelten Transformationen, der Rotation, ist etwas schwieriger als die vorangegangenen. Am einfachsten ist es, sich zunächst auf die Rotation um eine der Koordinatenachsen zu beschränken, im Folgenden wollen wir zunächst die \emph{Rotation um die z-Achse}, also in der \emph{$xy$-Ebene} betrachten.
 
 \subsection{Rotation um die Koordinatenachsen}
-Abbildung X zeigt einen Vektor $\vec p = \begin{pmatrix} x & y & z \end{pmatrix}^T$. Nach der Rotation um den Winkel $\gamma$ um die $z$-Achse ergibt sich der Vektor $\vec{p'} = \begin{pmatrix} x' & y' & z' \end{pmatrix}^T$.
+
+\begin{wrapfigure}{r}{0.5\textwidth}
+  \includegraphics[width=0.49\textwidth]{rotation}
+  \vspace{-10pt}
+  \caption{Rotation um die $z$-Achse.}
+  \label{zrotation}
+\end{wrapfigure}
+
+Abbildung \ref{zrotation} zeigt einen Vektor $\vec p = \begin{pmatrix} x & y & z \end{pmatrix}^T$. Nach der Rotation um den Winkel $\gamma$ um die $z$-Achse ergibt sich der Vektor $\vec{p'} = \begin{pmatrix} x' & y' & z' \end{pmatrix}^T$.
 
 Da die Rotation in der $xy$-Ebene stattfindet, ändert sich die $z$-Koordinate des Vektors nicht. Es gilt also
 \begin{equation}
@@ -451,6 +473,13 @@ Um mit der Hilfe von Quaternionen die Rotation eines Vektors $\vec x$ um den Win
  \hat{x}' = \left[ \cos \phi; \vec n \cdot \sin \phi \right] \cdot \hat{x} \cdot \left[ \cos \phi; -\vec n \cdot \sin \phi \right]
 \end{equation}
 
+\begin{wrapfigure}{r}{0.5\textwidth}
+  \vspace{-10pt}
+  \includegraphics[width=0.49\textwidth]{quatrotation}
+  \vspace{-10pt}
+  \caption{Rotation um die Achse $\vec{v_0} \times \vec{v_1}$.}
+\end{wrapfigure}
+
 Um zu beweisen, dass die oben abgebildete Formel wirklich eine Rotation des Vektors darstellt, betrachten wir zunächst einmal drei Einheitsvektoren $\vec{v_0}$, $\vec{v_1}$ und $\vec{v_2}$ aus dem $\mathbb R^3$ (\vgl \citep{quaternionproof}). Sie sind koplanar und bilden jeweils den Winkel $\phi$. Es gilt daher:
 \begin{align}
  \vec{v_0} \cdot \vec{v_1} = \vec{v_1} \cdot \vec{v_2} = \cos \phi \label{dotsame} \\
@@ -460,7 +489,7 @@ $\vec{v_2}$ ensteht also durch eine Rotation von $\vec{v_0}$ um den Winkel $2 \p
 
 Wir definieren nun die Quaternion $q$ über $\vec{v_0}$ und $\vec{v_1}$:
 \begin{equation}
- q = \left[ ( \vec{v_0} \cdot \vec{v_1} ); \vec{v_0} \times \vec{v_1} \right]
+ q = \left[ \left( \vec{v_0} \cdot \vec{v_1} \right); \vec{v_0} \times \vec{v_1} \right]
 \end{equation} 
 
 Wir wollen zunächst beweisen:
