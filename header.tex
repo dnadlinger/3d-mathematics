@@ -1,6 +1,6 @@
 \documentclass[
-DIV=12,
-BCOR=5mm,
+DIV=13,
+BCOR=8mm,
 11pt,
 parskip=half,
 %appendixprefix,
@@ -8,7 +8,7 @@ parskip=half,
 ]
 {scrbook}
 
-\usepackage{fancyhdr}
+%\usepackage{fancyhdr}
 %\pagestyle{fancy}
 
 % German language settings
@@ -26,19 +26,23 @@ parskip=half,
 \usepackage{microtype}
 \usepackage[fullfamily,opticals,footnotefigures,mathlf,mathtabular]{MinionPro}
 \renewcommand{\sfdefault}{\rmdefault}
-\usepackage[toc,bib]{tabfigures}
+\usepackage[toc,bib,eqno]{tabfigures}
 %\usepackage{amsmath, amsthm, amssymb}
 
+% Captions, footnotes, ...
+\usepackage[footnotesize,it]{caption}
 %\renewcommand{\thefootnote}{\fnsymbol{footnote}}
 
-\usepackage{graphicx} %%Zum Laden von Grafiken: .jpg .png .pdf .mps
+% Graphics
+\usepackage{graphicx}
+\usepackage{wrapfig}
 %\usepackage{subfig} %%Teilabbildungen in einer Abbildung
 %\usepackage{pst-all} %%PSTricks - nicht verwendbar mit pdfLaTeX
+\graphicspath{{./images/}}
 
 % TOC and links in PDF
-\usepackage[pdftex]{hyperref}
+\usepackage[pdftex,unicode]{hyperref}
 \hypersetup{
-    bookmarks=true,         % show bookmarks bar?
     unicode=true,          % non-Latin characters in Acrobat’s bookmarks
     pdftoolbar=true,        % show Acrobat’s toolbar?
     pdfmenubar=true,        % show Acrobat’s menu?
@@ -59,6 +63,7 @@ parskip=half,
 }
 
 
+% Custom commands
 %\newcommand{\path}[1]{\texttt{#1}}
 \newcommand{\adj}[1]{\operatorname{adj}#1}
 \newcommand{\zb}{z.\thinspace B.\ }
