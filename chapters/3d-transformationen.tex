@@ -11,17 +11,17 @@ Neben den im Weiteren behandelten Transformationen, nämlich Skalierung, Transla
 An dieser Stelle sei noch eine Eigenschaft von Transformationen im Bezug auf Normalvektoren erwähnt. Es ist in der 3D-Grafik oft erforderlich, bei der Transformation eines Objektes einen vorher berechneten Normalvektor ebenfalls zu transformieren. Es reicht nicht immer aus, einfach die gleiche Transformationsmatrix anzuwenden, beispielsweise bei der Scherung, die nicht winkeltreu ist. 
 % Drawing 'Normal vectors transformed'
 
-Es sei $\vec v$ ein Vektor zwischen zwei Punkten auf einer Ebene mit dem Normalvektor $n$. Offensichtlich gilt der Zusammenhang
+Es sei $\vec v$ ein Vektor zwischen zwei Punkten auf einer Ebene mit dem Normalvektor $\vec n$. Offensichtlich gilt der Zusammenhang
 \begin{equation}
  \vec n \cdot \vec v = 0,
 \end{equation}
 den man auch so anschreiben kann
 \begin{equation}
- \vec{n}^T \cdot \vec{v'} = 0,
+ \vec{n}^T \cdot \vec{v} = 0,
 \end{equation}
 wenn man die Vektoren als Matrizen auffasst. (\vgl \citep{script:german}, 155) Es gilt dann natürlich auch
 \begin{equation}
- \vec{n}^T \cdot M^{-1} \cdot M \cdot \vec{v'} = 0,
+ \vec{n}^T \cdot M^{-1} \cdot M \cdot \vec{v} = 0,
 \end{equation}
 die Matrix $M$ entspricht dabei der auf den Vektor angewendeten Transformation, aus welcher der Vektor $\vec{v'}$ hervorgeht:
 \begin{equation}
@@ -35,7 +35,7 @@ erhält man mit Hilfe des Zusammenhangs aus Gleichung \ref{transpositionmultipli
 \begin{equation}
  \left( \left(M^{-1}\right)^T \cdot \vec{n} \right) \cdot \vec{v'} = 0.
 \end{equation}
-Der Normalvektor einer Fläche wird also transponiert, indem man ihn mit der \emph{transponierten Inversen der Transformationsmatrix} multipliziert. Die Länge des Vektors ist in den Bedingungen allerdings nicht enhalten -- wird ein Einheitsvektor gebraucht, muss das Ergebnis noch normalisiert werden.
+Der Normalvektor einer Fläche wird also transponiert, indem man ihn mit der \emph{transponierten Inversen der Transformationsmatrix} multipliziert. Die Länge des Vektors ist in den Bedingungen allerdings nicht enhalten -- wird für die weiteren Berechnungen ein Einheitsvektor gebraucht, muss das Ergebnis noch normalisiert werden.
 
 \section{Skalierung}
 \label{scaling}
@@ -94,7 +94,7 @@ Wenn die Skalierungsfaktoren aller drei Achsen gleich sind, spricht man von eine
 
 Haben alle drei Koeffizienten den Wert $1$, hat die Skalierung keine Auswirkungen -- wie sich leicht überprüfen lässt, ergibt sich aus Gleichung \ref{scalingmatrix} die \emph{Einheitsmatrix}.
 
-Wie man leicht vermuten kann, ist die Skalierung umkehrbar (solange keiner der Faktoren 0 ist). Die inverse Skalierungsmatrix $S^{-1}$ ist dabei die Saklierungsmatrix mit dem Kehrwert der Faktoren:
+Wie man leicht vermuten kann, ist die Skalierung umkehrbar (solange keiner der Faktoren 0 ist). Die inverse Skalierungsmatrix $S^{-1}$ ist dabei die Skalierungsmatrix mit dem Kehrwert der Faktoren:
 \begin{equation}
  S^{-1}{(\lambda_x, \lambda_y, \lambda_z)} =
  \begin{pmatrix}
@@ -111,7 +111,7 @@ In manchen Situationen möchte man ein Objekt nicht um den Koordinatenursprung, 
 
 % Matrix 'Skalierung um einen beliebigen Punkt im Raum'?
 
-Sonderfall Spiegelung.
+Die \emph{Spiegelung} kann als Sonderfall der Skalierung betrachtet werden. Dabei sind einer oder mehrere Koeffizienten einen negativen Wert. Eine Spiegelung an der $xy$-Ebene lässt sich beispielsweise als Skalierung mit $\lambda_z = -1$ darstellen.
 
 \section{Translation}
 \label{translation}
@@ -145,8 +145,8 @@ Um alle Eckpunkte eines Objekts um den Vektor $\vec v$ zu verschieben, addiert m
 Beim Aufstellen der Teilgleichungen (hier exemplarisch für die $y$-Koordinate) wird aber bald ein Problem deutlich:
 \begin{equation}
 \begin{split}
- x \cdot m_{21} + y \cdot m_{22} + z & \cdot m_{23} + w \cdot m_{24} = y + v_y \\
- m_{21} = 0; m_{23} = & 0; m_{24} = 0 \\
+ x \cdot m_{21} + y \cdot m_{22} + z \cdot & m_{23} + w \cdot m_{24} = y + v_y \\
+ m_{21} = 0 \quad m_{23} &= 0 \quad m_{24} = 0 \\
  y \cdot m_{22} & = y + v_y \\
  m_{22} & = \frac{y + v_y}{y} \\
  & = 1 + \frac{v_y}{y}
@@ -155,7 +155,7 @@ Beim Aufstellen der Teilgleichungen (hier exemplarisch für die $y$-Koordinate) 
 
 Anscheinend gibt es keinen Weg, um die für die Translation nötigen Koeffizienten zu berechnen, ohne die Koordinaten des Vektors zu kennen, der transformiert werden soll. Genau das ist aber Voraussetzung, um die Matrix für mehrere Vektoren verallgemeinern zu können -- die Translation ist offensichtlich keine lineare Transformation!
 
-Der Ausweg aus diesem Dilemma liegt in der Verwendung von homogenen Koordinaten. $w$ hat ja nicht irgendeinen beliebigen Wert, sondern (zumindest vor der Transformation) den Wert 1. Die dementsprechend geänderten Bedingungen für die Translationsmatrix lauten:
+Der Ausweg aus diesem Dilemma liegt in der Verwendung von homogenen Koordinaten. $w$ hat ja nicht irgendeinen beliebigen Wert, sondern (zumindest vor der Transformation) den Wert $1$. Die dementsprechend geänderten Bedingungen für die Translationsmatrix lauten:
 \begin{equation}
  T \cdot 
  \begin{pmatrix}
@@ -249,7 +249,7 @@ Für die $x$- und $y$-Koordinaten kann man über die Definition von Sinus und Co
 Unter Zuhilfenahme der trigonometrischen Additionstheoreme erhält man für $x'$ und $y'$ aus \ref{rot2} nach Ausmultiplizieren:
 \begin{align}
  \label{rot3}
- x' &= r \cdot \cos \gamma_0 \cos \gamma - r \cdot \sin \gamma_0 \sin \gamma &  y' &= r \cdot \cos \gamma_0 \cos \gamma + r \cdot \sin \gamma_0 \sin \gamma
+ x' &= r \cdot \cos \gamma_0 \cos \gamma - r \cdot \sin \gamma_0 \sin \gamma &  y' &= r \cdot \sin \gamma_0 \cos \gamma + r \cdot \cos \gamma_0 \sin \gamma
 \end{align}
 
 Die Gleichungen \ref{rot1} ergeben umgeformt:
@@ -304,6 +304,7 @@ Analog lassen sich auch die Matrizen für die Rotation um die anderen beiden Ach
   0 & 0 & 0 & 1 \\
  \end{pmatrix}
 \end{equation}
+% Lz: Vorzeichen korrekt !?
 
 und für die \emph{Rotation um die $y$-Achse}
 \begin{equation}
@@ -414,7 +415,7 @@ Dieses Problem tritt auch bei kardanischen Aufhängungen in der Mechanik auf, be
 \label{rotationbasevectors}
 In den vorigen beiden Abschnitten haben wir die Konstruktion einer Rotationsmatrix ausgehend von einem oder mehreren Rotationswinkeln besprochen. In manchen Fällen kennt man aber bereits die \emph{Basisvektoren} des neuen Koordinatensystems (in den Koordinaten des alten Systems) und will eine Matrix aufstellen, um alle anderen Vektoren zu transformieren.
 
-Hat man drei linear unabhängige Vektoren im alten und im neuen (dreidimensionalen) Koordinatensystem gegeben, lässt sich die Transformationsmatrix $T$ für jede lineare Transformation bestimmen, indem man die Vektoren in die Gleichung $\vec{v'} = T \cdot \vec v$ einsetzt und das Gleichungssystem löst. Daraus ergeben sich allerdings neun Gleichungen in neun Variablen -- händisch eine nervige und für den Computer eine relativ rechenaufwändige Angelegenheit. Kennt man aber die transformierten \emph{kanonischen Basisvektoren}, $\begin{pmatrix} 1 & 0 & 0 \end{pmatrix}^T$, $\begin{pmatrix} 0 & 1 & 0 \end{pmatrix}^T$ und $\begin{pmatrix} 0 & 0 & 1 \end{pmatrix}^T$, vereinfachen sich die Gleichungen wesentlich:
+Hat man drei linear unabhängige Vektoren im alten und im neuen (dreidimensionalen) Koordinatensystem gegeben, lässt sich die Transformationsmatrix $T$ für jede lineare Transformation bestimmen, indem man die Vektoren in die Gleichung $\vec{v'} = T \cdot \vec v$ einsetzt und das Gleichungssystem löst. Daraus ergeben sich allerdings neun Gleichungen in neun Variablen -- händisch eine mühsame und für den Computer eine relativ rechenaufwändige Angelegenheit. Kennt man aber die transformierten \emph{kanonischen Basisvektoren}, \textvec{1}{0}{0}, \textvec{0}{1}{0} und \textvec{0}{0}{1}, vereinfachen sich die Gleichungen wesentlich:
 
 \begin{equation}
  T \cdot \begin{pmatrix} 1 \\ 0 \\ 0 \end{pmatrix} = \begin{pmatrix} x_x \\ x_y \\ x_z \end{pmatrix} \qquad 
@@ -466,11 +467,11 @@ beziehungsweise für die Verwendung mit homogenen Koordinaten
 In Worten ausgedrückt, enthält eine Transformationsmatrix also in ihren Spalten die \emph{Bilder der kanonischen Basisvektoren}.
 
 \subsection{Darstellung als Quaternion}
-Wie schon bei der Einführung der Quaternionen in Kapitel \ref{quaternionmath} erwähnt, können Quaternionen als Verbindung eines Skalars und eines dreidimensionalen Vektors aufgefasst werden, wobei der Realteil $w$ den Skalar und der Imaginärteil $xi + yj + zk$ den Vektor $\begin{pmatrix}x & y & z\end{pmatrix}^T$ darstellt. Sie eigenen sich deshalb gut für die Darstellung einer Rotation um einen bestimmten Winkel um eine beliebige Achse -- der Rotationswinkel entspricht dem Realteil, die Rotationsachse dem Imaginärteil.
+Wie schon bei der Einführung der Quaternionen in Kapitel \ref{quaternionmath} erwähnt, können Quaternionen als Verbindung eines Skalars und eines dreidimensionalen Vektors aufgefasst werden, wobei der Realteil $w$ den Skalar und der Imaginärteil $xi + yj + zk$ den Vektor \textvec{x}{y}{z} darstellt. Sie eigenen sich deshalb gut für die Darstellung einer Rotation um einen bestimmten Winkel um eine beliebige Achse -- der Rotationswinkel entspricht dem Realteil, die Rotationsachse dem Imaginärteil.
 
-Um mit der Hilfe von Quaternionen die Rotation eines Vektors $\vec x$ um den Winkel $2 \phi$ mit der Achse $\vec n$ durchzuführen, bildet man zunächst die Quaternion $q = \left[ \cos \phi; \vec n \cdot \sin \phi \right]$. Das Ergebnis der Rotation lautet dann $q \cdot \hat{x} \cdot \overline{q}$. Der Vektor $\vec x$ wird hier, wie in Kapitel \ref{quaternionmath} besprochen, als reine Quaternion behandelt. Das Ergebnis der Berechnung ist ebenfalls wieder eine reine Quaternion, kann also wieder als dreidimensionaler Vektor aufgefasst werden. So lautet die Rotationsformel (mit $\left| n \right| = 1$) schließlich:
+Um mit der Hilfe von Quaternionen die Rotation eines Vektors $\vec x$ um den Winkel $2 \varphi$ mit der Achse $\vec n$ durchzuführen, bildet man zunächst die Quaternion $q = \left[ \cos \varphi; \vec n \cdot \sin \varphi \right]$. Das Ergebnis der Rotation lautet dann $q \cdot \hat{x} \cdot \overline{q}$. Der Vektor $\vec x$ wird hier, wie in Kapitel \ref{quaternionmath} besprochen, als reine Quaternion behandelt. Das Ergebnis der Berechnung ist ebenfalls wieder eine reine Quaternion, kann also wieder als dreidimensionaler Vektor aufgefasst werden. So lautet die Rotationsformel (mit $\left| n \right| = 1$) schließlich:
 \begin{equation}
- \hat{x}' = \left[ \cos \phi; \vec n \cdot \sin \phi \right] \cdot \hat{x} \cdot \left[ \cos \phi; -\vec n \cdot \sin \phi \right]
+ \hat{x}' = \left[ \cos \varphi; \vec n \cdot \sin \varphi \right] \cdot \hat{x} \cdot \left[ \cos \varphi; -\vec n \cdot \sin \varphi \right]
 \end{equation}
 
 \begin{wrapfigure}{r}{0.5\textwidth}
@@ -480,12 +481,12 @@ Um mit der Hilfe von Quaternionen die Rotation eines Vektors $\vec x$ um den Win
   \caption{Rotation um die Achse $\vec{v_0} \times \vec{v_1}$.}
 \end{wrapfigure}
 
-Um zu beweisen, dass die oben abgebildete Formel wirklich eine Rotation des Vektors darstellt, betrachten wir zunächst einmal drei Einheitsvektoren $\vec{v_0}$, $\vec{v_1}$ und $\vec{v_2}$ aus dem $\mathbb R^3$ (\vgl \citep{quaternionproof}). Sie sind koplanar und bilden jeweils den Winkel $\phi$. Es gilt daher:
+Um zu beweisen, dass die oben abgebildete Formel wirklich eine Rotation des Vektors darstellt, betrachten wir zunächst einmal drei Einheitsvektoren $\vec{v_0}$, $\vec{v_1}$ und $\vec{v_2}$ aus dem $\mathbb R^3$ (\vgl \citep{quaternionproof}). Sie sind koplanar und bilden jeweils den Winkel $\varphi$. Es gilt daher:
 \begin{align}
- \vec{v_0} \cdot \vec{v_1} = \vec{v_1} \cdot \vec{v_2} = \cos \phi \label{dotsame} \\
+ \vec{v_0} \cdot \vec{v_1} = \vec{v_1} \cdot \vec{v_2} = \cos \varphi \label{dotsame} \\
  \vec{v_0} \times\vec{v_1} = \vec{v_1} \times \vec{v_2} \label{crosssame}
 \end{align}
-$\vec{v_2}$ ensteht also durch eine Rotation von $\vec{v_0}$ um den Winkel $2 \phi$ mit der Achse $\vec{v_0} \times \vec{v_1}$.
+$\vec{v_2}$ ensteht also durch eine Rotation von $\vec{v_0}$ um den Winkel $2 \varphi$ mit der Achse $\vec{v_0} \times \vec{v_1}$.
 
 Wir definieren nun die Quaternion $q$ über $\vec{v_0}$ und $\vec{v_1}$:
 \begin{equation}
@@ -570,20 +571,20 @@ Für $q$ eingesetzt:
  \left[ ( \vec{v_0} \cdot \vec{v_1} ); \vec{v_0} \times \vec{v_1} \right] \cdot \hat{v_0} \cdot \left[ ( \vec{v_0} \cdot \vec{v_1} ); -(\vec{v_0} \times \vec{v_1} ) \right] = \hat{v_2}
 \end{equation*} 
 
-Unter Beachtung der Zusammenhänge $\vec a \cdot \vec b = \left| a \right| \cdot \left| b \right| \cdot \cos \phi$ und $\left| \vec a \times \vec b \right| = \left| a \right| \cdot \left| b \right| \cdot \sin \phi$ und der Tatsache, dass $\vec{v_0}$ und $\vec{v_1}$ Einheitsvektoren sind, können wir nun einsetzen:
+Unter Beachtung der Zusammenhänge $\vec a \cdot \vec b = \left| a \right| \cdot \left| b \right| \cdot \cos \varphi$ und $\left| \vec a \times \vec b \right| = \left| a \right| \cdot \left| b \right| \cdot \sin \varphi$ und der Tatsache, dass $\vec{v_0}$ und $\vec{v_1}$ Einheitsvektoren sind, können wir nun einsetzen:
 \begin{equation}
- \left[ \cos \phi; \vec n \cdot \sin \phi \right] \cdot \hat{v_0} \cdot \left[ \cos \phi; -\vec n \cdot \sin \phi \right] = \hat{v_2}
+ \left[ \cos \varphi; \vec n \cdot \sin \varphi \right] \cdot \hat{v_0} \cdot \left[ \cos \varphi; -\vec n \cdot \sin \varphi \right] = \hat{v_2}
 \end{equation}
 
 Nun brauchen wir nur noch beide Seiten mit einem beliebigen Skalar $a$ zu multiplizieren ($\hat{v_0}$ und $\hat{v_2}$ sind ja auf Einheitsquaternionen beschränkt), und es ergibt sich:
 \begin{equation}
 \begin{split}
- \left[ \cos \phi; \vec n \cdot \sin \phi \right] \cdot a \cdot \hat{v_0} \cdot \left[ \cos \phi; -\vec n \cdot \sin \phi \right] &= a \cdot \hat{v_2} \\
- \left[ \cos \phi; \vec n \cdot \sin \phi \right] \cdot \hat{x} \cdot \left[ \cos \phi; -\vec n \cdot \sin \phi \right] &= \hat{x}'
+ \left[ \cos \varphi; \vec n \cdot \sin \varphi \right] \cdot a \cdot \hat{v_0} \cdot \left[ \cos \varphi; -\vec n \cdot \sin \varphi \right] &= a \cdot \hat{v_2} \\
+ \left[ \cos \varphi; \vec n \cdot \sin \varphi \right] \cdot \hat{x} \cdot \left[ \cos \varphi; -\vec n \cdot \sin \varphi \right] &= \hat{x}'
 \end{split}
 \end{equation}
 
-Wenn die Quaternionen $q_1, q_2, \ldots, q_n$ eine Rotation darstelen, dann lassen sich die Rotationen in eine Quaternion $q$ kombiniern, indem man die Quaterionen -- ähnlich wie bei Transformationsmatrizen -- einfach miteinander multipliziert: $q = q_n \cdot q_{n-2} \cdot \ldots \cdot q_1$. Der zugehörige Beweis ist nahezu trivial: Rotationen zu verketten heißt ja, das Ergebnis der einen Rotation als Ausgangswert für die nächste Transformation zu verwenden. Im Falle von drei Rotationen lautet die Formel also
+Wenn die Quaternionen $q_1, q_2, \ldots, q_n$ eine Rotation darstellen, dann lassen sich die Rotationen in eine Quaternion $q$ kombiniern, indem man die Quaterionen -- ähnlich wie bei Transformationsmatrizen -- einfach miteinander multipliziert: $q = q_n \cdot q_{n-2} \cdot \ldots \cdot q_1$. Der zugehörige Beweis ist nahezu trivial: Rotationen zu verketten heißt ja, das Ergebnis der einen Rotation als Ausgangswert für die nächste Transformation zu verwenden. Im Falle von drei Rotationen lautet die Formel also
 \begin{equation}
  \hat{x}' = q_3 \cdot ( q_2 \cdot ( q_3 \cdot \hat{x} \cdot \overline{q_1} ) \cdot \overline{q_2} ) \cdot \overline{q_3},
 \end{equation}
@@ -660,7 +661,7 @@ Analog werden auch die anderen beiden Vektoren transformiert:
  \end{pmatrix}
 \end{align}
 
-Durch Nebeneineinanderstellen von $\vec{x'}$, $\vec{y'}$ und $\vec{z'}$ ergibt sich schließlich \emph{Rotationsmatrix zu einer Rotationsquaternion $q = w + xi + yj + zk$}
+Durch Nebeneineinanderstellen von $\vec{x'}$, $\vec{y'}$ und $\vec{z'}$ ergibt sich schließlich die \emph{Rotationsmatrix zu einer Rotationsquaternion $q = w + xi + yj + zk$}
 \begin{equation}
  R(q) =
  \begin{pmatrix}

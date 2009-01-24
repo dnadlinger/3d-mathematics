@@ -19,6 +19,7 @@ parskip=half,
 % Bibliography
 \usepackage{bibgerm}
 \usepackage[square, numbers]{natbib}
+\bibliographystyle{geralpha}
 
 % Font settings
 \usepackage[T1]{fontenc}
@@ -30,7 +31,7 @@ parskip=half,
 %\usepackage{amsmath, amsthm, amssymb}
 
 % Captions, footnotes, ...
-\usepackage[footnotesize,it]{caption}
+\usepackage[center,footnotesize,it]{caption}
 %\renewcommand{\thefootnote}{\fnsymbol{footnote}}
 
 % Graphics
@@ -68,3 +69,5 @@ parskip=half,
 \newcommand{\adj}[1]{\operatorname{adj}#1}
 \newcommand{\zb}{z.\thinspace B.\ }
 \newcommand{\vgl}{vgl.\thinspace }
+\newcommand{\textvec}[3]{{\footnotesize$\begin{pmatrix} #1 & #2 & #3 \end{pmatrix}^T$}}
+\newcommand{\textvech}[4]{{\footnotesize$\begin{pmatrix} #1 & #2 & #3 & #4 \end{pmatrix}^T$}}
