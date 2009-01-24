@@ -12,21 +12,21 @@ Im ersten Fall sind drei Vektoren gegeben: der Positionsvektor $\vec p$, der Ric
  \vec r = \vec d \times \vec u
 \end{equation}
 
-Im zweiten Fall ist neben $\vec p$ nur die Position des Ziels, $\vec t$, gegeben. Der Hochvektor muss aus dem Hochvektor $\vec u_w$ des Weltkoordinatensystems (normalerweise $\begin{pmatrix} 1 & 0 & 0 \end{pmatrix}^T$) berechnet werden. In der Regel wird diese Darstellung in die erste Variante konvertiert, um dann daraus die Matrix zu berechnen. Dazu wird zunächst der normierte Richtungsvektor $\vec d$ berechnet, der von der Position der Kamera zum Ziel zeigt:
+Im zweiten Fall ist neben $\vec p$ nur die Position des Ziels, $\vec t$, gegeben. Der Hochvektor muss aus dem Hochvektor $\vec u_w$ des Weltkoordinatensystems (normalerweise \textvec{0}{1}{0}) berechnet werden. In der Regel wird diese Darstellung in die erste Variante konvertiert, um dann daraus die Matrix zu berechnen. Dazu wird zunächst der normierte Richtungsvektor $\vec d$ berechnet, der von der Position der Kamera zum Ziel zeigt:
 \begin{equation}
  \vec d = \frac{\vec t - \vec p}{\left| \vec t - \vec p \right|}
 \end{equation}
-Der Rechtsvektor muss senkrecht auf der zwischen Welt-Hochvektor und Richtungsvektor aufgespannten Ebene stehen, lässt sich über das Kreuzprodukt gewinnen:
+Der Rechtsvektor muss senkrecht auf der zwischen Welt-Hochvektor und Richtungsvektor aufgespannten Ebene stehen, und lässt sich daher über das Kreuzprodukt gewinnen:
 \begin{equation}
  \vec r = \frac{\vec d \times \vec u_w}{\left| \vec d \times \vec u_w \right|}
 \end{equation} 
-Der Hochvektor berechnet sich nun als 
+Der Hochvektor berechnet sich nun als Kreuzprodukt aus Rechts- und Richtungsvektor
 \begin{equation}
- \vec u = \vec r \times \vec d = \frac{\vec d \times \vec u_w \times \vec d}{\left| \vec d \times \vec u_w \times \vec d \right|},
+ \vec u = \vec r \times \vec d = \frac{\left( \vec d \times \vec u_w \right) \times \vec d}{\left| \left( \vec d \times \vec u_w \right) \times \vec d \right|},
 \end{equation} 
 was sich unter Zuhilfenahme der Grassmann-Identität\footnote{$\vec a \times ( \vec b \times \vec c ) = \vec b \cdot ( \vec a \cdot \vec c ) - \vec c \cdot ( \vec a \cdot \vec b)$} zu dem schneller zu berechnenden Ausdruck
 \begin{equation}
- \vec u = \frac{\vec u_w - \left( \left( \vec u_w \cdot \vec d \right) \cdot \vec d \right)}{\left| \vec u_w - \left( \left( \vec u_w \cdot \vec d \right) \cdot \vec d \right) \right|}
+ \vec u = \frac{ \vec{d} \cdot \left( \vec{u_w} \cdot \vec{d} \right) - \vec{u_w} }{\left| \vec{d} \cdot \left( \vec{u_w} \cdot \vec{d} \right) - \vec{u_w} \right|}
 \end{equation} 
 vereinfachen lässt.
 
@@ -82,56 +82,64 @@ Um die fertige View Matrix zu erhalten, müssen die beiden Matrizen nur noch mul
 
 \section{Projection Matrix}
 \label{projection}
-Die Positionen aller Vertices liegen nach der Transformation durch die View Matrix also im lokalen Koordinatensystem der Kamera vor. Um aus den dreidimensionalen Koordinaten im Raum die zweidimensionalen Bildschirmkoodinaten zu erhalten, müssen sie in irgendeiner Form projiziert werden. Es gibt viele Möglichkeiten, die Projektion durchzuführen, darunter sehr exotische wie die Projektion auf einen Zylindermantel oder krummlinige Projektionen, um Linseneffekte zu simulieren. Aber selbst wenn man sich auf den einfachsten Fall, die Projektion auf eine Ebene, beschränkt, gibt es noch immer zahlreiche Unterarten. (\vgl \citep{script:spain}, 115-117)
+Die Positionen aller Vertices liegen nach der Transformation durch die View Matrix also im lokalen Koordinatensystem der Kamera vor. Um aus den dreidimensionalen Koordinaten im Raum die zweidimensionalen Bildschirmkoodinaten zu erhalten, müssen sie in irgendeiner Form projiziert werden. Für diese Projektion gibt es je nach Anwendungsgebiet viele Möglichkeiten, darunter auch eher exotische wie die Projektion auf einen Zylindermantel oder krummlinige Projektionen, um Linseneffekte zu simulieren. Aber selbst wenn man sich auf den einfachsten Fall, die Projektion auf eine Ebene, beschränkt, gibt es noch immer zahlreiche Unterarten. (\vgl \citep{script:spain}, 115-117)
 
-Ich werde mich hier auf die bei Weitem am häufigsten verwendete Art beschränken, die \emph{Zentralprojektion}. Die Punkte werden projiziert, indem man die Projektionsstrahen durch ein gemeinsames Projektionszentrum mit der Bildebene schneidet. Geraden bleiben dabei auch in der Abbildung Geraden, im dreidimensionalen Raum parallele Kanten schneiden sich in einem gemeinsamen Fluchtpunkt. Die Zentralprojektion ist der Abbildung durch das menschliche Auge sehr ähnlich und ermöglicht somit natürlich wirkende Bilder.
+Ich werde mich hier auf die bei Weitem am häufigsten verwendete Art beschränken, die \emph{Zentralprojektion}. Hier wird ein Punkt projiziert, indem man die Linie durch den Punkt und ein gemeinsames Projektionszentrum mit der Bildebene schneidet. Geraden bleiben dabei auch in der Abbildung Geraden, im dreidimensionalen Raum parallele Kanten schneiden sich in einem gemeinsamen Fluchtpunkt. Die Zentralprojektion ist der Abbildung durch das menschliche Auge sehr ähnlich und ermöglicht somit natürlich wirkende Bilder. (\vgl \citep{wiki:zentralprojektion})
 
-% Drawing 'Central projection' 
+% Drawing 'Zentralprojektion'
 
-Das \emph{Sichtvolumen} der Zetralprojektion wird also grundsätzlich von den Strahlen durch den Augpunkt und die Ecken des Sichtfensters aufgespannt, ist also eine unendliche rechteckige Pyramide mit der Spitze im Punkt $\begin{pmatrix}0 & 0 & 0\end{pmatrix}^T$. Der vertikale Öffnungswinkel der Pyramide beträgt $\theta$, das Seitenverhältnis $\frac{W}{H}$ wird als $r$ bezeichnet. Wie bereits in Kapitel \ref{coordinatesystems} erwähnt, besteht die Aufgabe der Projection Matrix darin, dieses in das \emph{kanonische Sichtvolumen} zu überführen. In DirectX ist das ein Würfel zwischen den Punkten $\begin{pmatrix} -1 & -1 & 0 \end{pmatrix}^T$ und $\begin{pmatrix} 1 & 1 & 1 \end{pmatrix}^T$.
+Das \emph{Sichtvolumen} der Zentralprojektion wird also grundsätzlich von den Strahlen durch den Augpunkt und die Ecken des Sichtfensters aufgespannt, ist also eine unendliche rechteckige Pyramide mit der Spitze im Augpunkt \textvec{0}{0}{0}. Die Projektion wird normalerweise durch zwei Parameter charakterisiert: den vertikalen Öffnungswinkel des Sichtvolumens, $\varphi$, und das Seitenverhältnis des Sichtfensters (also im Normalfall des Bildschirmes), $\frac{W}{H} = r$. Wir werden hier nur die normalerweise verwendete \emph{symmetrische Zentralprojektion} behandeln, bei der der Augpunkt in das Zentrum des Bildes projiziert wird.
 
-Das Sichtvolumen muss dafür aber zuerst begrenzt werden, da sonst verschiedene grundsätzliche, aber auch einige numerische Probleme entstehen werden. Das geschieht mit zwei zur $z$-Achse senkrechten Ebenen, der \emph{Near Clipping Plane} und der \emph{Far Clipping Plane} (von engl. \emph{to clip}, \enquote{abschneiden}). Besonders wichtig ist dies für die auf die Projektion folgende Sichtbarkeitsbestimmung, da hier wie überall nur mit einer beschränkten Genaugkeit gerechnet wird. Ist der Abstand von Near und Far Clipping Plane zu groß, macht sich die begrenzte Genauigkeit bemerkbar und es kommt zu einem als \emph{Z-Fighting} bekannten Phänomen, bei dem auf nicht-deterministische Weise abwechselnd verschiedene Pixel von Polygonen in einer ähnlichen Tiefe gezeichnet werden. Das entstehende Volumen ist ein Pyramidenstumpf, in der 3D-Grafik meist mit dem englischen Begriff \emph{Frustum} bezeichnet.
+Wie bereits in Kapitel \ref{coordinatesystems} erwähnt, besteht die Aufgabe der Projection Matrix darin, dieses Sichtvolumen in das \emph{kanonische Sichtvolumen} zu überführen, wonach die Geometrie wieder für alle Arten von Projektion gleich behandelt wird. Auch für das kanonische Sichtvolumen gibt es wieder unterschiedliche Konventionen, wir werden hier die DirectX-Variante behandeln, einen Quader zwischen den Punkten \textvec{-1}{-1}{0} und \textvec{1}{1}{1}.
 
-% Drawing 'Right-angled viewing volume'
+\begin{wrapfigure}{r}{0.5\textwidth}
+  \includegraphics[width=0.49\textwidth]{clippingplanes}
+  \caption{Near- und Far Clipping Plane.}
+  \label{clippingplanes}
+\end{wrapfigure}
 
-Zur Herleitung der Projection Matrix für die Zentralprojektion transformieren wir das Sichtvolumen zunächst einmal so, dass der horizontale und der vertikale Öffnungswinkel $90^\circ$ betragen. Dazu ist eine Skalierung entlang der $x$- und der $y$-Achse nötig: Wie sich aus Abbildung X und X leicht erkennen lässt, haben die Punkte an der oberen und unteren $y$-Grenze des ursprünglichen Sichtvolumens die $y$-Koordinate $z \cdot \tan\frac{\theta}{2}$, im transformierten Frustum aber $z$. Die linke und rechte $x$-Grenze verhält sich bis auf den Faktor für das Seitenverhältnis genauso. Daneben spiegeln wir das Koordinatensystem durch Negieren der $z$-Koordinate an der $xy$-Ebene, um ein intuitiveres Arbeiten zu ermöglichen -- mit steigendem Abstand von der Kamera wächst nun auch die $z$-Koordinate. Für diesen ersten Schritt ergibt sich also die Matrix
+Für die Transformation muss das Sichtvolumen aber zuerst begrenzt werden, da sonst verschiedene grundsätzliche und numerische Probleme entstehen werden\footnote{Beispielsweise würden Punkte, die exakt im Augpunkt liegen, ein Problem darstellen.}. Das geschieht mit zwei zur $z$-Achse senkrechten Ebenen, der \emph{Near Clipping Plane} und der \emph{Far Clipping Plane} (von engl. \emph{to clip}, \enquote{abschneiden}). Das entstehende Volumen ist ein Pyramidenstumpf, in der 3D-Grafik meist mit dem englischen Begriff \emph{Frustum} bezeichnet.
+
+Besonders wichtig ist die Begrenzung des Sichtvolumens für die auf die Projektion folgende Sichtbarkeitsbestimmung, da hier wie auch sonst in Computerprogrammen mit einer beschränkten Genaugkeit gerechnet wird. Ist der Abstand von Near und Far Clipping Plane zu groß, macht sich die begrenzte Genauigkeit bemerkbar und es kommt zu einem als \emph{Z-Fighting} bekannten Phänomen, bei dem auf nicht-deterministische Weise abwechselnd verschiedene Pixel von Polygonen in einer ähnlichen Tiefe im Vordergrund gezeichnet werden.
+
+Zur Herleitung der Projection Matrix für die Zentralprojektion transformieren wir das Sichtvolumen zunächst einmal so, dass der horizontale und der vertikale Öffnungswinkel $90^\circ$ betragen ($\varphi = 1$ und $r = 1$). Dazu ist eine Skalierung entlang der $x$- und der $y$-Achse nötig: Wie sich aus Abbildung \ref{clippingplanes} und \ref{rightangledvolume} leicht erkennen lässt, wächst die $y$-Koordinate der oberen und unteren Begrenzung des Frustums bei steigender $z$-Koordinate mit dem Faktor $\pm \tan\frac{\varphi}{2}$, im transformierten Frustum aber mit dem Faktor $\pm 1$. Die $x$-Koordinate der linken und der rechten Grenze verhalten sich bis auf den Faktor für das Seitenverhältnis genauso. Das Sichtvolumen muss also um den Faktor $1 : (\tan\frac{\varphi}{2})$ in $y$-Richtung und $1 : (\tan\frac{\varphi}{2} \cdot r)$ in $x$-Richtung skaliert werden.
+
+\begin{wrapfigure}{r}{0.35\textwidth}
+  \includegraphics[width=0.34\textwidth]{rightangledvolume}
+  \caption{Rechtwinkliges Sichtvolumen mit Projektion auf die Ebene $z=1$.}
+  \label{rightangledvolume}
+\end{wrapfigure}
+
+Daneben spiegeln wir das Koordinatensystem an der $xy$-Ebene, um ein intuitiveres Arbeiten zu ermöglichen -- mit steigendem Abstand von der Kamera wächst nun auch die $z$-Koordinate. Für diesen ersten Schritt ergibt sich also die Matrix
 \begin{equation}
- \begin{pmatrix}
-  \frac{1}{\tan\frac{\theta}{2} \cdot r} & 0 & 0 & 0 \\
-  0 & \frac{1}{\tan\frac{\theta}{2}} & 0 & 0 \\
+ P_1 = \begin{pmatrix}
+  \frac{1}{\tan\frac{\varphi}{2} \cdot r} & 0 & 0 & 0 \\
+  0 & \frac{1}{\tan\frac{\varphi}{2}} & 0 & 0 \\
   0 & 0 & -1 & 0 \\
   0 & 0 & 0 & 1
  \end{pmatrix}.
 \end{equation}
 
-Danach fällt es leicht, das Volumen in einen Würfel zu transformieren: $x' = \frac{x}{z}$. Wie man aus der Abbildung leicht erkennen kann (ähnliche Dreiecke), entspricht dies gleichzeitig einer Projektion auf die Ebene $z=1$: $\frac{x'}{1} = \frac{x}{z}$.
-
+Danach werden die Punkte auf die Ebene $z=1$ projiziert. Wie aus Abbildung \ref{rightangledvolume} ersichtlich (ähnliche Dreiecke), gilt der Zusammenhang
+\begin{equation}
+ \frac{x'}{1} = \frac{x}{z}
+\end{equation}
+und analog für die $y$-Koordinate
+\begin{equation}
+ \frac{y'}{1} = \frac{y}{z}.
+\end{equation}
+Um die Projektion durchzuführen, müssen die $x$- und die $y$-Koordinate also durch die $z$-Koordinate dividiert werden. Um dies in eine Matrix zu verpacken, machen wir uns die homogenen Koordinaten zu Nutze, genauer die Konvention, dass der Vektor nachher durch Division durch $w$ wieder auf $w=1$ gebracht wird. Die Matrix braucht also einfach nur $w' = z$ zu setzen
 \begin{equation}
  \begin{pmatrix}
   1 & 0 & 0 & 0 \\
   0 & 1 & 0 & 0 \\
   0 & 0 & 1 & 0 \\
   0 & 0 & 1 & 0
- \end{pmatrix}
+ \end{pmatrix}.
 \end{equation}
+Nach der Transformation mit dieser Matrix hat ein Vektor die Koordinaten \textvech{x}{y}{z}{z}, nach der homogenen Division also \textvec{\frac{x}{z}}{\frac{y}{z}}{1}.
 
-\begin{equation}
- \begin{pmatrix}
-  x \\
-  y \\
-  z \\
-  z
- \end{pmatrix}
- \rightarrow
- \begin{pmatrix}
-  \frac{x}{z} \\
-  \frac{y}{z} \\
-  1 \\
-  1
- \end{pmatrix}
-\end{equation}  
-
-Da die $z$-Koordinate unverändert bleibt und ja alle Komponenten durch $z$ dividiert werden, ist nachher für alle Punkte $z=1$, die $z$-Werte müssen aber für die Sichtbarkeitsbestimmung monoton steigend beim Wegbewegen von der Kamera sein. Dafür werden zwei zusätzliche Parameter eingeführt:
+Für die Projektion reicht diese Transformation an sich, und wie man leicht nachprüfen kann, befinden sich die $x$- und $y$-Koordinaten alle Punkte im Sichtvolumen jetzt zwischen $-1$ und $1$, wie es für das kanonische Sichtvolumen erforderlich ist. Allerdings ist durch die Projektion auch $z'$ für alle Punkte $1$, ist also unabhängig von $z$. Um später beim Zeichnen der Dreiecke die Sichtbarkeit korrekt bestimmen zu können, muss $z'$ aber mit wachsender Tiefe monoton steigen, die $z$-Reihenfolge der Punkte muss also erhalten bleiben. Um diese Bedingung zu erfüllen, werden zwei zusätzliche Parameter, $a$ und $b$, eingeführt:
 \begin{equation}
  \begin{pmatrix}
   1 & 0 & 0 & 0 \\
@@ -141,46 +149,48 @@ Da die $z$-Koordinate unverändert bleibt und ja alle Komponenten durch $z$ divi
  \end{pmatrix}.
 \end{equation}
 
-Nach der Transformation und der Division ergibt sich mit dieser Matrix
+Nach der Transformation und der homogenen Division ergibt sich mit dieser Matrix
 \begin{equation}
  z' = \frac{a \cdot z + b}{z}.
 \end{equation}
 
-Punkte auf der Near Clipping Plane sollen ja auf $z=0$ abgebildet werdne, solche auf der Far Clipping Plane auf $z=1$. Es ergibt sich also ein lineares Gleichungssystem mit zwei Variablen
+Nun müssen nur noch passende Werte für $a$ und $b$ gefunden werden. Aus der Definition des kanonischen Sichtvolumens folgen ja die Bedingungen, dass ein Punkt auf der Near Clipping Plane auf $z'=0$, und ein Punkt auf der Far Clipping Plane auf $z'=1$ abgebildet wird. Aus diesen Bedingungen ergibt sich also ein lineares Gleichungssystem mit zwei Variablen
 \begin{equation}
 \begin{split}
  0 = \frac{a \cdot z_{near} + b}{z_{near}} \\
  1 = \frac{a \cdot z_{far} + b}{z_{far}},
 \end{split}
 \end{equation}
-das sich einfach zu
+welches sich einfach zu
 \begin{equation}
 \begin{split}
  a = \frac{z_{far}}{z_{far}-z_{near}} \\
  b = -z_{near} \cdot a = -\frac{z_{far} \cdot z_{near}}{z_{far}-z_{near}},
 \end{split} 
 \end{equation}
-auflösen lässt. Es ergibt sich also die Matrix
+auflösen lässt. (\vgl \citep{perspectiveprojectionmatrix})
+
+Für die Projektion des rechtwinkligen Sichtvolumens ergibt sich also die Matrix
 \begin{equation}
-\begin{pmatrix}
+ P_2 = \begin{pmatrix}
   1 & 0 & 0 & 0 \\
   0 & 1 & 0 & 0 \\
   0 & 0 & \frac{z_{far}}{z_{far}-z_{near}} & -\frac{z_{far} \cdot z_{near}}{z_{far}-z_{near}} \\
-  0 & 0 & 1 & 1
+  0 & 0 & 1 & 0
  \end{pmatrix}.
 \end{equation}
 
-Kombiniert man die beiden Matrizen durch Multiplikation, erhält man die \emph{Projection Matrix für die Zentralprojektion}
+Kombiniert man die beiden Matrizen durch Multiplikation, erhält man die \emph{Projection Matrix für die Zentralprojektion}:
 \begin{equation}
- M_{proj} = 
+ M_{proj} = P_2 \cdot P_1 = 
  \begin{pmatrix}
-  \frac{1}{\tan\frac{\theta}{2} \cdot r} & 0 & 0 & 0 \\
-  0 & \frac{1}{\tan\frac{\theta}{2}} & 0 & 0 \\
+  \frac{1}{\tan\frac{\varphi}{2} \cdot r} & 0 & 0 & 0 \\
+  0 & \frac{1}{\tan\frac{\varphi}{2}} & 0 & 0 \\
   0 & 0 & -\frac{z_{far}}{z_{far}-z_{near}} & \frac{z_{far} \cdot z_{near}}{z_{far}-z_{near}} \\
   0 & 0 & 1 & 1
- \end{pmatrix}.
+ \end{pmatrix}
 \end{equation} 
 
-Culling und Clipping
+Nach der Transformation mit dieser Matrix befinden sich alle sichtbaren Dreiecke im kanonischen Sichtvolumen. Auf die Projektion folgt nun, wie in Kapitel \ref{rendering} beschrieben, das \emph{Clipping}. Dabei werden alle Dreiecke, die nicht vollständig innerhalb des kanonischen Sichtvolumens liegen, abgeschnitten beziehungsweise überhaupt verworfen, wenn sie ganz außerhalb liegen.
 
 Viewport-Koordinaten
