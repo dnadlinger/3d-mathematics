@@ -19,7 +19,7 @@ den man auch so anschreiben kann
 \begin{equation}
  \vec{n}^T \cdot \vec{v} = 0,
 \end{equation}
-wenn man die Vektoren als Matrizen auffasst. (\vgl \citep{script:german}, 155) Es gilt dann natürlich auch
+wenn man die Vektoren als Matrizen auffasst. \vgls{script:german}{155} Es gilt dann natürlich auch
 \begin{equation}
  \vec{n}^T \cdot M^{-1} \cdot M \cdot \vec{v} = 0,
 \end{equation}
@@ -118,7 +118,7 @@ Die \emph{Spiegelung} kann als Sonderfall der Skalierung betrachtet werden. Dabe
 
 \begin{wrapfigure}{r}{0.5\textwidth}
   \includegraphics[width=0.49\textwidth]{translation}
-  \vspace{-10pt}
+  \vspace{-15pt}
   \caption{Translation um $\vec v$.}
 \end{wrapfigure}
 
@@ -227,13 +227,14 @@ Die Herleitung der dritten und letzten der hier behandelten Transformationen, de
 \subsection{Rotation um die Koordinatenachsen}
 
 \begin{wrapfigure}{r}{0.5\textwidth}
+  \vspace{-15pt}
   \includegraphics[width=0.49\textwidth]{rotation}
-  \vspace{-10pt}
+  \vspace{-15pt}
   \caption{Rotation um die $z$-Achse.}
   \label{zrotation}
 \end{wrapfigure}
 
-Abbildung \ref{zrotation} zeigt einen Vektor $\vec p = \begin{pmatrix} x & y & z \end{pmatrix}^T$. Nach der Rotation um den Winkel $\gamma$ um die $z$-Achse ergibt sich der Vektor $\vec{p'} = \begin{pmatrix} x' & y' & z' \end{pmatrix}^T$.
+Abbildung \ref{zrotation} zeigt einen Vektor $\vec p = $ \textvec{x}{y}{z}. Nach der Rotation um den Winkel $\gamma$ um die $z$-Achse ergibt sich der Vektor $\vec{p'} = $ \textvec{x'}{y'}{z'}.
 
 Da die Rotation in der $xy$-Ebene stattfindet, ändert sich die $z$-Koordinate des Vektors nicht. Es gilt also
 \begin{equation}
@@ -343,7 +344,7 @@ fällt einem auf, dass die Inverse der Rotationsmatrix gleich ihrer Transponiert
 \subsection{Eulersche Winkel}
 Die gerade behandelten Rotationsmatrizen sind auf Drehungen um die Koordinatenachsen beschränkt, aber natürlich lassen sich mehrere der Matrizen kombinieren, um jede beliebige Rotation ausdrücken zu können.
 
-Ein beliebtes Verfahren, um Ausrichtungen im Raum anzugeben, sind die sogenannten Eulerschen Winkel. Dabei handelt es sich um drei Rotationswinkel um jeweils eine Achse, durch die jede beliebige Rotation ausgedrückt werden kann. Es gibt mehrere Konventionen, in welcher Reihenfolge die Rotationen auf welche Achsen angewendet werden. Eine der am häufigsten benutzten sind die aus der Luftfahrt bekannten \emph{Roll-Nick-Gier-Winkel}, auch als \emph{Tait–Bryan-Rotation} bezeichnet (engl. \emph{yaw, pitch, roll}). Sie geben die Rotation als Kombination einer Rotation um die $z$-Achse ($\gamma$), gefolgt von einer Rotation um die $y$-Achse ($\beta$) und schließlich einer Rotation um die $x$-Achse ($\alpha$) an.
+Ein beliebtes Verfahren, um Ausrichtungen im Raum anzugeben, sind die sogenannten Eulerschen Winkel. Dabei handelt es sich um drei Rotationswinkel um jeweils eine Achse, durch die jede beliebige Rotation ausgedrückt werden kann. Es gibt mehrere Konventionen, in welcher Reihenfolge die Rotationen auf welche Achsen angewendet werden. Eine der am häufigsten benutzten sind die aus der Luftfahrt bekannten \emph{Roll-Nick-Gier-Winkel}, auch als \emph{Tait-Bryan-Rotation} bezeichnet (engl. \emph{yaw, pitch, roll}). Sie geben die Rotation als Kombination einer Rotation um die $z$-Achse ($\gamma$), gefolgt von einer Rotation um die $y$-Achse ($\beta$) und schließlich einer Rotation um die $x$-Achse ($\alpha$) an.
 
 Mit einem Wertebereich von $-\pi$ bis $\pi$ für $\alpha$ und $\gamma$ und von $-\frac{\pi}{2}$ bis $\frac{\pi}{2}$ für $\beta$ lassen sich alle Ausrichtungen im Raum angeben. Bis auf zwei Ausnahmen (dazu gleich mehr) ist auch jedem Rotationszustand genau ein Satz an Winkeln zugeordnet, die Abbildung ist also bis auf ebendiese Ausnahmen bijektiv.
 
@@ -481,7 +482,7 @@ Um mit der Hilfe von Quaternionen die Rotation eines Vektors $\vec x$ um den Win
   \caption{Rotation um die Achse $\vec{v_0} \times \vec{v_1}$.}
 \end{wrapfigure}
 
-Um zu beweisen, dass die oben abgebildete Formel wirklich eine Rotation des Vektors darstellt, betrachten wir zunächst einmal drei Einheitsvektoren $\vec{v_0}$, $\vec{v_1}$ und $\vec{v_2}$ aus dem $\mathbb R^3$ (\vgl \citep{quaternionproof}). Sie sind koplanar und bilden jeweils den Winkel $\varphi$. Es gilt daher:
+Um zu beweisen, dass die oben abgebildete Formel wirklich eine Rotation des Vektors darstellt, betrachten wir zunächst einmal drei Einheitsvektoren $\vec{v_0}$, $\vec{v_1}$ und $\vec{v_2}$ aus dem $\mathbb R^3$ \vglr{quaternionproof}. Sie sind komplanar und bilden jeweils den Winkel $\varphi$. Es gilt daher:
 \begin{align}
  \vec{v_0} \cdot \vec{v_1} = \vec{v_1} \cdot \vec{v_2} = \cos \varphi \label{dotsame} \\
  \vec{v_0} \times\vec{v_1} = \vec{v_1} \times \vec{v_2} \label{crosssame}
@@ -601,13 +602,13 @@ schreiben können, was wir gleich zu
 \end{equation} 
 vereinfachen können, da sich die Quaternionenmultiplikation ja bezüglich der Konjugation distributiv unter Vertauschung der Reihenfolge verhält (siehe Gleichung \ref{quaternionconjugationmultiplication}).
 
-Quaternionen stellen also wegen ihrer Beziehung zu Rotationswinkel und -achse ein praktisches Mittel dar, um Rotationen anzugeben und mehrere Rotationen können einfach miteinander kombiniert werden (auch im Bezug auf die benötigten Rechenoperationen am Computer). Zusätzlich kann es für manche Computeranwendungen nützlich sein, dass nur vier Werte gespeichert werden müssen, um jede beliebige Rotation darzustellen. Die Repräsentation als Quaternion hat aber auch Nachteile. Zum einen ist die direkte Transformation von Vektoren durch Quaternionen eine relativ rechenaufwändige Angelegenheit, was für den Einsatz in der 3D-Grafik nicht gerade optimal ist. Zum anderen unterstützt die derzeitige Grafikhardware wie in Kapitel \ref{coordinatesystems} beschrieben lediglich Matrizen, um die Vertices zu transformieren. Daher liegt es nahe, einen Weg zu suchen, eine Rotationsquaternion in eine Rotationsmatrix zu konvertieren. (\vgl \citep{rotationissues}, 8-9)
+Quaternionen stellen also wegen ihrer Beziehung zu Rotationswinkel und -achse ein praktisches Mittel dar, um Rotationen anzugeben und mehrere Rotationen können einfach miteinander kombiniert werden (auch im Bezug auf die benötigten Rechenoperationen am Computer). Zusätzlich kann es für manche Computeranwendungen nützlich sein, dass nur vier Werte gespeichert werden müssen, um jede beliebige Rotation darzustellen. Die Repräsentation als Quaternion hat aber auch Nachteile. Zum einen ist die direkte Transformation von Vektoren durch Quaternionen eine relativ rechenaufwändige Angelegenheit, was für den Einsatz in der 3D-Grafik nicht gerade optimal ist. Zum anderen unterstützt die derzeitige Grafikhardware wie in Kapitel \ref{coordinatesystems} beschrieben lediglich Matrizen, um die Vertices zu transformieren. Daher liegt es nahe, einen Weg zu suchen, eine Rotationsquaternion in eine Rotationsmatrix zu konvertieren. \vgls{rotationissues}{8-9}
 
-Nachdem ja $\hat{x}'= q \cdot \hat{x} \cdot \overline{q}$ gilt, liegt es nahe, dass man auch nach einer Matrix suchen kann, für die $\vec{x}' = M \cdot \vec{x}$ gilt, die also bei entsprechender Interpretation von reinen Quaternionen als Vektoren die Bedingung $q \cdot \hat{x} \cdot \overline{q} = M \cdot \vec{x}$ erfüllt. Es gibt zahlreiche Wege, die Matrix direkt aus diesem Zusammenhang herzuleiten (\vgl \citep{quaternionrotation}, 56-58; \citep{script:spain}, 93-96), ich möchte aber stattdessen eine andere Möglichkeit zur Herleitung anführen, die leichter nachzuvollziehen ist.
+Nachdem ja $\hat{x}'= q \cdot \hat{x} \cdot \overline{q}$ gilt, liegt es nahe, dass man auch nach einer Matrix suchen kann, für die $\vec{x}' = M \cdot \vec{x}$ gilt, die also bei entsprechender Interpretation von reinen Quaternionen als Vektoren die Bedingung $q \cdot \hat{x} \cdot \overline{q} = M \cdot \vec{x}$ erfüllt. Es gibt zahlreiche Wege, die Matrix direkt aus diesem Zusammenhang herzuleiten \vglsd{quaternionrotation}{56-58}{script:spain}{93-96}, ich möchte aber stattdessen eine andere Möglichkeit zur Herleitung anführen, die leichter nachzuvollziehen ist.
 
 Wie in Abschnitt \ref{rotationbasevectors} besprochen, kann man eine Transformationsmatrix als Aneinanderreihung der transformierten kanonischen Basisvektoren aufstellen. Um eine Matrix aus einem Rotationsquaternion zu erzeugen, muss man also nur die drei Basisvektoren direkt transformieren und die Ergebnisse in die Matrix schreiben.
 
-Dafür multiplizieren wir zunächst einmal die Rotationsformel aus und vereinfachen (\vgl \citep{quaternionrotation}, 52):
+Dafür multiplizieren wir zunächst einmal die Rotationsformel aus und vereinfachen \vgls{quaternionrotation}{52}:
 \begin{equation}
 \begin{split}
  q \cdot \hat{x} \cdot \overline{q} &= \left[ w; \vec n \right] \cdot \left[ 0; \vec x \right] \cdot \left[ w; -\vec n \right] \\

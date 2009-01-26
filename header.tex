@@ -11,15 +11,35 @@ parskip=half,
 %\usepackage{fancyhdr}
 %\pagestyle{fancy}
 
+
 % German language settings
 \usepackage[ngerman]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[babel,german=guillemets]{csquotes}
 
-% Bibliography
-\usepackage{bibgerm}
-\usepackage[square, numbers]{natbib}
-\bibliographystyle{geralpha}
+
+% Bibliography and citations
+\newcommand{\vgl}{vgl. \thinspace{}}
+
+%\usepackage{bibgerm}
+%\usepackage[square, numbers]{natbib}
+%\bibliographystyle{geralpha}
+%\newcommand{\ccite}[1]{\citep{#1}}
+%\newcommand{\vglr}[1]{(\vgl \citep{#1})}
+%\newcommand{\vgls}[2]{(\vgl \citep{#1}, #2)}
+%\newcommand{\vglrt}[1]{\citep{#1}}
+%\newcommand{\vglst}[2]{\citep{#1}, #2}
+%\newcommand{\vglsd}[4]{(\vgl \citep{#1}, #2; \citep{#3}, #4)}
+
+\usepackage[]{natbib}
+\bibliographystyle{dinat_custom}
+\newcommand{\ccite}[1]{\citet{#1}}
+\newcommand{\vglr}[1]{\citep[vgl.][]{#1}}
+\newcommand{\vgls}[2]{\citep[vgl.][#2]{#1}}
+\newcommand{\vglrt}[1]{\citealp[vgl.][]{#1}}
+\newcommand{\vglst}[2]{\citealp[vgl.][#2]{#1}}
+\newcommand{\vglsd}[4]{(\vgl \citealp[#2]{#1}; \citealp[#4]{#3})}
+
 
 % Font settings
 \usepackage[T1]{fontenc}
@@ -30,10 +50,12 @@ parskip=half,
 \usepackage[toc,bib,eqno]{tabfigures}
 %\usepackage{amsmath, amsthm, amssymb}
 
+
 % Captions, footnotes, ...
 \usepackage[center,footnotesize,it]{caption}
 %\renewcaptionname{ngerman}{\figurename}{Abb.}
 %\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+
 
 % Graphics
 \usepackage{graphicx}
@@ -41,6 +63,7 @@ parskip=half,
 %\usepackage{subfig} %%Teilabbildungen in einer Abbildung
 %\usepackage{pst-all} %%PSTricks - nicht verwendbar mit pdfLaTeX
 \graphicspath{{./images/}}
+
 
 % TOC and links in PDF
 \usepackage[pdftex,unicode]{hyperref}
@@ -69,6 +92,5 @@ parskip=half,
 %\newcommand{\path}[1]{\texttt{#1}}
 \newcommand{\adj}[1]{\operatorname{adj}#1}
 \newcommand{\zb}{z.\thinspace B.\ }
-\newcommand{\vgl}{vgl.\thinspace }
 \newcommand{\textvec}[3]{{\footnotesize$\begin{pmatrix} #1 & #2 & #3 \end{pmatrix}^T$}}
 \newcommand{\textvech}[4]{{\footnotesize$\begin{pmatrix} #1 & #2 & #3 & #4 \end{pmatrix}^T$}}
