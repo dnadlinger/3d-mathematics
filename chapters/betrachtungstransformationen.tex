@@ -82,9 +82,9 @@ Um die fertige View Matrix zu erhalten, müssen die beiden Matrizen nur noch mul
 
 \section{Projection Matrix}
 \label{projection}
-Die Positionen aller Vertices liegen nach der Transformation durch die View Matrix also im lokalen Koordinatensystem der Kamera vor. Um aus den dreidimensionalen Koordinaten im Raum die zweidimensionalen Bildschirmkoodinaten zu erhalten, müssen sie in irgendeiner Form projiziert werden. Für diese Projektion gibt es je nach Anwendungsgebiet viele Möglichkeiten, darunter auch eher exotische wie die Projektion auf einen Zylindermantel oder krummlinige Projektionen, um Linseneffekte zu simulieren. Aber selbst wenn man sich auf den einfachsten Fall, die Projektion auf eine Ebene, beschränkt, gibt es noch immer zahlreiche Unterarten. (\vgl \citep{script:spain}, 115-117)
+Die Positionen aller Vertices liegen nach der Transformation durch die View Matrix also im lokalen Koordinatensystem der Kamera vor. Um aus den dreidimensionalen Koordinaten im Raum die zweidimensionalen Bildschirmkoodinaten zu erhalten, müssen sie in irgendeiner Form projiziert werden. Für diese Projektion gibt es je nach Anwendungsgebiet viele Möglichkeiten, darunter auch eher exotische wie die Projektion auf einen Zylindermantel oder krummlinige Projektionen, um Linseneffekte zu simulieren. Aber selbst wenn man sich auf den einfachsten Fall, die Projektion auf eine Ebene, beschränkt, gibt es noch immer zahlreiche Unterarten. \vgls{script:spain}{115-117}
 
-Ich werde mich hier auf die bei Weitem am häufigsten verwendete Art beschränken, die \emph{Zentralprojektion}. Hier wird ein Punkt projiziert, indem man die Linie durch den Punkt und ein gemeinsames Projektionszentrum mit der Bildebene schneidet. Geraden bleiben dabei auch in der Abbildung Geraden, im dreidimensionalen Raum parallele Kanten schneiden sich in einem gemeinsamen Fluchtpunkt. Die Zentralprojektion ist der Abbildung durch das menschliche Auge sehr ähnlich und ermöglicht somit natürlich wirkende Bilder. (\vgl \citep{wiki:zentralprojektion})
+Ich werde mich hier auf die bei Weitem am häufigsten verwendete Art beschränken, die \emph{Zentralprojektion}. Hier wird ein Punkt projiziert, indem man die Linie durch den Punkt und ein gemeinsames Projektionszentrum mit der Bildebene schneidet. Geraden bleiben dabei auch in der Abbildung Geraden, im dreidimensionalen Raum parallele Kanten schneiden sich in einem gemeinsamen Fluchtpunkt. Die Zentralprojektion ist der Abbildung durch das menschliche Auge sehr ähnlich und ermöglicht somit natürlich wirkende Bilder. \vglr{wiki:zentralprojektion}
 
 % Drawing 'Zentralprojektion'
 
@@ -168,7 +168,7 @@ welches sich einfach zu
  b = -z_{near} \cdot a = -\frac{z_{far} \cdot z_{near}}{z_{far}-z_{near}},
 \end{split} 
 \end{equation}
-auflösen lässt. (\vgl \citep{perspectiveprojectionmatrix})
+auflösen lässt. \vglr{perspectiveprojectionmatrix}
 
 Für die Projektion des rechtwinkligen Sichtvolumens ergibt sich also die Matrix
 \begin{equation}

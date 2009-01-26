@@ -46,12 +46,12 @@ Eine Matrix
 \end{equation}
 ist ein Schema aus $m \cdot n$ Elementen $a_{ij}$, die in $m$ Zeilen und $n$ Spalten angeordnet sind. Es handelt sich um eine $m \times n$-Matrix (sprich: \emph{m kreuz n}).
 
-Die Elemente $a_{k1}, a_{k2}, \ldots, a_{km}$ (mit $1 \leq k \leq n$) bilden den $k$-ten Zeilenvektor der Matrix und analog dazu die Elemente $a_{1l}, a_{2l}, \ldots, a_{nl}$ den $l$-ten Spaltenvektor. (\vgl \citep{optimierung}, 39)
+Die Elemente $a_{k1}, a_{k2}, \ldots, a_{km}$ (mit $1 \leq k \leq n$) bilden den $k$-ten Zeilenvektor der Matrix und analog dazu die Elemente $a_{1l}, a_{2l}, \ldots, a_{nl}$ den $l$-ten Spaltenvektor. \vgls{optimierung}{39}
 
 Matrizen mit $m = n$ werden als \emph{quadratische Matrizen} bezeichnet und nehmen bei vielen Operationen eine Sonderstellung ein.
 % Besondere Eigenschaften der quadratischen Matrizen? Einige Operationen sind nur für quadratische Matrizen definiert, ...
 
-Zwei Matrizen heißen gleich, wenn sie von gleicher Dimension sind und in allen an gleichen Stellen stehenden Elemten übereinstimmen. (\vgl \citep{bronstein}, 204)
+Zwei Matrizen heißen gleich, wenn sie von gleicher Dimension sind und in allen an gleichen Stellen stehenden Elemten übereinstimmen. \vgls{bronstein}{204}
 
 Als \emph{Hauptdiagonale} wird die gedachte Linie von der linken oberen Ecke bis zur rechten unteren Ecke einer Matrix bezeichnet -- die Elemente der Hauptdiagonale sind also $a_{11}, a_{22}, \ldots, a_{nn}$. Quadratische Matrizen, die außerhalb der Hauptdiagonale nur Elemente mit dem Wert $0$ haben, werden als \emph{Diagonalmatrizen} bezeichnet.
 % siehe http://de.wikipedia.org/wiki/Diagonalmatrix. Stimmt das?!
@@ -73,7 +73,7 @@ mit $1 \leq i \leq m$ und $1 \leq j \leq n$.
 
 Folglich ist das Ergebnis der Addition wiederum eine $m \times n$-Matrix.
 
-Die Matrizenaddition ist assoziativ und kommutativ. (\vgl \citep{bronstein}, 205) Es ist leicht zu erkennen, dass die Matrizenaddition -- analog zur Null bei der Addition von Skalaren -- ein neutrales Element besitzt: eine Matrix deren Elemente alle $0$ sind, kurz \emph{Nullmatrix} genannt.
+Die Matrizenaddition ist assoziativ und kommutativ. \vgls{bronstein}{205}\ Es ist leicht zu erkennen, dass die Matrizenaddition -- analog zur Null bei der Addition von Skalaren -- ein neutrales Element besitzt: eine Matrix deren Elemente alle $0$ sind, kurz \emph{Nullmatrix} genannt.
 
 Die Addition wird in der 3D-Grafik äußerst selten gebraucht, da sie im Gegensatz zur Multiplikation und zur Inversion keine geometrische Entsprechung hat.
 % @cn
@@ -126,7 +126,7 @@ Für die Multiplikation von quadratischen Matrizen gibt es ein neutrales Element
 \end{equation}
 gilt. $E$ wird als \emph{Einheitsmatrix} bezeichnet und ist eine Diagonalmatrix, deren Elemente entlang der Hauptdiagonale alle den Wert $1$ haben. Es gibt natürlich für alle verschiedenen Größen $n \times n$ jeweils eine eigene Einheitsmatrix $E_n$. Im Normalfall ist aber ohnehin ersichtlich, welche Dimensionen die verwendete Einheitsmatrix haben muss, deswegen wird in der Praxis meistens auf den Index verzichtet.
 
-Sofern die Bedingungen bezüglich der Dimensionen der Operanden erfüllt sind, ist die Matrizenmultiplikation assoziativ. Das Kommutativgesetz gilt aber nicht!887u (\vgl \citep{bronstein}, 205)
+Sofern die Bedingungen bezüglich der Dimensionen der Operanden erfüllt sind, ist die Matrizenmultiplikation assoziativ. Das Kommutativgesetz gilt aber nicht! \vgls{bronstein}{205}
 
 \subsection{Transformation von Vektoren}
 Da ein $n$-dimensionaler Spaltenvektor ja im Grunde nichts anderes ist als eine $n \times 1$-Matrix, kann man natürlich auch eine Matrix mit einem Vektor multiplizieren. Wenn es sich dabei um eine quadratische $n \times n$-Matrix handelt, ist das Ergebnis wiederum ein $n$-dimensionaler Vektor. Rechnet man eine solche Multiplikation in ihrer allgemeinen Form aus
@@ -204,7 +204,7 @@ Wie sich leicht überprüfen lässt, hebt sich die Transposition auf, wenn sie z
  (A^T)^T = A.
 \end{equation}
 
-Bezüglich der Addition ist die Transposition distributiv, bezüglich der Multiplikation distributiv unter Umkehrung der Reihenfolge. (\vgl \citep{bronstein}, 206) Es gelten also die Gleichungen
+Bezüglich der Addition ist die Transposition distributiv, bezüglich der Multiplikation distributiv unter Umkehrung der Reihenfolge. \vgls{bronstein}{206}\ Es gelten also die Gleichungen
 \begin{equation}
  (A + B)^T = A^T + B^T
 \end{equation}
@@ -234,7 +234,7 @@ Dies ist insofern erwähnenswert, als in der 3D-Grafik zwei große Standards exi
 Die Determinante ist eine spezielle Funktion, die einer quadratischen Matrix $A$ eine Zahl $\det A$ zuordnet. Das Ergebnis kann auf verschiedene Weisen interpretiert werden, die bekannteste Verwendung ist sicherlich zur Volumenberechnung in der Vektorrechnung (der Betrag der Determinante dreier Vektoren aus dem $\mathbb R^3$ entspricht dem Spatprodukt).
 % @cn (Wikipedia)
 
-Wenn die Matrix als Koeffizientenmatrix eines linearen Gleichungssystems aufgefasst wird, besitzt dieses genau dann eine eindeutige Lösung, wenn ihre Determinante ungleich 0 ist (solche Matrizen werden als \emph{reguläre Matrizen} bezeichnet). (\vgl \citep{optimierung}, 56)
+Wenn die Matrix als Koeffizientenmatrix eines linearen Gleichungssystems aufgefasst wird, besitzt dieses genau dann eine eindeutige Lösung, wenn ihre Determinante ungleich 0 ist (solche Matrizen werden als \emph{reguläre Matrizen} bezeichnet). \vgls{optimierung}{56}
 
 In der Grafikprogrammierung ist die Determinante selbst praktisch bedeutungslos, allerdings wird sie für ein Verfahren zur Inversion von Matrizen benötigt (siehe Abschnitt \ref{inversion}).
 
@@ -255,13 +255,13 @@ Mit Hilfe des Laplace'schen Entwicklungssatzes kann die Berechnung von Determina
 \label{cofactor}
  \tilde{a}_{ij} = (-1)^{i+j} M_{ij}
 \end{equation}
-wird als \emph{Kofaktor} von A bezeichnet. Nach dem Laplace'schen Erweiterungssatz kann die Determinante einer Matrix als Summe der Produkte ihrer Elemente mit den zugehörigen Kofaktoren \enquote{nach} einer beliebigen Zeile oder Spalte entwickelt werden (\vgl \citep{bronstein}, 202):
+wird als \emph{Kofaktor} von A bezeichnet. Nach dem Laplace'schen Erweiterungssatz kann die Determinante einer Matrix als Summe der Produkte ihrer Elemente mit den zugehörigen Kofaktoren \enquote{nach} einer beliebigen Zeile oder Spalte entwickelt werden \vgls{bronstein}{202}:
 \begin{equation}
  \det A = \sum_{i=1}^n a_{ik} \tilde{a}_{ik} = \sum_{j=1}^n a_{kj} \tilde{a}_{kj}
 \end{equation}
 (mit $1 \leq k \leq n$).
 
-Hieraus lässt sich schon eine Eigenschaft im Bezug auf die Transposition erkennen: Die Determinante einer Matrix verändert sich nicht, wenn man die Matrix transponiert. (\vgl \citep{bronstein}, 201) Es gilt also:
+Hieraus lässt sich schon eine Eigenschaft im Bezug auf die Transposition erkennen: Die Determinante einer Matrix verändert sich nicht, wenn man die Matrix transponiert. \vgls{bronstein}{201}\ Es gilt also:
 \begin{equation}
 \label{transposeddeterminant}
  \det A = \det A^T
@@ -280,7 +280,7 @@ Eine Matrix $A$ kann eine inverse Matrix $A^{-1}$ besitzen, für die
 \begin{equation}
  A \cdot A^{-1} = A^{-1} \cdot A = E
 \end{equation}
-gilt. $A^{-1}$ wird auch kurz als Inverse bezeichnet. Wie oben schon angemerkt, existiert nur zu regulären Matrizen eine inverse Matrix, also zu quadratischen Matrizen, deren Determinante ungleich $0$ ist. (\vgl \citep{bronstein}, 206)
+gilt. $A^{-1}$ wird auch kurz als Inverse bezeichnet. Wie oben schon angemerkt, existiert nur zu regulären Matrizen eine inverse Matrix, also zu quadratischen Matrizen, deren Determinante ungleich $0$ ist. \vgls{bronstein}{206}
 
 Nicht-quadratische Matrizen können prinzipiell keine inverse Matrix besitzen.
 % allerdings können unter Umständen ... http://en.wikipedia.org/wiki/Moore-Penrose_pseudoinverse
@@ -297,7 +297,7 @@ Eine singuläre, also nicht invertierbare Matrix ist oft auf den ersten Blick er
 \end{equation}
 keine inverse Matrix existieren, denn wenn man einen Vektor mit dieser Matrix transformiert, geht die Information aus der $y$-Koordinate \enquote{verloren}. Somit ist es nachträglich nicht mehr möglich, den ursprünglichen Vektor wiederherzustellen.
 
-In Bezug auf Transposition gilt für die Inversion (\vgl \citep{wiki:inverse}):
+In Bezug auf Transposition gilt für die Inversion \vglr{wiki:inverse}:
 \begin{equation}
  (A^{-1})^T = (A^T)^{-1}.
 \end{equation}
@@ -392,7 +392,7 @@ In Bezug auf die 3D-Grafik am Computer bleibt noch festzustellen, dass die Inver
 \label{quaternionmath}
 Der Körper der komplexen Zahlen $\mathbb C$ als Erweiterung der reellen Zahlen ist ja bereits aus dem Schulunterricht bekannt. Neben einigen anderen wichtigen Eigenschaften wie der algebraischen Abgeschlossenheit\footnote{Dies ist der Inhalt des berühmten Fundamentalsatzes der Algebra, der Ende des 18. Jahrhunderts von Carl Friedrich Gauß bewiesen wurde.}, haben die komplexen Zahlen die angenehme Eigenschaft, dass sie gleichzeitig ein zweidimensionaler reeller Vektorraum sind und sich über sie viele Brücken zwischen Geometrie und Algebra schlagen lassen.
 
-Es verwundert deshalb nicht, dass viele Mathematiker versuchten, ein dreidimensionales Äquivalent zu den komplexen Zahlen zu finden. Einer von ihnen war auch der irische Mathematiker Hamilton, der wie alle anderen zunächst an dem Problem scheiterte, dass für \enquote{dreidimensionale komplexe Zahlen} keine vernünftigen Rechenregeln zu finden waren. Schließlich kam ihm die entscheidende Idee (angeblich, während er mit seiner Frau über die Broom Bridge in Dublin spazierte), das Konzept um eine zusätzliche vierte Komponente zu erweitern. (zu diesem und den folgenden Absätzen \vgl \citep{quaternionrotation}, 29-37)
+Es verwundert deshalb nicht, dass viele Mathematiker versuchten, ein dreidimensionales Äquivalent zu den komplexen Zahlen zu finden. Einer von ihnen war auch der irische Mathematiker Hamilton, der wie alle anderen zunächst an dem Problem scheiterte, dass für \enquote{dreidimensionale komplexe Zahlen} keine vernünftigen Rechenregeln zu finden waren. Schließlich kam ihm die entscheidende Idee (angeblich, während er mit seiner Frau über die Broom Bridge in Dublin spazierte), das Konzept um eine zusätzliche vierte Komponente zu erweitern. (zu diesem und den folgenden Absätzen \vglst{quaternionrotation}{ 29-37})
 
 Eine \emph{Quaternion}\footnote{In der Literatur wird der Begriff sowohl im Maskulinum, als auch im Femininum gebraucht. Ich habe mich in diesem Dokument dazu entschlossen, laut Duden die weibliche Form zu verwenden.} ist also eine Zahl der Form
 \begin{equation}
@@ -420,7 +420,7 @@ Der (reelle) Betrag einer Quaternion ist analog zu den komplexen Zahlen und den 
 \end{equation}
 definiert. Eine Quaternion mit $\left| q \right| = 1$ wird als \emph{Einheitsquaternion} bezeichnet.
 
-Wie schon durch die Zeichen $x$, $y$ und $z$ angedeutet, kann man eine Quaternion auch als Struktur mit einem \emph{skalaren Anteil} $w$ und einem \emph{vektoriellen Anteil} \textvec{x}{y}{z} gesehen werden. Eine alternative Schreibweise für die Quaternion $q = w + v_{x}i + v_{y}j + v_{z}k$ lautet daher $\left[w; \vec v \right]$. Quaternionen mit dem Realteil $0$ heißen auch \emph{reine Quaternionen}, eine reine Quaternion $q = 0 + v_{x}i + v_{y}j + v_{z}k$ kann jederzeit als Vektor $ \vec v = \begin{pmatrix} x & y & z \end{pmatrix}^T \in \mathbb R^3$ ausgedrückt werden und umgekehrt. Die einem Vektor $\vec v$ zugeordnete reine Quaternion wird als $\hat{v}$ abgekürzt: (\vgl \citep{script:spain}, 92 und \citep{rotationissues}, 4)
+Wie schon durch die Zeichen $x$, $y$ und $z$ angedeutet, kann man eine Quaternion auch als Struktur mit einem \emph{skalaren Anteil} $w$ und einem \emph{vektoriellen Anteil} \textvec{x}{y}{z} gesehen werden. Eine alternative Schreibweise für die Quaternion $q = w + v_{x}i + v_{y}j + v_{z}k$ lautet daher $\left[w; \vec v \right]$. Quaternionen mit dem Realteil $0$ heißen auch \emph{reine Quaternionen}, eine reine Quaternion $q = 0 + v_{x}i + v_{y}j + v_{z}k$ kann jederzeit als Vektor $ \vec v = \begin{pmatrix} x & y & z \end{pmatrix}^T \in \mathbb R^3$ ausgedrückt werden und umgekehrt. Die einem Vektor $\vec v$ zugeordnete reine Quaternion wird als $\hat{v}$ abgekürzt \vglsd{script:spain}{92}{rotationissues}{4}:
 \begin{equation}
  \hat{v} = \left[ 0; \vec v \right]
 \end{equation} 
