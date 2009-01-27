@@ -13,7 +13,7 @@ Trotz der universellen Verwendung gehen die benötigten Operationen nicht über 
 $\vec{a}\cdot\vec{b} = \left|\vec{a}\right|\left|\vec{b}\right|\cos\alpha$
 den von zwei Vektoren eingeschlossenen Winkel zu berechnen oder über das Kreuzprodukt eine Normale eines Polygons zu bestimmen.
 
-Ich möchte an dieser Stelle noch kurz auf eine Eigenheit von Vektoren hinweisen, die im Schulunterricht bestenfalls kurz erwähnt wird: Vektoren können auf zwei Arten notiert werden, in Spaltenform
+Ich möchte an dieser Stelle noch kurz auf eine Eigenheit im Bezug auf Vektoren hinweisen, die im Schulunterricht bestenfalls kurz erwähnt wird: Vektoren können auf zwei Arten notiert werden, in Spaltenform
 \begin{equation*}
  \vec{v} = \begin{pmatrix} x \\ y \\ z \end{pmatrix},
 \end{equation*}
@@ -283,6 +283,7 @@ Eine Matrix $A$ kann eine inverse Matrix $A^{-1}$ besitzen, für die
 gilt. $A^{-1}$ wird auch kurz als Inverse bezeichnet. Wie oben schon angemerkt, existiert nur zu regulären Matrizen eine inverse Matrix, also zu quadratischen Matrizen, deren Determinante ungleich $0$ ist. \vgls{bronstein}{206}
 
 Nicht-quadratische Matrizen können prinzipiell keine inverse Matrix besitzen.
+% @more
 % allerdings können unter Umständen ... http://en.wikipedia.org/wiki/Moore-Penrose_pseudoinverse
 
 Im Bezug auf die Rolle der Matrix als Darstellung einer geometrischen Transformation ist es wichtig zu erkennen, dass die Multiplikation eines Vektors mit der inversen Matrix dem \emph{Rückgängig machen} der Transformation entspricht. Hat man also beispielsweise einen Vektor $\vec v$ mit der Matrix $A$ transformiert, erhält man nach einer Multiplikation mit der Inversen $A^{-1}$ wieder den ursprünglichen Vektor. Dies lässt sich auch direkt aus der Definition ableiten: $A^{-1} \cdot ( A \cdot \vec v ) = (A^{-1} \cdot A) \cdot \vec v = E \cdot \vec v = \vec v$.
@@ -391,6 +392,7 @@ In Bezug auf die 3D-Grafik am Computer bleibt noch festzustellen, dass die Inver
 \section{Quaternionen}
 \label{quaternionmath}
 Der Körper der komplexen Zahlen $\mathbb C$ als Erweiterung der reellen Zahlen ist ja bereits aus dem Schulunterricht bekannt. Neben einigen anderen wichtigen Eigenschaften wie der algebraischen Abgeschlossenheit\footnote{Dies ist der Inhalt des berühmten Fundamentalsatzes der Algebra, der Ende des 18. Jahrhunderts von Carl Friedrich Gauß bewiesen wurde.}, haben die komplexen Zahlen die angenehme Eigenschaft, dass sie gleichzeitig ein zweidimensionaler reeller Vektorraum sind und sich über sie viele Brücken zwischen Geometrie und Algebra schlagen lassen.
+% @cn
 
 Es verwundert deshalb nicht, dass viele Mathematiker versuchten, ein dreidimensionales Äquivalent zu den komplexen Zahlen zu finden. Einer von ihnen war auch der irische Mathematiker Hamilton, der wie alle anderen zunächst an dem Problem scheiterte, dass für \enquote{dreidimensionale komplexe Zahlen} keine vernünftigen Rechenregeln zu finden waren. Schließlich kam ihm die entscheidende Idee (angeblich, während er mit seiner Frau über die Broom Bridge in Dublin spazierte), das Konzept um eine zusätzliche vierte Komponente zu erweitern. (zu diesem und den folgenden Absätzen \vglst{quaternionrotation}{ 29-37})
 

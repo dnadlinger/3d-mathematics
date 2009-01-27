@@ -29,13 +29,13 @@ die Matrix $M$ entspricht dabei der auf den Vektor angewendeten Transformation, 
 \end{equation}
 Wenn man den ersten Teil der Gleichung transponiert
 \begin{equation}
- \left( \vec{n}^T \cdot M^{-1} \right)^T \cdot \vec{v'} = 0,
+ \left( \left( \vec{n}^T \cdot M^{-1} \right) \cdot \vec{v'} \right)^T = 0,
 \end{equation}
 erhält man mit Hilfe des Zusammenhangs aus Gleichung \ref{transpositionmultiplication} das Ergebnis
 \begin{equation}
- \left( \left(M^{-1}\right)^T \cdot \vec{n} \right) \cdot \vec{v'} = 0.
+ \vec{v'}^T \cdot \left( \left(M^{-1}\right)^T \cdot \vec{n} \right) = 0.
 \end{equation}
-Der Normalvektor einer Fläche wird also transponiert, indem man ihn mit der \emph{transponierten Inversen der Transformationsmatrix} multipliziert. Die Länge des Vektors ist in den Bedingungen allerdings nicht enhalten -- wird für die weiteren Berechnungen ein Einheitsvektor gebraucht, muss das Ergebnis noch normalisiert werden.
+Der Normalvektor einer Fläche wird also transformiert, indem man ihn mit der \emph{transponierten Inversen der Transformationsmatrix} multipliziert. Die Länge des Vektors ist in den Bedingungen allerdings nicht enhalten -- wird für die weiteren Berechnungen ein Einheitsvektor gebraucht, muss das Ergebnis noch normalisiert werden.
 
 \section{Skalierung}
 \label{scaling}
