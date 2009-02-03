@@ -43,7 +43,12 @@ Das Polygonnetz kann sowohl direkt in einem entsprechenden Modellierungsprogramm
 
 Das Ergebnis kann bereits als so gennantes \emph{Drahtgittermodell} angezeigt werden, auf Englisch wird diese Darstellungsart \emph{Wireframe} genannt. Dabei werden die Vertices einfach durch Linien miteinander verbunden.
 
-% Image: wireframe model
+\begin{wrapfigure}{r}{0.4\textwidth}
+  \vspace{-10pt}
+  \includegraphics[width=0.39\textwidth]{dwarf_wireframe}
+  \vspace{-10pt}
+  \caption{Modell eines Zwerges in Wireframe-Darstellung (nur Vorderseiten).}
+\end{wrapfigure}
 
 \subsection{Oberflächeneigenschaften}
 Strenggenommen könnten die Flächen des Modells bereits jetzt gefüllt dargestellt werden. Es fehlen allerdings noch jegliche Informationen über das Material des Objekts. Für die Berechnung eines Bildes sind natürlich in erster Linie die \emph{Reflexionseigenschaften} des Objektes interessant, ist es doch das reflektierte Licht, welches das Bild entstehen lässt.
@@ -54,17 +59,25 @@ Zusätzlich werden jedem Vertex zwei Eigenschaften zugeordnet: die \emph{Farbe} 
 
 Mittlerweile sollte sich das mathematische Unterbewusstsein schon zu Wort gemeldet haben -- auf einen Vertex, also einen 
 % Lz: einem
-einzelnen Ortsvektor, lässt sich natürlich keine Normale bilden. Der Grund für diese seltsame Konstruktion liegt in der Verwendung der Normalvektoren für die Lichtberechnung. Zunächst würde man annehmen, dass die Normalvektoren der Eckpunkte eines Polygons ohnehin in die gleiche Richtung zeigen würden. Dies ist grundsätzlich richtig, und mit einer Normale pro Dreieck kann man die Lichtberechnungen auch schon ausführen. Diese Berechnungsart, deren Ergebnis in Abbildung XX zu sehen ist, wird als \emph{Flat Shading} bezeichnet.
+einzelnen Ortsvektor, lässt sich natürlich keine Normale bilden. Der Grund für diese seltsame Konstruktion liegt in der Verwendung der Normalvektoren für die Lichtberechnung. Zunächst würde man annehmen, dass die Normalvektoren der Eckpunkte eines Polygons ohnehin in die gleiche Richtung zeigen würden. Dies ist grundsätzlich richtig, und mit einer Normale pro Dreieck kann man die Lichtberechnungen auch schon ausführen. Diese Berechnungsart wird als \emph{Flat Shading} bezeichnet.
 
-% Image: Flat shaded cube
+\begin{wrapfigure}{r}{0.4\textwidth}
+  \includegraphics[width=0.39\textwidth]{dwarf_flat}
+  \label{modelflat}
+  \vspace{-10pt}
+  \caption{Flat Shading.}
+\end{wrapfigure}
 
-Der Nachteil dieser Methode wird deutlich, wenn man bedenkt, dass ja aus Effizienzgründen auch alle runden Körper mit Dreiecksnetz angenähert werden. Bei Verwendung von Flat Shading ergeben sich dann hässliche Kanten zwischen den Flächen, wie in Abbildung XX zu sehen.
+Der Nachteil dieser Methode wird deutlich, wenn man bedenkt, dass ja aus Effizienzgründen auch alle runden Körper mit Dreiecksnetz angenähert werden. Bei Verwendung von Flat Shading ergeben sich dann hässliche Kanten zwischen den Flächen, wie in Abbildung \ref{modelflat} zu sehen.
 
-% Image: Flat shaded sphere
+\begin{wrapfigure}{r}{0.4\textwidth}
+  \includegraphics[width=0.39\textwidth]{dwarf_gouraud}
+  \label{modelgouraud}
+  \vspace{-10pt}
+  \caption{Gouraud Shading.}
+\end{wrapfigure}
 
 Um dieses Problem zu umgehen, wird nun jedem Vertex ein Normalvektor zugeordnet. Für harte Kanten entspricht dieser weiterhin der Flächennormalen des Dreiecks. Für weiche Kanten hingegen wird dieser Vektor als Mittelwert der Normalvektoren aller angenzenden Flächen berechnet\footnote{Die Interpolation der Normalvektoren aus denen der angrenzenden Flächen ist die einfachste Möglichkeit. Natürlich können die Normalvektoren der Vertices auch anders generiert werden, beispielsweise von Hand durch den Künstler.}. Bei der Helligkeitsberechnung der Pixel, die zu diesem Dreieck gehören, wird dann linear zwischen den Helligkeitswerten der Eckpunkte (\emph{Gouraud Shading}) oder gleich deren Normalvektoren (\emph{Phong Shading}) interpoliert.
-
-% Image: Phong shaded model
 
 Eine weitere wichtige Materialeigenschaft ist die Transparenz. Dazu ist noch anzumerken, dass eine physikalisch korrekte Simulation der Lichtbrechung und der dadurch hervorgerufenen Phänomäne für Echtzeitanwendungen viel zu rechenaufwändig wäre. Statdessen wird im Normalfall das Objekt einfach durchsichtig gezeichnet, die Farbe des dahinter befindlichen Objekts also nicht vollständig überdeckt.
 
@@ -74,9 +87,14 @@ Bis jetzt sind alle Informationen, also Farbe, etc. in den Vertices gespeichert.
 
 Die Antwort der 3D-Grafik auf diese Probleme sind die sogenannten \emph{Texturen}. Dabei handelt es sich um Bilder, die gleichsam wie eine Tapete auf die Geometrie der Objekte \enquote{geklebt} werden. Dazu werden in den Vertices die (zweidimensionalen) \emph{Texturkoordinaten} gespeichert, die dem Vertex eine bestimmte Position auf der Textur, ein sogenanntes \emph{Texel}\footnote{An sich gibt es keinen Unterschied zwischen Pixel und Texel, der Begriff dient nur zur Verdeutlichung, dass auf eine Textur Bezug genommen wird und nicht etwa auf ein Pixel im Ergebnisbild.}, zuordnen. Beim Zeichnen eines Dreiecks werden dann für jedes Pixel die Texturkoordinaten aus denen der Eckpunkte interpoliert und der Wert der Textur an dieser Stelle ausgelesen.
 
-% Image: Texture mapping
+\begin{wrapfigure}{r}{0.4\textwidth}
+  \includegraphics[width=0.39\textwidth]{dwarf_textured}
+  \label{modeltextured}
+  \vspace{-10pt}
+  \caption{Diffuse Textur kombiniert mit Gouraud Shading.}
+\end{wrapfigure}
 
-Im einfachsten und häufigsten Fall handelt es sich dabei um die Farbe des Objektes. Texturen können aber auch zur Modifikation vieler anderer Parameter eingesetzt werden, beispielsweise als \emph{Alpha Map}, die die Transparenz des Objektes steuert, oder als \emph{Normal Map} für die Flächennormalen, um eine rauhe Oberfläche zu simulieren.
+Im einfachsten und häufigsten Fall handelt es sich dabei um die Farbe des Objektes (siehe Abbildung \ref{modeltextured}). Texturen können aber auch zur Modifikation vieler anderer Parameter eingesetzt werden, beispielsweise als \emph{Alpha Map}, die die Transparenz des Objektes steuert, oder als \emph{Normal Map} für die Flächennormalen, um eine rauhe Oberfläche zu simulieren.
 
 Bei allen Arten von Texturen (mit Ausnahme einiger moderner Verfahren) muss aber beachtet werden, dass sie die eigentliche Geometrie eines Objektes nicht verändern und damit Vorgänge wie Schatten- und Verdeckungsberechnung nicht beeinflussen. Auch wenn etwa durch eine Normal Map eine strukturierte Oberfläche simuliert wird, erscheint der Rand des Objektes also als gerade Linie, was schnell unrealistisch wirken kann.
 
@@ -91,11 +109,11 @@ Die Idee der Nachverfolung von Strahlen wird von einem anderen Berechnungsverfah
 Für den Einsatz in Echtzeitsituationen ist aber auch Ray Tracing (derzeit) nicht schnell genug. Deswegen wird auf ein anderes Verfahren zurückgegriffen, das als \emph{Rasterisierung} oder \emph{Scanline Rendering} bezeichnet wird. Dahinter verbirgt sich folgende Idee: Die Abbildung der Szene aus Sicht der virtuellen Kamera kann als Koordinatentransformation aller Objekte in das Koordinatensystem des Bildschirms betrachtet werden. Wenn diese Transformation auf alle Vertices in der Szene angewendet wird, kennt man die Position alle Dreiecke am Bildschirm, man braucht diese also nur noch zu füllen. Dieser Prozess wird als \emph{Rendering-} oder \emph{Grafikpipeline} bezeichnet und wird in der Computergrafik von speziellen Bausteinen übernommen, den Grafikkarten.
 % Geschichtliches zu Grafikkarten?
 
-Die Grafikpipeline lässt sich in zwei Teile aufteilen: Zuerst erfolgen die Koordinatentransformationen und einige andere Berechnungen, die auf der Ebene der Eckpunkte, also mit Hilfe von Vektoralgebra ablaufen. Danach wird die Farbe der einzelnen Pixel des Ergebnisbildes (das im Normalfall am Bildschirm präsentiert wird) berechnet, diese Berechnungen finden also auf Pixel-Ebene statt. In den folgenden beiden Abschnitten werde ich einen kurzen Überblick über die dabei ablaufenden Operationen geben. Nach einer kurzen Betrachtung der praktischen Umsetzung in der Computergrafik werden wir diese Operationen detailliert aus mathematischer Sicht betrachten, der Fokus soll dabei auf dem ersten Teil der Grafikpipeline liegen.
+Die Grafikpipeline lässt sich in zwei Teile aufteilen: Zuerst erfolgen die Koordinatentransformationen und einige andere Berechnungen, die auf der Ebene der Eckpunkte, also mit Hilfe von Vektoralgebra ablaufen. Danach wird die Farbe der einzelnen Pixel des Ergebnisbildes (das im Normalfall am Bildschirm präsentiert wird) berechnet, diese Berechnungen finden also auf Pixel-Ebene statt.
+% @stil:
+In den folgenden beiden Abschnitten werde ich einen kurzen Überblick über die dabei ablaufenden Operationen geben. Nach einer kurzen Betrachtung der praktischen Umsetzung in der Computergrafik werden wir diese Operationen detailliert aus mathematischer Sicht betrachten, der Fokus soll dabei auf dem ersten Teil der Grafikpipeline liegen.
 
 % Image: graphics pipeline blocks
-
-% In einer modernen Grafikkarte wird diese Aufgabe von programmierbaren \emph{Vertex Shardern} erledigt. In einer Grafikkarte sind hierfür die ebenfalls programmierbaren \emph{Pixel Shader} zuständig.
 
 \subsection{Koordinatentransformationen}
 \label{coordinatesystems}
@@ -113,7 +131,7 @@ Die Verwendung eines kanonischen Sichtvolumens hat den Vorteil, dass die Art der
 
 Nach der Projektion werden alle Bereiche verworfen, die sich außerhalb des Sichtvolumens befinden. Dieser Vorgang wird \emph{Clipping} genannt, die Koordinaten nach der Multiplikation mit der Projection Matrix werden daher auch als \emph{Clipping-Koordinaten} bezeichnet.
 
-Um die endgültige Position der Dreiecke am Bildschirm zu erhalten, muss das Ergebnis der Projektion nur noch auf die Auflösung des Bildschirms \enquote{gestreckt} werden. Dieser Schritt wird als \emph{Viewport Transformation} bezeichnet, die Eckpunkte der Dreiecke liegen nun in \emph{Bildschirm-Koordinaten} vor. Dieses Koordinatensystem hat seinen Ursprung in der linken oberen Ecke des Bildschirms. Die $x$-Koordinaten wachsen dabei nach rechts, die $y$-Koordinaten nach unten.
+Um die endgültige Position der Dreiecke zu erhalten, muss das Ergebnis der Projektion nur noch auf die Auflösung des Ausgabemediums \enquote{gestreckt} werden. Dieser Schritt wird als \emph{Viewport Transformation} bezeichnet, die Eckpunkte der Dreiecke liegen danach in \emph{Viewport-Koordinaten} vor. In den meisten Fällen hat dieses Koordinatensystem seinen Ursprung in der linken oberen Ecke des Bildschirms. Die $x$-Koordinaten wachsen dabei nach rechts, die $y$-Koordinaten nach unten.
 
 Wie in Kapitel \ref{transformationmatrixcombination} gezeigt, können World, View und Projection Matrix durch Multiplikation leicht in eine Matrix kombiniert werden. Dadurch ist nur mehr eine Matrizenmultiplikation nötig, um einen großen Teil der Transformationen zu erledigen, wodurch dieser Schritt sehr effizient erledigt werden kann.
 

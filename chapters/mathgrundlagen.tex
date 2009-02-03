@@ -234,7 +234,7 @@ Dies ist insofern erwähnenswert, als in der 3D-Grafik zwei große Standards exi
 Die Determinante ist eine spezielle Funktion, die einer quadratischen Matrix $A$ eine Zahl $\det A$ zuordnet. Das Ergebnis kann auf verschiedene Weisen interpretiert werden, die bekannteste Verwendung ist sicherlich zur Volumenberechnung in der Vektorrechnung (der Betrag der Determinante dreier Vektoren aus dem $\mathbb R^3$ entspricht dem Spatprodukt).
 % @cn (Wikipedia)
 
-Wenn die Matrix als Koeffizientenmatrix eines linearen Gleichungssystems aufgefasst wird, besitzt dieses genau dann eine eindeutige Lösung, wenn ihre Determinante ungleich 0 ist (solche Matrizen werden als \emph{reguläre Matrizen} bezeichnet). \vgls{optimierung}{56}
+Wenn die Matrix als Koeffizientenmatrix eines linearen Gleichungssystems aufgefasst wird, besitzt dieses genau dann eine eindeutige Lösung, wenn ihre Determinante ungleich $0$ ist (solche Matrizen werden als \emph{reguläre Matrizen} bezeichnet). \vgls{optimierung}{56}
 
 In der Grafikprogrammierung ist die Determinante selbst praktisch bedeutungslos, allerdings wird sie für ein Verfahren zur Inversion von Matrizen benötigt (siehe Abschnitt \ref{inversion}).
 
@@ -334,7 +334,7 @@ Auf der rechten Seite kann die inverse Matrix $A^{-1}$ nun direkt abgelesen werd
 % Lz: Fußnote mit Gauß-Jordan-Algorithmus
 % Beispiel von http://de.wikipedia.org/wiki/Regul%C3%A4re_Matrix, korrekt?
 
-Mit diesem Verfahren ist die inverse Matrix recht einfach händisch zu berechnen. Es hat allerdings den Nachteil, dass sich daraus keine \enquote{fertige} Formel ableiten lässt, und es daher für den Einsatz in der Grafikprogrammierung nicht ausreichend schnell zu berechnen ist\footnote{Dies gilt wiederum nur für relativ kleine Matrizen, wie sie in der 3D-Grafik ausschließlich zur Anwendung kommen. Bei höherdimensionalen Matrizen führen andere algorithmische Ansätze in der Regel schneller zum Ziel.}.
+Mit diesem Verfahren ist die inverse Matrix recht einfach händisch zu berechnen. Es hat allerdings den Nachteil, dass sich daraus keine \enquote{fertige} Formel ableiten lässt und es daher für den Einsatz in der Grafikprogrammierung nicht ausreichend schnell zu berechnen ist\footnote{Dies gilt wiederum nur für relativ kleine Matrizen, wie sie in der 3D-Grafik ausschließlich zur Anwendung kommen. Bei höherdimensionalen Matrizen führen andere algorithmische Ansätze in der Regel schneller zum Ziel.}.
 
 Daher wird in der 3D-Programmierung meist auf die zweite Variante zurückgegriffen, nach der die Inverse zur Matrix $A$ folgendermaßen definiert ist:
 \begin{equation}
