@@ -1,0 +1,17 @@
+% Kapitel 'Ausblick'
+\chapter{Ausblick}
+
+In den letzten beiden Kapiteln wurden alle Transformationen behandelt, die nötig sind, um die World, View, Projection und Viewport Matrix zu erzeugen. Nachdem die Vertices diese Transformationen durchlaufen haben, liegen ihre Positionen in Bildschirmkoordinaten vor, die Dreiecke brauchen also \enquote{nur noch} gezeichnet werden.
+
+Die Anführungszeichen sind mit Bedacht gewählt, denn die Rasterisierung erscheint höchstens aus einem mathematischen Blickwinkel einfach. Aus programmiertechnischer Sicht ist das Fülllen, wie in Kapitel \ref{grafikgrundlagen} angedeutet, alles andere als trivial. Ein guter Teil der Komplexität entsteht dadurch, dass die Operationen alle äußerst schnell ausgeführt werden können müssen, damit das Programm insgesamt eine akzeptable Leistung erbringt (man bedenke, dass die meisten aktuellen Bildschirme über $10^6$ Bildpunkte haben, deren Farbwerte mindestens 20-30 Mal pro Sekunde berechnet werden müssen). Es müssen also Algorithmen gefunden werden, mit denen Werte wie die $z$-Koordinate, die Farbe, der Normalvektor etc. der Pixel eines Dreiecks möglichst effizient aus denen der Eckpunkte interpoliert werden können, Pixel, die später sowieso von einem näher bei der Kamera liegenden Dreieck überdeckt werden, möglichst früh aussortiert werden können, etc.
+
+Dabei handelt es sich aber um Fragestellungen, deren Beantworung nicht nur den Rahmen dieser Arbeit sprengen würde, sondern die ohne fundierte Kenntnisse der Arbeitsweisen und Abläufe eines Computers auch kaum sinnvoll zu behandeln sind.
+
+Desweitern muss man sich bewusst sein, dass die hier behandelten Themen, wie auch schon im Titel der Arbeit ausgedrückt, lediglich die Grundlagen der 3D-Grafik sind. Es ist zwar möglich, rein mit diesen Hilfsmitteln ein Programm zu programmieren, das eine rudimentäre Darstellung einer Szene erzeugt. Es fehlen jedoch noch viele der Dinge, die die 3D-Grafik während der letzten Jahre erst so richtig interessant werden haben lassen und ihren Einsatz beispielsweise in Computerspielen überhaupt erst ermöglichen.
+
+Dazu zählen zum einen die Techniken, welche die gerenderten Bilder erst halbwegs realistisch erscheinen lassen, also zum Bespiel die in Kapitel \ref{texturing} kurz erwähnten Texturierungstechniken zur Simulation von Details, Techniken zur Darstellung von Reflexionen und Tiefenunschärfe, und viele weitere Spezialeffekte.
+
+Zum anderen sind dies die Techniken, die nötig sind, um größere Mengen an Objekten sinnvoll verwalten zu können. Je nach Einsatzgebiet werden die Daten hier in speziellen Strukturen gespeichert, die den Raum nach einem bestimmten Prinzip unterteilen (etwa in sogenannten Octrees oder BSP-Trees). Zusammen mit anderen Techniken wie zum Beispiel dem Portal-Rendering können so große Teile der eine bestimmte Kameraposition irrelevante Objekte gleich im Vornhinein ausgeschlossen werden. Diese Techniken ermöglichen erst, größere Umgebungen ohne \enquote{künstliche}, für den Spieler sichtbare Unterteilungen in Computerspiele zu integrieren.
+
+Außerdem gehört zu einer Simulation einer dreidimensionalen Welt ja nicht nur die Grafikausgabe, sondern es müssen auch zahlreiche andere Berechnungen im dreidimensionalen Raum ablaufen. Für Computerspiele ist hier besoders die Kollisionserkennung wichtig, bei der möglichst effizient festgestellt werden soll, ob ein Objekt irgendein anderes Objekt der Szene berührt, was wegen der oft hohen Anzahl an Objekten in einer Szene keineswegs trivial ist. \ldots
+% @missing: Animation (SLERP)

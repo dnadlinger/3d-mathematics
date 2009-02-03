@@ -7,7 +7,7 @@ Im vorigen Kapitel haben wir die verschiedenen Formen von Skalierung, Translatio
 \label{view}
 In der 3D-Programmierung haben sich zwei praktische Arten eingebürgert, um die Ansicht auf die Szene festzulegen: Die Position des Betrachters kombiniert mit seiner Blickrichtung oder einem Punkt, den er anvisiert. Die View Matrix, die aus diesen Parametern berechnet wird, überführt das Weltkoordinatensystem in das Kamerakoordinatensystem, das seinen Ursprung im Auge des virtuellen Betrachters hat. Die $x$-Achse des neuen Systems zeigt dabei nach rechts, die $y$-Achse nach oben, und die $z$-Achse (in einem rechtshändigen System) gegen die Blickrichtung.
 
-Im ersten Fall sind drei Vektoren gegeben: der Positionsvektor $\vec p$, der Richtungsvektor $\vec d$, und der Hochvektor $\vec u$. Die Bedeutung von $\vec p$ und $\vec u$ sollte klar sein, der Hochvektor ist nötig, um festzulegen, welche Richtung für den Betrachter \enquote{oben} ist. Alle Vektoren haben Einheitslänge, $\vec u$ steht senkrecht auf $\vec d$. Der dritte Basisvektor des neuen Koordinatensystems, der Rechtsvektor $\vec r$, lässt sich leicht über das Kreuzprodukt berechnen:
+Im ersten Fall sind drei Vektoren gegeben: der Positionsvektor $\vec p$, der Richtungsvektor $\vec d$ und der Hochvektor $\vec u$. Die Bedeutung von $\vec p$ und $\vec u$ sollte klar sein, der Hochvektor ist nötig, um festzulegen, welche Richtung für den Betrachter \enquote{oben} ist. Alle Vektoren haben Einheitslänge, $\vec u$ steht senkrecht auf $\vec d$. Der dritte Basisvektor des neuen Koordinatensystems, der Rechtsvektor $\vec r$, lässt sich leicht über das Kreuzprodukt berechnen:
 \begin{equation}
  \vec r = \vec d \times \vec u
 \end{equation}
@@ -26,7 +26,7 @@ Der Hochvektor berechnet sich nun als Kreuzprodukt aus Rechts- und Richtungsvekt
 \end{equation} 
 was sich unter Zuhilfenahme der Grassmann-Identität\footnote{$\vec a \times ( \vec b \times \vec c ) = \vec b \cdot ( \vec a \cdot \vec c ) - \vec c \cdot ( \vec a \cdot \vec b)$} zu dem schneller zu berechnenden Ausdruck
 \begin{equation}
- \vec u = \frac{ \vec{d} \cdot \left( \vec{u_w} \cdot \vec{d} \right) - \vec{u_w} }{\left| \vec{d} \cdot \left( \vec{u_w} \cdot \vec{d} \right) - \vec{u_w} \right|}
+ \vec u = \frac{ \vec{u_w} - \left( \vec{d} \cdot \vec{u_w} \right) \cdot \vec{d} }{\left| \vec{u_w} - \left( \vec{d} \cdot \vec{u_w} \right) \cdot \vec{d} \right|}
 \end{equation} 
 vereinfachen lässt.
 
@@ -90,7 +90,7 @@ Ich werde mich hier auf die bei Weitem am häufigsten verwendete Art beschränke
 
 Das \emph{Sichtvolumen} der Zentralprojektion wird also grundsätzlich von den Strahlen durch den Augpunkt und die Ecken des Sichtfensters aufgespannt, ist also eine unendliche rechteckige Pyramide mit der Spitze im Augpunkt \textvec{0}{0}{0}. Die Projektion wird normalerweise durch zwei Parameter charakterisiert: den vertikalen Öffnungswinkel des Sichtvolumens, $\varphi$, und das Seitenverhältnis des Sichtfensters (also im Normalfall des Bildschirmes), $\frac{W}{H} = r$. Wir werden hier nur die normalerweise verwendete \emph{symmetrische Zentralprojektion} behandeln, bei der der Augpunkt in das Zentrum des Bildes projiziert wird.
 
-Wie bereits in Kapitel \ref{coordinatesystems} erwähnt, besteht die Aufgabe der Projection Matrix darin, dieses Sichtvolumen in das \emph{kanonische Sichtvolumen} zu überführen, wonach die Geometrie wieder für alle Arten von Projektion gleich behandelt wird. Auch für das kanonische Sichtvolumen gibt es wieder unterschiedliche Konventionen, wir werden hier die DirectX-Variante behandeln, einen Quader zwischen den Punkten \textvec{-1}{-1}{0} und \textvec{1}{1}{1}.
+Wie bereits in Kapitel \ref{coordinatesystems} erwähnt, besteht die Aufgabe der Projection Matrix darin, dieses Sichtvolumen in das \emph{kanonische Sichtvolumen} zu überführen, wonach die Geometrie wieder für alle Arten von Projektion gleich behandelt wird. Auch für das kanonische Sichtvolumen gibt es wieder unterschiedliche Konventionen, wir werden hier die DirectX-Variante behandeln, einen Quader zwischen den Punkten \textvec{-1}{-1}{0} und \textvec{1}{1}{1}. \vglr{directx:transformationpipeline}
 
 \begin{wrapfigure}{r}{0.5\textwidth}
   \includegraphics[width=0.49\textwidth]{clippingplanes}
@@ -98,7 +98,7 @@ Wie bereits in Kapitel \ref{coordinatesystems} erwähnt, besteht die Aufgabe der
   \label{clippingplanes}
 \end{wrapfigure}
 
-Für die Transformation muss das Sichtvolumen aber zuerst begrenzt werden, da sonst verschiedene grundsätzliche und numerische Probleme entstehen werden\footnote{Beispielsweise würden Punkte, die exakt im Augpunkt liegen, ein Problem darstellen.}. Das geschieht mit zwei zur $z$-Achse senkrechten Ebenen, der \emph{Near Clipping Plane} und der \emph{Far Clipping Plane} (von engl. \emph{to clip}, \enquote{abschneiden}). Das entstehende Volumen ist ein Pyramidenstumpf, in der 3D-Grafik meist mit dem englischen Begriff \emph{Frustum} bezeichnet.
+Für die Transformation muss das Sichtvolumen aber zuerst begrenzt werden, da sonst verschiedene grundsätzliche und numerische Probleme entstehen werden\footnote{Beispielsweise würden Punkte, die exakt im Augpunkt liegen, Probleme verursachen und sehr weit entfernte Objekte würden im Hinblick auf die begrenzte Rechengenauigkeit problematisch sein.}. Das geschieht mit zwei zur $z$-Achse senkrechten Ebenen, der \emph{Near Clipping Plane} und der \emph{Far Clipping Plane} (von engl. \emph{to clip}, \enquote{abschneiden}). Das entstehende Volumen ist ein Pyramidenstumpf, in der 3D-Grafik meist mit dem englischen Begriff \emph{Frustum} bezeichnet.
 
 Besonders wichtig ist die Begrenzung des Sichtvolumens für die auf die Projektion folgende Sichtbarkeitsbestimmung, da hier wie auch sonst in Computerprogrammen mit einer beschränkten Genaugkeit gerechnet wird. Ist der Abstand von Near und Far Clipping Plane zu groß, macht sich die begrenzte Genauigkeit bemerkbar und es kommt zu einem als \emph{Z-Fighting} bekannten Phänomen, bei dem auf nicht-deterministische Weise abwechselnd verschiedene Pixel von Polygonen in einer ähnlichen Tiefe im Vordergrund gezeichnet werden.
 
@@ -157,15 +157,15 @@ Nach der Transformation und der homogenen Division ergibt sich mit dieser Matrix
 Nun müssen nur noch passende Werte für $a$ und $b$ gefunden werden. Aus der Definition des kanonischen Sichtvolumens folgen ja die Bedingungen, dass ein Punkt auf der Near Clipping Plane auf $z'=0$, und ein Punkt auf der Far Clipping Plane auf $z'=1$ abgebildet wird. Aus diesen Bedingungen ergibt sich also ein lineares Gleichungssystem mit zwei Variablen
 \begin{equation}
 \begin{split}
- 0 = \frac{a \cdot z_{near} + b}{z_{near}} \\
- 1 = \frac{a \cdot z_{far} + b}{z_{far}},
+ 0 = \frac{a \cdot z_\mathrm{near} + b}{z_\mathrm{near}} \\
+ 1 = \frac{a \cdot z_\mathrm{far} + b}{z_\mathrm{far}},
 \end{split}
 \end{equation}
 welches sich einfach zu
 \begin{equation}
 \begin{split}
- a = \frac{z_{far}}{z_{far}-z_{near}} \\
- b = -z_{near} \cdot a = -\frac{z_{far} \cdot z_{near}}{z_{far}-z_{near}},
+ a = \frac{z_\mathrm{far}}{z_\mathrm{far}-z_\mathrm{near}} \\
+ b = -z_\mathrm{near} \cdot a = -\frac{z_\mathrm{far} \cdot z_\mathrm{near}}{z_\mathrm{far}-z_\mathrm{near}},
 \end{split} 
 \end{equation}
 auflösen lässt. \vglr{perspectiveprojectionmatrix}
@@ -175,22 +175,31 @@ Für die Projektion des rechtwinkligen Sichtvolumens ergibt sich also die Matrix
  P_2 = \begin{pmatrix}
   1 & 0 & 0 & 0 \\
   0 & 1 & 0 & 0 \\
-  0 & 0 & \frac{z_{far}}{z_{far}-z_{near}} & -\frac{z_{far} \cdot z_{near}}{z_{far}-z_{near}} \\
+  0 & 0 & \frac{z_\mathrm{far}}{z_\mathrm{far}-z_\mathrm{near}} & -\frac{z_\mathrm{far} \cdot z_\mathrm{near}}{z_\mathrm{far}-z_\mathrm{near}} \\
   0 & 0 & 1 & 0
  \end{pmatrix}.
 \end{equation}
 
 Kombiniert man die beiden Matrizen durch Multiplikation, erhält man die \emph{Projection Matrix für die Zentralprojektion}:
 \begin{equation}
- M_{proj} = P_2 \cdot P_1 = 
+\begin{split}
+ M_{proj} = P_2 \cdot P_1 &= 
  \begin{pmatrix}
   \frac{1}{\tan\frac{\varphi}{2} \cdot r} & 0 & 0 & 0 \\
   0 & \frac{1}{\tan\frac{\varphi}{2}} & 0 & 0 \\
-  0 & 0 & -\frac{z_{far}}{z_{far}-z_{near}} & \frac{z_{far} \cdot z_{near}}{z_{far}-z_{near}} \\
-  0 & 0 & 1 & 1
+  0 & 0 & -\frac{z_\mathrm{far}}{z_\mathrm{far}-z_\mathrm{near}} & -\frac{z_\mathrm{far} \cdot z_\mathrm{near}}{z_\mathrm{far}-z_\mathrm{near}} \\
+  0 & 0 & -1 & 0
+ \end{pmatrix} \\
+ &= 
+ \begin{pmatrix}
+  \frac{1}{\tan\frac{\varphi}{2} \cdot r} & 0 & 0 & 0 \\
+  0 & \frac{1}{\tan\frac{\varphi}{2}} & 0 & 0 \\
+  0 & 0 & \frac{z_\mathrm{far}}{z_\mathrm{near}-z_\mathrm{far}} & \frac{z_\mathrm{near} \cdot z_\mathrm{far}}{z_\mathrm{near}-z_\mathrm{far}} \\
+  0 & 0 & -1 & 0
  \end{pmatrix}
-\end{equation} 
+\end{split}
+\end{equation}
 
-Nach der Transformation mit dieser Matrix befinden sich alle sichtbaren Dreiecke im kanonischen Sichtvolumen. Auf die Projektion folgt nun, wie in Kapitel \ref{rendering} beschrieben, das \emph{Clipping}. Dabei werden alle Dreiecke, die nicht vollständig innerhalb des kanonischen Sichtvolumens liegen, abgeschnitten beziehungsweise überhaupt verworfen, wenn sie ganz außerhalb liegen.
+Nach der Transformation mit dieser Matrix befinden sich alle theoretisch sichtbaren Vertices im kanonischen Sichtvolumen, der Schritt der Projektion ist also abgeschlossen. Wie in Kapitel \ref{rendering} beschrieben, folgt nun das das \emph{Clipping}. In diesem Schritt wird die darzustellende Geometrie so abgeschnitten, dass sie nicht über das kanonische Sichtvolumen hinausragt. Hier gibt es bei der Behandlung eines Dreiecks grundsätzlich drei Möglichkeiten: Erstens kann es vollständig innerhalb des Sichtvolumens liegen, in diesem Fall bleibt es natürlich unverändert. Zweitens kann es vollständig außerhalb des Sichtvolumens liegen, es wird dann verworfen. Drittens kann es aber auch von einer oder mehreren der Begrenzungsflächen geschnitten werden. In diesem Fall wird das Dreieck verworfen und es werden neue Dreiecke generiert, welche die Fläche des Dreiecks, die innerhalb des Sichtvolumens liegt, ausfüllen.
 
-Viewport-Koordinaten
+Die $x$- und $y$-Koordinaten aller Vertices befinden sich nach dem Clipping also im Bereich $\left[ -1; 1 \right]$. Sie müssen dann nur noch in den Wertebereich des Ausgabemediums gebracht werden. Wenn ein typischer Bildschirm im $4:3$-Format ganz ausgefüllt werden soll, könnte dies beispielsweise der Bereich $\left[ 0; 1279 \right]$ horizontal und $\left[ 0; 959 \right]$ vertikal sein\footnote{Dies entspricht einer Bildschirmauflösung von $1280 \times 960$ -- in der Informatik wird fast immer $0$ als Index für das erste Element verwendet.}. Dieser Schritt wird als \emph{Viewport Transformation} bezeichnet und besteht im Normalfall aus einer Translation und einer Skalierung. Dabei ist zu berücksichtigen, dass die Werte in $y$-Richtung in allen vorherigen Koordinatensystemen nach oben wachsen, die $y$-Achse am Bildschirm aber nach unten zeigt. Es ist also eine Spiegelung an der $xz$-Ebene erforderlich.

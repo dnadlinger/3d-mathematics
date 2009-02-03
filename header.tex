@@ -4,7 +4,7 @@ BCOR=8mm,
 11pt,
 parskip=half,
 %appendixprefix,
-%draft
+%draft,
 ]
 {scrbook}
 
@@ -19,8 +19,16 @@ parskip=half,
 
 
 % Bibliography and citations
+\renewcaptionname{ngerman}{\bibname}{Verwendete Literatur}
 \newcommand{\vgl}{vgl. \thinspace{}}
-
+\usepackage[]{natbib}
+\bibliographystyle{dinat_custom}
+\newcommand{\ccite}[1]{\citet{#1}}
+\newcommand{\vglr}[1]{\citep[vgl.][]{#1}}
+\newcommand{\vgls}[2]{\citep[vgl.][#2]{#1}}
+\newcommand{\vglrt}[1]{\citealp[vgl.][]{#1}}
+\newcommand{\vglst}[2]{\citealp[vgl.][#2]{#1}}
+\newcommand{\vglsd}[4]{(\vgl \citealp[#2]{#1}; \citealp[#4]{#3})}
 %\usepackage{bibgerm}
 %\usepackage[square, numbers]{natbib}
 %\bibliographystyle{geralpha}
@@ -31,15 +39,6 @@ parskip=half,
 %\newcommand{\vglst}[2]{\citep{#1}, #2}
 %\newcommand{\vglsd}[4]{(\vgl \citep{#1}, #2; \citep{#3}, #4)}
 
-\usepackage[]{natbib}
-\bibliographystyle{dinat_custom}
-\newcommand{\ccite}[1]{\citet{#1}}
-\newcommand{\vglr}[1]{\citep[vgl.][]{#1}}
-\newcommand{\vgls}[2]{\citep[vgl.][#2]{#1}}
-\newcommand{\vglrt}[1]{\citealp[vgl.][]{#1}}
-\newcommand{\vglst}[2]{\citealp[vgl.][#2]{#1}}
-\newcommand{\vglsd}[4]{(\vgl \citealp[#2]{#1}; \citealp[#4]{#3})}
-
 
 % Font settings
 \usepackage[T1]{fontenc}
@@ -48,7 +47,8 @@ parskip=half,
 \usepackage[fullfamily,opticals,footnotefigures,mathlf,mathtabular]{MinionPro}
 \renewcommand{\sfdefault}{\rmdefault}
 \usepackage[toc,bib,eqno]{tabfigures}
-%\usepackage{amsmath, amsthm, amssymb}
+% minionpro replaces these packages:
+%\usepackage{amsmath, amssymb}
 
 
 % Captions, footnotes, ...
@@ -60,8 +60,7 @@ parskip=half,
 % Graphics
 \usepackage{graphicx}
 \usepackage{wrapfig}
-%\usepackage{subfig} %%Teilabbildungen in einer Abbildung
-%\usepackage{pst-all} %%PSTricks - nicht verwendbar mit pdfLaTeX
+%\usepackage{subfig}
 \graphicspath{{./images/}}
 
 
