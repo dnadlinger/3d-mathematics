@@ -92,7 +92,7 @@ Das \emph{Sichtvolumen} der Zentralprojektion wird also grundsätzlich von den S
 
 Wie bereits in Kapitel \ref{coordinatesystems} erwähnt, besteht die Aufgabe der Projection Matrix darin, dieses Sichtvolumen in das \emph{kanonische Sichtvolumen} zu überführen, wonach die Geometrie wieder für alle Arten von Projektion gleich behandelt wird. Auch für das kanonische Sichtvolumen gibt es wieder unterschiedliche Konventionen, wir werden hier die DirectX-Variante behandeln, einen Quader zwischen den Punkten \textvec{-1}{-1}{0} und \textvec{1}{1}{1}. \vglr{directx:transformationpipeline}
 
-\begin{wrapfigure}{r}{0.5\textwidth}
+\begin{wrapfigure}{R}{0.5\textwidth}
   \includegraphics[width=0.49\textwidth]{clippingplanes}
   \caption{Near- und Far Clipping Plane.}
   \label{clippingplanes}
@@ -104,7 +104,7 @@ Besonders wichtig ist die Begrenzung des Sichtvolumens für die auf die Projekti
 
 Zur Herleitung der Projection Matrix für die Zentralprojektion transformieren wir das Sichtvolumen zunächst einmal so, dass der horizontale und der vertikale Öffnungswinkel $90^\circ$ betragen ($\varphi = 1$ und $r = 1$). Dazu ist eine Skalierung entlang der $x$- und der $y$-Achse nötig: Wie sich aus Abbildung \ref{clippingplanes} und \ref{rightangledvolume} leicht erkennen lässt, wächst die $y$-Koordinate der oberen und unteren Begrenzung des Frustums bei steigender $z$-Koordinate mit dem Faktor $\pm \tan\frac{\varphi}{2}$, im transformierten Frustum aber mit dem Faktor $\pm 1$. Die $x$-Koordinate der linken und der rechten Grenze verhalten sich bis auf den Faktor für das Seitenverhältnis genauso. Das Sichtvolumen muss also um den Faktor $1 : (\tan\frac{\varphi}{2})$ in $y$-Richtung und $1 : (\tan\frac{\varphi}{2} \cdot r)$ in $x$-Richtung skaliert werden.
 
-\begin{wrapfigure}{r}{0.35\textwidth}
+\begin{wrapfigure}{R}{0.35\textwidth}
   \includegraphics[width=0.34\textwidth]{rightangledvolume}
   \caption{Rechtwinkliges Sichtvolumen mit Projektion auf die Ebene $z=1$.}
   \label{rightangledvolume}
