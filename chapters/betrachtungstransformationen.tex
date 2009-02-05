@@ -1,7 +1,7 @@
 % Kapitel 'Betrachtungstransformationen'
 \chapter{Betrachtungstransformationen}
 \label{viewingtransformations}
-Im vorigen Kapitel haben wir die verschiedenen Formen von Skalierung, Translation und Rotation behandelt, die für die Plazierung und Ausrichtung der einzelnen Modelle in der Szene, also für das Berechnen der World Matrix, nötig sind. Das Thema dieses Kapitel ist die Transformationen, die für den Übergang vom Weltkoordinatensystem in das Bildschirmkoordinatensystem verwendet werden.
+Im vorigen Kapitel haben wir die verschiedenen Formen von Skalierung, Translation und Rotation behandelt, die für die Platzierung und Ausrichtung der einzelnen Modelle in der Szene, also für das Berechnen der World Matrix, nötig sind. Das Thema dieses Kapitel ist die Transformationen, die für den Übergang vom Weltkoordinatensystem in das Bildschirmkoordinatensystem verwendet werden.
 
 \section{View Matrix}
 \label{view}
@@ -16,7 +16,7 @@ Im zweiten Fall ist neben $\vec p$ nur die Position des Ziels, $\vec t$, gegeben
 \begin{equation}
  \vec d = \frac{\vec t - \vec p}{\left| \vec t - \vec p \right|}
 \end{equation}
-Der Rechtsvektor muss senkrecht auf der zwischen Welt-Hochvektor und Richtungsvektor aufgespannten Ebene stehen, und lässt sich daher über das Kreuzprodukt gewinnen:
+Der Rechtsvektor muss senkrecht auf der zwischen Welt-Hochvektor und Richtungsvektor aufgespannten Ebene stehen. Er lässt sich daher über das Kreuzprodukt gewinnen:
 \begin{equation}
  \vec r = \frac{\vec d \times \vec u_w}{\left| \vec d \times \vec u_w \right|}
 \end{equation} 
@@ -24,7 +24,7 @@ Der Hochvektor berechnet sich nun als Kreuzprodukt aus Rechts- und Richtungsvekt
 \begin{equation}
  \vec u = \vec r \times \vec d = \frac{\left( \vec d \times \vec u_w \right) \times \vec d}{\left| \left( \vec d \times \vec u_w \right) \times \vec d \right|},
 \end{equation} 
-was sich unter Zuhilfenahme der Grassmann-Identität\footnote{$\vec a \times ( \vec b \times \vec c ) = \vec b \cdot ( \vec a \cdot \vec c ) - \vec c \cdot ( \vec a \cdot \vec b)$} zu dem schneller zu berechnenden Ausdruck
+was sich unter Zuhilfenahme der Grassmann-Identität zu dem schneller zu berechnenden Ausdruck
 \begin{equation}
  \vec u = \frac{ \vec{u_w} - \left( \vec{d} \cdot \vec{u_w} \right) \cdot \vec{d} }{\left| \vec{u_w} - \left( \vec{d} \cdot \vec{u_w} \right) \cdot \vec{d} \right|}
 \end{equation} 
@@ -42,7 +42,7 @@ Um den Ursprung in $\vec p$ zu verschieben, müssen alle Objekte um $-\vec p$ ve
  \end{pmatrix}
 \end{equation}
 
-Die Vektoren $-\vec d$, $\vec u$ und $\vec r$ sind ja die Basisvektoren des Kamarakoordinatensystems, die Matrix für den Rotationsteil kann also wie in Kapitel \ref{rotationbasevectors} beschrieben aufgestellt werden:
+Die Vektoren $-\vec d$, $\vec u$ und $\vec r$ sind ja die Basisvektoren des Kamarakoordinatensystems, die Matrix für den Rotationsteil kann also wie in Kapitel \ref{rotationbasevectors} beschrieben aufgestellt werden. Dabei ist zu beachten, dass die Rotation der Kamera ja rückgängig gemacht werden soll, die entstehende Matrix also invertiert werden muss:
 \begin{equation}
  M_{rot} =
  \begin{pmatrix}
@@ -50,8 +50,15 @@ Die Vektoren $-\vec d$, $\vec u$ und $\vec r$ sind ja die Basisvektoren des Kama
   r_y & u_y & -d_y & 0 \\
   r_z & u_z & -d_z & 0 \\
   0 & 0 & 0 & 1
+ \end{pmatrix}^{-1} =
+ \begin{pmatrix}
+   r_x &  r_y &  r_z & 0 \\
+   u_x &  u_y &  u_z & 0 \\
+  -d_x & -d_y & -d_z & 0 \\
+   0 & 0 & 0 & 1
  \end{pmatrix}
 \end{equation}
+% @clarify
 
 Um die fertige View Matrix zu erhalten, müssen die beiden Matrizen nur noch multipliziert werden:
 \begin{equation}
@@ -59,23 +66,23 @@ Um die fertige View Matrix zu erhalten, müssen die beiden Matrizen nur noch mul
  M_{view} &= M_{rot} \cdot M_{trans} \\
  &=
  \begin{pmatrix}
+   r_x &  r_y &  r_z & 0 \\
+   u_x &  u_y &  u_z & 0 \\
+  -d_x & -d_y & -d_z & 0 \\
+   0 & 0 & 0 & 1
+ \end{pmatrix} \cdot 
+ \begin{pmatrix}
   1 & 0 & 0 & -p_x \\
   0 & 1 & 0 & -p_y \\
   0 & 0 & 1 & -p_z \\
   0 & 0 & 0 & 1
- \end{pmatrix} \cdot
- \begin{pmatrix}
-  r_x & u_x & -d_x & 0 \\
-  r_y & u_y & -d_y & 0 \\
-  r_z & u_z & -d_z & 0 \\
-  0 & 0 & 0 & 1
  \end{pmatrix} \\
  M_{view} &=
  \begin{pmatrix}
-  r_x & u_x & -d_x & -\vec r \cdot \vec p \\
-  r_y & u_y & -d_y & -\vec u \cdot \vec p \\
-  r_z & u_z & -d_z & \vec d \cdot \vec p \\
-  0 & 0 & 0 & 1
+   r_x &  r_y &  r_z & -\vec r \cdot \vec p \\
+   u_x &  u_y &  u_z & -\vec u \cdot \vec p \\
+  -d_x & -d_y & -d_z & \vec d \cdot \vec p \\
+   0 & 0 & 0 & 1
  \end{pmatrix}
 \end{split}
 \end{equation}
@@ -102,7 +109,7 @@ Für die Transformation muss das Sichtvolumen aber zuerst begrenzt werden, da so
 
 Besonders wichtig ist die Begrenzung des Sichtvolumens für die auf die Projektion folgende Sichtbarkeitsbestimmung, da hier wie auch sonst in Computerprogrammen mit einer beschränkten Genaugkeit gerechnet wird. Ist der Abstand von Near und Far Clipping Plane zu groß, macht sich die begrenzte Genauigkeit bemerkbar und es kommt zu einem als \emph{Z-Fighting} bekannten Phänomen, bei dem auf nicht-deterministische Weise abwechselnd verschiedene Pixel von Polygonen in einer ähnlichen Tiefe im Vordergrund gezeichnet werden.
 
-Zur Herleitung der Projection Matrix für die Zentralprojektion transformieren wir das Sichtvolumen zunächst einmal so, dass der horizontale und der vertikale Öffnungswinkel $90^\circ$ betragen ($\varphi = 1$ und $r = 1$). Dazu ist eine Skalierung entlang der $x$- und der $y$-Achse nötig: Wie sich aus Abbildung \ref{clippingplanes} und \ref{rightangledvolume} leicht erkennen lässt, wächst die $y$-Koordinate der oberen und unteren Begrenzung des Frustums bei steigender $z$-Koordinate mit dem Faktor $\pm \tan\frac{\varphi}{2}$, im transformierten Frustum aber mit dem Faktor $\pm 1$. Die $x$-Koordinate der linken und der rechten Grenze verhalten sich bis auf den Faktor für das Seitenverhältnis genauso. Das Sichtvolumen muss also um den Faktor $1 : (\tan\frac{\varphi}{2})$ in $y$-Richtung und $1 : (\tan\frac{\varphi}{2} \cdot r)$ in $x$-Richtung skaliert werden.
+Zur Herleitung der Projection Matrix für die Zentralprojektion transformieren wir das Sichtvolumen zunächst einmal so, dass der horizontale und der vertikale Öffnungswinkel $90^\circ$ betragen ($\varphi = 90^\circ$ und $r = 1$). Dazu ist eine Skalierung entlang der $x$- und der $y$-Achse nötig: Wie sich aus Abbildung \ref{clippingplanes} und \ref{rightangledvolume} leicht erkennen lässt, wächst die $y$-Koordinate der oberen und unteren Begrenzung des Frustums bei steigender $z$-Koordinate mit dem Faktor $\pm \tan\frac{\varphi}{2}$, im transformierten Frustum aber mit dem Faktor $\pm 1$. Die $x$-Koordinate der linken und der rechten Grenze verhalten sich bis auf den Faktor für das Seitenverhältnis genauso. Das Sichtvolumen muss also um den Faktor $1 : (\tan\frac{\varphi}{2})$ in $y$-Richtung und $1 : (\tan\frac{\varphi}{2} \cdot r)$ in $x$-Richtung skaliert werden.
 
 \begin{wrapfigure}{R}{0.35\textwidth}
   \includegraphics[width=0.34\textwidth]{rightangledvolume}
@@ -113,7 +120,7 @@ Zur Herleitung der Projection Matrix für die Zentralprojektion transformieren w
 Daneben spiegeln wir das Koordinatensystem an der $xy$-Ebene, um ein intuitiveres Arbeiten zu ermöglichen -- mit steigendem Abstand von der Kamera wächst nun auch die $z$-Koordinate. Für diesen ersten Schritt ergibt sich also die Matrix
 \begin{equation}
  P_1 = \begin{pmatrix}
-  \frac{1}{\tan\frac{\varphi}{2} \cdot r} & 0 & 0 & 0 \\
+  \frac{1}{r \cdot \tan\frac{\varphi}{2}} & 0 & 0 & 0 \\
   0 & \frac{1}{\tan\frac{\varphi}{2}} & 0 & 0 \\
   0 & 0 & -1 & 0 \\
   0 & 0 & 0 & 1
@@ -185,14 +192,14 @@ Kombiniert man die beiden Matrizen durch Multiplikation, erhält man die \emph{P
 \begin{split}
  M_{proj} = P_2 \cdot P_1 &= 
  \begin{pmatrix}
-  \frac{1}{\tan\frac{\varphi}{2} \cdot r} & 0 & 0 & 0 \\
+  \frac{1}{r \cdot \tan\frac{\varphi}{2}} & 0 & 0 & 0 \\
   0 & \frac{1}{\tan\frac{\varphi}{2}} & 0 & 0 \\
   0 & 0 & -\frac{z_\mathrm{far}}{z_\mathrm{far}-z_\mathrm{near}} & -\frac{z_\mathrm{far} \cdot z_\mathrm{near}}{z_\mathrm{far}-z_\mathrm{near}} \\
   0 & 0 & -1 & 0
  \end{pmatrix} \\
  &= 
  \begin{pmatrix}
-  \frac{1}{\tan\frac{\varphi}{2} \cdot r} & 0 & 0 & 0 \\
+  \frac{1}{r \cdot \tan\frac{\varphi}{2}} & 0 & 0 & 0 \\
   0 & \frac{1}{\tan\frac{\varphi}{2}} & 0 & 0 \\
   0 & 0 & \frac{z_\mathrm{far}}{z_\mathrm{near}-z_\mathrm{far}} & \frac{z_\mathrm{near} \cdot z_\mathrm{far}}{z_\mathrm{near}-z_\mathrm{far}} \\
   0 & 0 & -1 & 0
