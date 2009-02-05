@@ -43,7 +43,7 @@ Das Polygonnetz kann sowohl direkt in einem entsprechenden Modellierungsprogramm
 
 Das Ergebnis kann bereits als so gennantes \emph{Drahtgittermodell} angezeigt werden, auf Englisch wird diese Darstellungsart \emph{Wireframe} genannt. Dabei werden die Vertices einfach durch Linien miteinander verbunden.
 
-\begin{wrapfigure}{r}{0.4\textwidth}
+\begin{wrapfigure}{R}{0.4\textwidth}
   \vspace{-10pt}
   \includegraphics[width=0.39\textwidth]{dwarf_wireframe}
   \vspace{-10pt}
@@ -61,7 +61,7 @@ Mittlerweile sollte sich das mathematische Unterbewusstsein schon zu Wort gemeld
 % Lz: einem
 einzelnen Ortsvektor, lässt sich natürlich keine Normale bilden. Der Grund für diese seltsame Konstruktion liegt in der Verwendung der Normalvektoren für die Lichtberechnung. Zunächst würde man annehmen, dass die Normalvektoren der Eckpunkte eines Polygons ohnehin in die gleiche Richtung zeigen würden. Dies ist grundsätzlich richtig, und mit einer Normale pro Dreieck kann man die Lichtberechnungen auch schon ausführen. Diese Berechnungsart wird als \emph{Flat Shading} bezeichnet.
 
-\begin{wrapfigure}{r}{0.4\textwidth}
+\begin{wrapfigure}{R}{0.4\textwidth}
   \includegraphics[width=0.39\textwidth]{dwarf_flat}
   \label{modelflat}
   \vspace{-10pt}
@@ -70,7 +70,7 @@ einzelnen Ortsvektor, lässt sich natürlich keine Normale bilden. Der Grund fü
 
 Der Nachteil dieser Methode wird deutlich, wenn man bedenkt, dass ja aus Effizienzgründen auch alle runden Körper mit Dreiecksnetz angenähert werden. Bei Verwendung von Flat Shading ergeben sich dann hässliche Kanten zwischen den Flächen, wie in Abbildung \ref{modelflat} zu sehen.
 
-\begin{wrapfigure}{r}{0.4\textwidth}
+\begin{wrapfigure}{R}{0.4\textwidth}
   \includegraphics[width=0.39\textwidth]{dwarf_gouraud}
   \label{modelgouraud}
   \vspace{-10pt}
@@ -87,7 +87,7 @@ Bis jetzt sind alle Informationen, also Farbe, etc. in den Vertices gespeichert.
 
 Die Antwort der 3D-Grafik auf diese Probleme sind die sogenannten \emph{Texturen}. Dabei handelt es sich um Bilder, die gleichsam wie eine Tapete auf die Geometrie der Objekte \enquote{geklebt} werden. Dazu werden in den Vertices die (zweidimensionalen) \emph{Texturkoordinaten} gespeichert, die dem Vertex eine bestimmte Position auf der Textur, ein sogenanntes \emph{Texel}\footnote{An sich gibt es keinen Unterschied zwischen Pixel und Texel, der Begriff dient nur zur Verdeutlichung, dass auf eine Textur Bezug genommen wird und nicht etwa auf ein Pixel im Ergebnisbild.}, zuordnen. Beim Zeichnen eines Dreiecks werden dann für jedes Pixel die Texturkoordinaten aus denen der Eckpunkte interpoliert und der Wert der Textur an dieser Stelle ausgelesen.
 
-\begin{wrapfigure}{r}{0.4\textwidth}
+\begin{wrapfigure}{R}{0.4\textwidth}
   \includegraphics[width=0.39\textwidth]{dwarf_textured}
   \label{modeltextured}
   \vspace{-10pt}
