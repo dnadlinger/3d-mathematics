@@ -25,21 +25,32 @@ wenn man die Vektoren als Matrizen auffasst. \vgls{script:german}{155} Es gilt d
 \end{equation}
 die Matrix $M$ entspricht dabei der auf den Vektor angewendeten Transformation, aus welcher der Vektor $\vec{v'}$ hervorgeht:
 \begin{equation}
- \left( \vec{n}^T \cdot M^{-1} \right) \cdot \vec{v'} = 0
+ \left( \vec{n}^T \cdot M^{-1} \right) \cdot \vec{v'} = 0.
 \end{equation}
-Wenn man den ersten Teil der Gleichung transponiert
+Aus dieser Gleichung erhält man durch zweimaliges Transponieren (mit Hilfe des Zusammenhangs aus Gleichung \ref{transpositionmultiplication})
 \begin{equation}
- \left( \left( \vec{n}^T \cdot M^{-1} \right) \cdot \vec{v'} \right)^T = 0,
+ \left( \left( M^{-1} \right)^T \cdot \vec{n} \right)^T \cdot \vec{v'} = 0.
 \end{equation}
-erhält man mit Hilfe des Zusammenhangs aus Gleichung \ref{transpositionmultiplication} das Ergebnis
+Auch für den transformierten Normalvektor $\vec{n'}$ gilt natürlich
 \begin{equation}
- \vec{v'}^T \cdot \left( \left(M^{-1}\right)^T \cdot \vec{n} \right) = 0.
+ \vec{n'}^T \cdot \vec{v'} = 0.
 \end{equation}
-Der Normalvektor einer Fläche wird also transformiert, indem man ihn mit der \emph{transponierten Inversen der Transformationsmatrix} multipliziert. Die Länge des Vektors ist in den Bedingungen allerdings nicht enhalten -- wird für die weiteren Berechnungen ein Einheitsvektor gebraucht, muss das Ergebnis noch normalisiert werden.
+Kombiniert man die beiden Zusammenhänge, erhält man die Gleichung
+\begin{equation}
+ \left( \left( M^{-1} \right)^T \cdot \vec{n} \right)^T \cdot \vec{v'} = \vec{n'}^T \cdot \vec{v'},
+\end{equation}
+die sich leicht zu
+\begin{equation}
+ \vec{n'} = \left( M^{-1} \right)^T \cdot \vec{n}.
+\end{equation}
+vereinfachen lässt.
+
+Der Normalvektor einer Fläche wird also transformiert, indem man ihn mit der \emph{transponierten Inversen der Transformationsmatrix} multipliziert. Die Länge des Vektors ist in den Bedingungen allerdings nicht enhalten. Wird für die weiteren Berechnungen ein Einheitsvektor gebraucht, muss das Ergebnis noch normalisiert werden.
 
 \section{Skalierung}
 \label{scaling}
 
+% @Lz: Alle Beschriftungen für einen Punkt
 \begin{wrapfigure}{R}{0.5\textwidth}
   \vspace{-10pt}
   \includegraphics[width=0.49\textwidth]{scaling}
@@ -111,7 +122,7 @@ In manchen Situationen möchte man ein Objekt nicht um den Koordinatenursprung, 
 
 % Matrix 'Skalierung um einen beliebigen Punkt im Raum'?
 
-Die \emph{Spiegelung} kann als Sonderfall der Skalierung betrachtet werden. Dabei sind einer oder mehrere Koeffizienten einen negativen Wert. Eine Spiegelung an der $xy$-Ebene lässt sich beispielsweise als Skalierung mit $\lambda_z = -1$ darstellen.
+Die \emph{Spiegelung} kann als Sonderfall der Skalierung betrachtet werden. Dabei ist mindestens ein Koeffizient negativ. Eine Spiegelung an der $xy$-Ebene lässt sich beispielsweise als Skalierung mit $\lambda_z = -1$ darstellen.
 
 \section{Translation}
 \label{translation}
@@ -153,7 +164,7 @@ Beim Aufstellen der Teilgleichungen (hier exemplarisch für die $y$-Koordinate) 
 \end{split}
 \end{equation}
 
-Anscheinend gibt es keinen Weg, um die für die Translation nötigen Koeffizienten zu berechnen, ohne die Koordinaten des Vektors zu kennen, der transformiert werden soll. Genau das ist aber Voraussetzung, um die Matrix für mehrere Vektoren verallgemeinern zu können -- die Translation ist offensichtlich keine lineare Transformation!
+Anscheinend gibt es keinen Weg, um die für die Translation nötigen Koeffizienten zu berechnen, ohne die Koordinaten des Vektors zu kennen, der transformiert werden soll. Genau das ist aber Voraussetzung, um die Matrix für mehrere Vektoren verallgemeinern zu können. Die Translation ist offensichtlich keine lineare Transformation!
 
 Der Ausweg aus diesem Dilemma liegt in der Verwendung von homogenen Koordinaten. $w$ hat ja nicht irgendeinen beliebigen Wert, sondern (zumindest vor der Transformation) den Wert $1$. Die dementsprechend geänderten Bedingungen für die Translationsmatrix lauten:
 \begin{equation}
@@ -233,6 +244,7 @@ Die Herleitung der dritten und letzten der hier behandelten Transformationen, de
   \caption{Rotation um die $z$-Achse.}
   \label{zrotation}
 \end{wrapfigure}
+% @Lz: Punkte beschriften
 
 Abbildung \ref{zrotation} zeigt einen Vektor $\vec p = $ \textvec{x}{y}{z}. Nach der Rotation um den Winkel $\gamma$ um die $z$-Achse ergibt sich der Vektor $\vec{p'} = $ \textvec{x'}{y'}{z'}.
 
@@ -346,10 +358,10 @@ Die gerade behandelten Rotationsmatrizen sind auf Drehungen um die Koordinatenac
 
 Ein beliebtes Verfahren, um Ausrichtungen im Raum anzugeben, sind die sogenannten Eulerschen Winkel. Dabei handelt es sich um drei Rotationswinkel um jeweils eine Achse, durch die jede beliebige Rotation ausgedrückt werden kann. Es gibt mehrere Konventionen, in welcher Reihenfolge die Rotationen auf welche Achsen angewendet werden. Eine der am häufigsten benutzten sind die aus der Luftfahrt bekannten \emph{Roll-Nick-Gier-Winkel}, auch als \emph{Tait-Bryan-Rotation} bezeichnet (engl. \emph{yaw, pitch, roll}). Sie geben die Rotation als Kombination einer Rotation um die $z$-Achse ($\gamma$), gefolgt von einer Rotation um die $y$-Achse ($\beta$) und schließlich einer Rotation um die $x$-Achse ($\alpha$) an.
 
-Mit einem Wertebereich von $-\pi$ bis $\pi$ für $\alpha$ und $\gamma$ und von $-\frac{\pi}{2}$ bis $\frac{\pi}{2}$ für $\beta$ lassen sich alle Ausrichtungen im Raum angeben. Bis auf zwei Ausnahmen (dazu gleich mehr) ist auch jedem Rotationszustand genau ein Satz an Winkeln zugeordnet, die Abbildung ist also bis auf ebendiese Ausnahmen bijektiv.
+Mit einem Wertebereich von $-\pi$ bis $\pi$ für $\alpha$ und $\gamma$ und von $-\frac{\pi}{2}$ bis $\frac{\pi}{2}$ für $\beta$ lassen sich alle Ausrichtungen im Raum angeben. Bis auf zwei Ausnahmen (dazu gleich mehr) ist auch jedem Rotationszustand genau ein Satz an Winkeln zugeordnet, die Abbildung ist also bis auf diese Ausnahmen bijektiv.
 
 Um eine Rotationsdarstellung in Eulerschen Winkeln in Matrixform zu überführen, muss man einfach die Rotationsmatrizen für die einzelnen Achsen miteinander multiplizieren:
-
+% @Lz: Korr!
 \begin{equation}
 \begin{split}
  &R_{zyx}( \gamma, \beta, \alpha ) = R_x( \alpha ) \cdot R_y( \beta ) \cdot R_z( \gamma ) \\
@@ -409,7 +421,7 @@ Zum anderen gibt es wie schon erwähnt für die Zuordnung von Eulerschen Winkeln
 
 Die Rotation hängt nun ausschließlich von der Differenz $\alpha - \gamma$ ab -- das System hat einen Freiheitsgrad eingebüßt! Es gibt jetzt unendlich viele Kombinationen von $\alpha$ und $\gamma$, die zu der gleichen Ausrichtung im Raum führen; die Abbildung der Eulerschen Winkel auf die Rotationsmatrizen ist also nicht injektiv.
 
-Dieses Problem tritt auch bei kardanischen Aufhängungen in der Mechanik auf, beispielsweise bei Trägheitsnavigationssystemen\footnote{Ein echtes Problem ist der Gimbal Lock in der Raumfahrt, wo die kardanische Aufhängung tatsächlich Drehungen um alle drei Freiheitsgrade kompensieren muss. (\vgl irgendein NASA-Dokument)}. Es wird daher als \emph{Gimbal Lock} bezeichnet (engl. \emph{gimbal} bezeichnet einen Kardanring, zu Deutsch also etwa Kardanring-Blockade). In der Mechanik hat man oft die Möglichkeit, Situationen, die zu einem Gimbal Lock führen können, rechtzeitig zu erkennen und den Gimbal Lock zu vermeiden, etwa durch Änderung des Flugmanövers. Bei vom Benutzer ausgelösten oder gesteuerten Rotationen in Computerprogrammen ist dies aber kaum möglich, dewegen greift man normalerweise auf andere Verfahren zurück zurück, um Rotationen zu speichern und zu verarbeiten.
+Dieses Problem tritt auch bei kardanischen Aufhängungen in der Mechanik auf, beispielsweise bei Trägheitsnavigationssystemen\footnote{Ein echtes Problem ist der Gimbal Lock in der Raumfahrt, wo die kardanische Aufhängung tatsächlich Drehungen um alle drei Freiheitsgrade kompensieren muss. (\vgl irgendein NASA-Dokument)}. Es wird daher als \emph{Gimbal Lock} bezeichnet (engl. \emph{gimbal} bezeichnet einen Kardanring, zu Deutsch also etwa Kardanring-Blockade). In der Mechanik hat man oft die Möglichkeit, Situationen, die zu einem Gimbal Lock führen können, rechtzeitig zu erkennen und den Gimbal Lock zu vermeiden, etwa durch Änderung des Flugmanövers. Bei vom Benutzer ausgelösten oder gesteuerten Rotationen in Computerprogrammen ist dies aber kaum möglich, deswegen greift man normalerweise auf andere Verfahren zurück , um Rotationen zu speichern und zu verarbeiten.
 % Picture 'Gimbal lock in mechanics'?
 
 \subsection{Herleitung über transformierte Basisvektoren}
@@ -444,6 +456,7 @@ Hat man drei linear unabhängige Vektoren im alten und im neuen (dreidimensional
  0 \cdot t_{31} + 0 \cdot t_{32} + 1 \cdot t_{33} = t_{33} &= z_z
 \end{aligned}
 \end{equation}
+% @Lz: Ein Gleichheitszeichen pro Gleichung! 0 x ... = Yx => t12 = Yx
 
 Für die drei neuen Basisvektoren $\vec x$, $\vec y$ und $\vec z$ entsteht also die Matrix
 \begin{equation}
@@ -470,7 +483,7 @@ In Worten ausgedrückt, enthält eine Transformationsmatrix also in ihren Spalte
 \subsection{Darstellung als Quaternion}
 Wie schon bei der Einführung der Quaternionen in Kapitel \ref{quaternionmath} erwähnt, können Quaternionen als Verbindung eines Skalars und eines dreidimensionalen Vektors aufgefasst werden, wobei der Realteil $w$ den Skalar und der Imaginärteil $xi + yj + zk$ den Vektor \textvec{x}{y}{z} darstellt. Sie eigenen sich deshalb gut für die Darstellung einer Rotation um einen bestimmten Winkel um eine beliebige Achse -- der Rotationswinkel entspricht dem Realteil, die Rotationsachse dem Imaginärteil.
 
-Um mit der Hilfe von Quaternionen die Rotation eines Vektors $\vec x$ um den Winkel $2 \varphi$ mit der Achse $\vec n$ durchzuführen, bildet man zunächst die Quaternion $q = \left[ \cos \varphi; \vec n \cdot \sin \varphi \right]$. Das Ergebnis der Rotation lautet dann $q \cdot \hat{x} \cdot \overline{q}$. Der Vektor $\vec x$ wird hier, wie in Kapitel \ref{quaternionmath} besprochen, als reine Quaternion behandelt. Das Ergebnis der Berechnung ist ebenfalls wieder eine reine Quaternion, kann also wieder als dreidimensionaler Vektor aufgefasst werden. So lautet die Rotationsformel (mit $\left| n \right| = 1$) schließlich:
+Um mit der Hilfe von Quaternionen die Rotation eines Vektors $\vec x$ um den Winkel $2 \varphi$ mit der Achse $\vec n$ durchzuführen, bildet man zunächst die Quaternion $q = \left[ \cos \varphi; \vec n \cdot \sin \varphi \right]$. Das Ergebnis der Rotation lautet dann $q \cdot \hat{x} \cdot \overline{q}$. Der Vektor $\vec x$ wird hier, wie in Kapitel \ref{quaternionmath} besprochen, als reine Quaternion behandelt. Das Ergebnis der Berechnung ist ebenfalls wieder eine reine Quaternion, kann also wieder als dreidimensionaler Vektor aufgefasst werden. So lautet die Rotationsformel (mit $\left| \vec{n} \right| = 1$) schließlich:
 \begin{equation}
  \hat{x}' = \left[ \cos \varphi; \vec n \cdot \sin \varphi \right] \cdot \hat{x} \cdot \left[ \cos \varphi; -\vec n \cdot \sin \varphi \right]
 \end{equation}
@@ -483,7 +496,9 @@ Um mit der Hilfe von Quaternionen die Rotation eines Vektors $\vec x$ um den Win
 \end{wrapfigure}
 
 Um zu beweisen, dass die oben abgebildete Formel wirklich eine Rotation des Vektors darstellt, betrachten wir zunächst einmal drei Einheitsvektoren $\vec{v_0}$, $\vec{v_1}$ und $\vec{v_2}$ aus dem $\mathbb R^3$ \vglr{quaternionproof}. Sie sind komplanar und bilden jeweils den Winkel $\varphi$. Es gilt daher:
+% @Lz: bessere Variablennamen
 \begin{align}
+ \left| \vec{v_0} \right| = \left| \vec{v_1} \right| = \left| \vec{v_2} \right| = 0 \\
  \vec{v_0} \cdot \vec{v_1} = \vec{v_1} \cdot \vec{v_2} = \cos \varphi \label{dotsame} \\
  \vec{v_0} \times\vec{v_1} = \vec{v_1} \times \vec{v_2} \label{crosssame}
 \end{align}
@@ -497,7 +512,7 @@ Wir definieren nun die Quaternion $q$ über $\vec{v_0}$ und $\vec{v_1}$:
 Wir wollen zunächst beweisen:
 \begin{equation}
  \label{quaternionclaim}
- q \cdot \hat{v_0} \cdot \overline{q} = p_2
+ q \cdot \hat{v_0} \cdot \overline{q} = \hat{v_2}
 \end{equation} 
 
 Für $q$ gilt
@@ -505,6 +520,7 @@ Für $q$ gilt
  \label{equality1}
  q = \hat{v_1} \cdot \overline{\hat{v_0}},
 \end{equation}
+% @Lz: = (0; v1) \cdot (0; -v0)
 weil nach der Multiplikationsvorschrift für Quaternionen (siehe Gleichung \ref{quaternionmultiplicationvector}) gilt:
 \begin{equation}
 \begin{split}
@@ -548,7 +564,7 @@ Nachdem $\hat{v_1}$ eine reine Quaternion und $v_1$ ein Einheitsvektor ist, vere
 \begin{equation}
 \begin{split}
  \hat{v_1} \cdot \hat{v_1} &= \left[ \left( 0 - \vec{v_1} \cdot \vec{v_1} \right); \vec{v_1} \times \vec{v_1} + 0 \cdot \vec{v_1} + 0 \cdot \vec{v_1} \right] \\
- &= \left[ -\left| \vec{v_1} \right|; \vec 0 \right] \\
+ &= \left[ -\left| \vec{v_1} \right|^2; \vec 0 \right] \\
  &= -1
 \end{split}
 \end{equation}
@@ -611,7 +627,7 @@ Nachdem ja $\hat{x}'= q \cdot \hat{x} \cdot \overline{q}$ gilt, liegt es nahe, d
 
 Wie in Abschnitt \ref{rotationbasevectors} besprochen, kann man eine Transformationsmatrix als Aneinanderreihung der transformierten kanonischen Basisvektoren aufstellen. Um eine Matrix aus einem Rotationsquaternion zu erzeugen, muss man also nur die drei Basisvektoren direkt transformieren und die Ergebnisse in die Matrix schreiben.
 
-Dafür multiplizieren wir zunächst einmal die Rotationsformel aus und vereinfachen \vgls{quaternionrotation}{52}:
+Dafür multiplizieren wir zunächst einmal die Rotationsformel aus und vereinfachen mit Hilfe der Grassmann-Identität\footnote{$\vec a \times ( \vec b \times \vec c ) = \vec b \cdot ( \vec a \cdot \vec c ) - \vec c \cdot ( \vec a \cdot \vec b)$} \vgls{quaternionrotation}{52}:
 \begin{equation}
 \begin{split}
  q \cdot \hat{x} \cdot \overline{q} &= \left[ w; \vec n \right] \cdot \left[ 0; \vec x \right] \cdot \left[ w; -\vec n \right] \\
@@ -625,7 +641,7 @@ Dafür multiplizieren wir zunächst einmal die Rotationsformel aus und vereinfac
 \end{split}
 \end{equation}
 
-Mithilfe dieser Formel transformieren wir nun die drei Basisvektoren $\vec x$, $\vec y$ und $\vec z$. Für die Komponenten von $\vec x$ erhalten wir:
+Mithilfe dieser Formel transformieren wir nun die drei Basisvektoren $\vec x = $\textvec{1}{0}{0}, $\vec y = $\textvec{0}{1}{0} und $\vec z = $\textvec{0}{0}{1}. Für die Komponenten von $\vec x$ erhalten wir\footnote{$q$ ist eine Einheitsquaternion, also gilt $w^2 + x^2 + y^2 + z^2 = 1$!}:
 \begin{equation}
 \begin{split}
  x_x' &= 2 \cdot ( x + 0 + 0 ) \cdot x + 2 \cdot w \cdot ( y \cdot 0 - z \cdot 0 ) + ( w^2 - x^2 - y^2 - z^2 ) \cdot 1 \\
@@ -648,6 +664,7 @@ Mithilfe dieser Formel transformieren wir nun die drei Basisvektoren $\vec x$, $
       &= 2 \cdot ( xz + wy )
 \end{split}
 \end{equation}
+% @Lz: Bessere Variablennamen!
 
 Analog werden auch die anderen beiden Vektoren transformiert:
 \begin{align}
