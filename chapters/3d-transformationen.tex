@@ -244,7 +244,6 @@ Die Herleitung der dritten und letzten der hier behandelten Transformationen, de
   \caption{Rotation um die $z$-Achse.}
   \label{zrotation}
 \end{wrapfigure}
-% @Lz: Punkte beschriften
 
 Abbildung \ref{zrotation} zeigt einen Vektor $\vec p = $ \textvec{x}{y}{z}. Nach der Rotation um den Winkel $\gamma$ um die $z$-Achse ergibt sich der Vektor $\vec{p'} = $ \textvec{x'}{y'}{z'}.
 
@@ -492,48 +491,47 @@ Um mit der Hilfe von Quaternionen die Rotation eines Vektors $\vec x$ um den Win
   \vspace{-10pt}
   \includegraphics[width=0.49\textwidth]{quatrotation}
   \vspace{-10pt}
-  \caption{Rotation um die Achse $\vec{v_0} \times \vec{v_1}$.}
+  \caption{Rotation um die Achse $\vec{v_1} \times \vec{v_2}$.}
 \end{wrapfigure}
 
-Um zu beweisen, dass die oben abgebildete Formel wirklich eine Rotation des Vektors darstellt, betrachten wir zunächst einmal drei Einheitsvektoren $\vec{v_0}$, $\vec{v_1}$ und $\vec{v_2}$ aus dem $\mathbb R^3$ \vglr{quaternionproof}. Sie sind komplanar und bilden jeweils den Winkel $\varphi$. Es gilt daher:
-% @Lz: bessere Variablennamen
+Um zu beweisen, dass die oben abgebildete Formel wirklich eine Rotation des Vektors darstellt, betrachten wir zunächst einmal drei Einheitsvektoren $\vec{v_1}$, $\vec{v_2}$ und $\vec{v_3}$ aus dem $\mathbb R^3$ \vglr{quaternionproof}. Sie sind komplanar und bilden jeweils den Winkel $\varphi$. Es gilt daher:
 \begin{align}
- \left| \vec{v_0} \right| = \left| \vec{v_1} \right| = \left| \vec{v_2} \right| = 0 \\
- \vec{v_0} \cdot \vec{v_1} = \vec{v_1} \cdot \vec{v_2} = \cos \varphi \label{dotsame} \\
- \vec{v_0} \times\vec{v_1} = \vec{v_1} \times \vec{v_2} \label{crosssame}
+ \left| \vec{v_1} \right| = \left| \vec{v_2} \right| = \left| \vec{v_3} \right| = 1 \\
+ \vec{v_1} \cdot \vec{v_2} = \vec{v_2} \cdot \vec{v_3} = \cos \varphi \label{dotsame} \\
+ \vec{v_1} \times\vec{v_2} = \vec{v_2} \times \vec{v_3} \label{crosssame}
 \end{align}
-$\vec{v_2}$ ensteht also durch eine Rotation von $\vec{v_0}$ um den Winkel $2 \varphi$ mit der Achse $\vec{v_0} \times \vec{v_1}$.
+$\vec{v_3}$ ensteht also durch eine Rotation von $\vec{v_1}$ um den Winkel $2 \varphi$ mit der Achse $\vec{v_1} \times \vec{v_2}$.
 
-Wir definieren nun die Quaternion $q$ über $\vec{v_0}$ und $\vec{v_1}$:
+Wir definieren nun die Quaternion $q$ über $\vec{v_1}$ und $\vec{v_2}$:
 \begin{equation}
- q = \left[ \left( \vec{v_0} \cdot \vec{v_1} \right); \vec{v_0} \times \vec{v_1} \right]
+ q = \left[ \left( \vec{v_1} \cdot \vec{v_2} \right); \vec{v_1} \times \vec{v_2} \right]
 \end{equation} 
 
 Wir wollen zunächst beweisen:
 \begin{equation}
  \label{quaternionclaim}
- q \cdot \hat{v_0} \cdot \overline{q} = \hat{v_2}
+ q \cdot \hat{v_1} \cdot \overline{q} = \hat{v_3}
 \end{equation} 
 
 Für $q$ gilt
 \begin{equation}
  \label{equality1}
- q = \hat{v_1} \cdot \overline{\hat{v_0}},
+ q = \hat{v_2} \cdot \overline{\hat{v_1}},
 \end{equation}
 % @Lz: = (0; v1) \cdot (0; -v0)
 weil nach der Multiplikationsvorschrift für Quaternionen (siehe Gleichung \ref{quaternionmultiplicationvector}) gilt:
 \begin{equation}
 \begin{split}
- \hat{v_1} \cdot \overline{\hat{v_0}} &= \left[ \left( 0 - \vec{v_1} \cdot (-\vec{v_0}) \right); \vec{v_1} \times (-\vec{v_0}) + 0 \cdot (-\vec{v_0}) + 0 \cdot \vec{v_1} \right] \\
- &= \left[ \vec{v_1} \cdot \vec{v_0}; -( \vec{v_1} \times \vec{v_0}) \right] \\
- &= \left[ \vec{v_0} \cdot \vec{v_1}; \vec{v_0} \times \vec{v_1} \right]
+ \hat{v_2} \cdot \overline{\hat{v_1}} &= \left[ \left( 0 - \vec{v_2} \cdot (-\vec{v_1}) \right); \vec{v_2} \times (-\vec{v_1}) + 0 \cdot (-\vec{v_1}) + 0 \cdot \vec{v_2} \right] \\
+ &= \left[ \vec{v_2} \cdot \vec{v_1}; -( \vec{v_2} \times \vec{v_1}) \right] \\
+ &= \left[ \vec{v_1} \cdot \vec{v_2}; \vec{v_1} \times \vec{v_2} \right]
 \end{split}
 \end{equation} 
 
 Dann gilt natürlich auch
 \begin{equation}
  \label{equality2}
- q = \hat{v_2} \cdot \overline{\hat{v_1}},
+ q = \hat{v_3} \cdot \overline{\hat{v_2}},
 \end{equation} 
 weil ja nach Gleichung \ref{dotsame} und \ref{crosssame} die Skalar- und Kreuzprodukte der beiden Vektorenpaare identisch sind.
 
@@ -541,30 +539,30 @@ Wir setzen nun den Zusammenhang aus \ref{equality1} in Gleichung \ref{quaternion
 \begin{equation}
 \begin{split}
  \label{step1}
- \hat{v_1} \cdot \overline{\hat{v_0}} \cdot \hat{v_0} \cdot \overline{q} &= \hat{v_2} \\
- \hat{v_1} \cdot \left| \hat{v_0} \right| \cdot \overline{q} &= \hat{v_2}
+ \hat{v_2} \cdot \overline{\hat{v_1}} \cdot \hat{v_1} \cdot \overline{q} &= \hat{v_3} \\
+ \hat{v_2} \cdot \left| \hat{v_1} \right| \cdot \overline{q} &= \hat{v_3}
 \end{split}
 \end{equation}
 
-Nachdem $v_0$ ein Einheitsvektor ist, hat auch $\hat{v_0}$ den Betrag 1, der Ausdruck vereinfacht sich also zu:
+Nachdem $v_1$ ein Einheitsvektor ist, hat auch $\hat{v_1}$ den Betrag 1, der Ausdruck vereinfacht sich also zu:
 \begin{equation}
- \hat{v_1} \cdot \overline{q} = \hat{v_2}
+ \hat{v_2} \cdot \overline{q} = \hat{v_3}
 \end{equation}
 
 Nun setzen wir den Zusammenhang aus \ref{equality2} für $\overline{q}$ ein und vereinfachen nach Gleichung \ref{quaternionconjugationmultiplication}:
 \begin{equation}
 \begin{split}
  \label{step2}
- \hat{v_1} \cdot \overline{\left( \hat{v_2} \cdot \overline{\hat{v_1}} \right)} &= \hat{v_2} \\
- \hat{v_1} \cdot \hat{v_1} \cdot \overline{\hat{v_2}} &= \hat{v_2}
+ \hat{v_2} \cdot \overline{\left( \hat{v_3} \cdot \overline{\hat{v_2}} \right)} &= \hat{v_3} \\
+ \hat{v_2} \cdot \hat{v_2} \cdot \overline{\hat{v_3}} &= \hat{v_3}
 \end{split}
 \end{equation}
 
-Nachdem $\hat{v_1}$ eine reine Quaternion und $v_1$ ein Einheitsvektor ist, vereinfacht sich der Ausdruck $\hat{v_1} \cdot \hat{v_1}$:
+Nachdem $\hat{v_2}$ eine reine Quaternion und $v_2$ ein Einheitsvektor ist, vereinfacht sich der Ausdruck $\hat{v_2} \cdot \hat{v_2}$:
 \begin{equation}
 \begin{split}
- \hat{v_1} \cdot \hat{v_1} &= \left[ \left( 0 - \vec{v_1} \cdot \vec{v_1} \right); \vec{v_1} \times \vec{v_1} + 0 \cdot \vec{v_1} + 0 \cdot \vec{v_1} \right] \\
- &= \left[ -\left| \vec{v_1} \right|^2; \vec 0 \right] \\
+ \hat{v_2} \cdot \hat{v_2} &= \left[ \left( 0 - \vec{v_2} \cdot \vec{v_2} \right); \vec{v_2} \times \vec{v_2} + 0 \cdot \vec{v_2} + 0 \cdot \vec{v_2} \right] \\
+ &= \left[ -\left| \vec{v_2} \right|^2; \vec 0 \right] \\
  &= -1
 \end{split}
 \end{equation}
@@ -572,38 +570,38 @@ Nachdem $\hat{v_1}$ eine reine Quaternion und $v_1$ ein Einheitsvektor ist, vere
 Wir setzen in \ref{step2} ein und erhalten:
 \begin{equation}
 \begin{split}
- -\overline{\hat{v_2}} &= \hat{v_2} \\
- -\left[ 0; -\vec{v_2} \right] &= \left[ 0; \vec{v_2} \right] \\
- \vec{v_2} &= \vec{v_2}
+ -\overline{\hat{v_3}} &= \hat{v_3} \\
+ -\left[ 0; -\vec{v_3} \right] &= \left[ 0; \vec{v_3} \right] \\
+ \vec{v_3} &= \vec{v_3}
 \end{split}
 \end{equation}
 
 Damit wäre der Zusammenhang aus Gleichung \ref{quaternionclaim} bewiesen:
 \begin{equation*}
- q \cdot \hat{v_0} \cdot \overline{q} = \hat{v_2}
+ q \cdot \hat{v_1} \cdot \overline{q} = \hat{v_3}
 \end{equation*}
 
 Für $q$ eingesetzt:
 \begin{equation*}
- \left[ ( \vec{v_0} \cdot \vec{v_1} ); \vec{v_0} \times \vec{v_1} \right] \cdot \hat{v_0} \cdot \left[ ( \vec{v_0} \cdot \vec{v_1} ); -(\vec{v_0} \times \vec{v_1} ) \right] = \hat{v_2}
+ \left[ ( \vec{v_1} \cdot \vec{v_2} ); \vec{v_1} \times \vec{v_2} \right] \cdot \hat{v_1} \cdot \left[ ( \vec{v_1} \cdot \vec{v_2} ); -(\vec{v_1} \times \vec{v_2} ) \right] = \hat{v_3}
 \end{equation*} 
 
-Unter Beachtung der Zusammenhänge $\vec a \cdot \vec b = \left| a \right| \cdot \left| b \right| \cdot \cos \varphi$ und $\left| \vec a \times \vec b \right| = \left| a \right| \cdot \left| b \right| \cdot \sin \varphi$ und der Tatsache, dass $\vec{v_0}$ und $\vec{v_1}$ Einheitsvektoren sind, können wir nun einsetzen:
+Unter Beachtung der Zusammenhänge $\vec a \cdot \vec b = \left| a \right| \cdot \left| b \right| \cdot \cos \varphi$ und $\left| \vec a \times \vec b \right| = \left| a \right| \cdot \left| b \right| \cdot \sin \varphi$ und der Tatsache, dass $\vec{v_1}$ und $\vec{v_2}$ Einheitsvektoren sind, können wir nun einsetzen:
 \begin{equation}
- \left[ \cos \varphi; \vec n \cdot \sin \varphi \right] \cdot \hat{v_0} \cdot \left[ \cos \varphi; -\vec n \cdot \sin \varphi \right] = \hat{v_2}
+ \left[ \cos \varphi; \vec n \cdot \sin \varphi \right] \cdot \hat{v_1} \cdot \left[ \cos \varphi; -\vec n \cdot \sin \varphi \right] = \hat{v_3}
 \end{equation}
 
-Nun brauchen wir nur noch beide Seiten mit einem beliebigen Skalar $a$ zu multiplizieren ($\hat{v_0}$ und $\hat{v_2}$ sind ja auf Einheitsquaternionen beschränkt), und es ergibt sich:
+Nun brauchen wir nur noch beide Seiten mit einem beliebigen Skalar $a$ zu multiplizieren ($\hat{v_1}$ und $\hat{v_3}$ sind ja auf Einheitsquaternionen beschränkt), und es ergibt sich:
 \begin{equation}
 \begin{split}
- \left[ \cos \varphi; \vec n \cdot \sin \varphi \right] \cdot a \cdot \hat{v_0} \cdot \left[ \cos \varphi; -\vec n \cdot \sin \varphi \right] &= a \cdot \hat{v_2} \\
+ \left[ \cos \varphi; \vec n \cdot \sin \varphi \right] \cdot a \cdot \hat{v_1} \cdot \left[ \cos \varphi; -\vec n \cdot \sin \varphi \right] &= a \cdot \hat{v_3} \\
  \left[ \cos \varphi; \vec n \cdot \sin \varphi \right] \cdot \hat{x} \cdot \left[ \cos \varphi; -\vec n \cdot \sin \varphi \right] &= \hat{x}'
 \end{split}
 \end{equation}
 
 Wenn die Quaternionen $q_1, q_2, \ldots, q_n$ eine Rotation darstellen, dann lassen sich die Rotationen in eine Quaternion $q$ kombiniern, indem man die Quaterionen -- ähnlich wie bei Transformationsmatrizen -- einfach miteinander multipliziert: $q = q_n \cdot q_{n-2} \cdot \ldots \cdot q_1$. Der zugehörige Beweis ist nahezu trivial: Rotationen zu verketten heißt ja, das Ergebnis der einen Rotation als Ausgangswert für die nächste Transformation zu verwenden. Im Falle von drei Rotationen lautet die Formel also
 \begin{equation}
- \hat{x}' = q_3 \cdot ( q_2 \cdot ( q_3 \cdot \hat{x} \cdot \overline{q_1} ) \cdot \overline{q_2} ) \cdot \overline{q_3},
+ \hat{x}' = q_3 \cdot ( q_2 \cdot ( q_1 \cdot \hat{x} \cdot \overline{q_1} ) \cdot \overline{q_2} ) \cdot \overline{q_3},
 \end{equation}
 was wir wegen der Assoziativität der Quaternionenmultiplikation als 
 \begin{equation}
@@ -641,40 +639,43 @@ Dafür multiplizieren wir zunächst einmal die Rotationsformel aus und vereinfac
 \end{split}
 \end{equation}
 
-Mithilfe dieser Formel transformieren wir nun die drei Basisvektoren $\vec x = $\textvec{1}{0}{0}, $\vec y = $\textvec{0}{1}{0} und $\vec z = $\textvec{0}{0}{1}. Für die Komponenten von $\vec x$ erhalten wir\footnote{$q$ ist eine Einheitsquaternion, also gilt $w^2 + x^2 + y^2 + z^2 = 1$!}:
+Mithilfe dieser Formel transformieren wir nun die drei Basisvektoren $\vec{e_1} = $\textvec{1}{0}{0}, $\vec{e_2} = $\textvec{0}{1}{0} und $\vec{e_3} = $\textvec{0}{0}{1}. Für die Komponenten von $\vec{e_1}$ erhalten wir\footnote{$q$ ist eine Einheitsquaternion, also gilt $w^2 + x^2 + y^2 + z^2 = 1$!}:
 \begin{equation}
 \begin{split}
- x_x' &= 2 \cdot ( x + 0 + 0 ) \cdot x + 2 \cdot w \cdot ( y \cdot 0 - z \cdot 0 ) + ( w^2 - x^2 - y^2 - z^2 ) \cdot 1 \\
-      &= x^2 + w^2 - y^2 - z^2 \\
-      &= ( 1 - y^2 - z^2 - w^2 ) + w^2 - y^2 - z^2 \\
-      &= 1 - 2 \cdot ( y^2 + z^2 )
+ \vec{e_1'}_x
+  &= 2 \cdot ( x + 0 + 0 ) \cdot x + 2 \cdot w \cdot ( y \cdot 0 - z \cdot 0 ) + ( w^2 - x^2 - y^2 - z^2 ) \cdot 1 \\
+  &= x^2 + w^2 - y^2 - z^2 \\
+  &= ( 1 - y^2 - z^2 - w^2 ) + w^2 - y^2 - z^2 \\
+  &= 1 - 2 \cdot ( y^2 + z^2 )
 \end{split}
 \end{equation}
 \begin{equation}
 \begin{split}
- x_y' &= 2 \cdot ( x + 0 + 0 ) \cdot y + 2 \cdot w \cdot ( 1 \cdot z - 0 \cdot x ) + ( w^2 - x^2 - y^2 - z^2 ) \cdot 0 \\
-      &= 2xy + 2wz \\
-      &= 2 \cdot ( xy + wz )
+ \vec{e_1'}_y
+  &= 2 \cdot ( x + 0 + 0 ) \cdot y + 2 \cdot w \cdot ( 1 \cdot z - 0 \cdot x ) + ( w^2 - x^2 - y^2 - z^2 ) \cdot 0 \\
+  &= 2xy + 2wz \\
+  &= 2 \cdot ( xy + wz )
 \end{split}
 \end{equation}
 \begin{equation}
 \begin{split}
- x_z' &= 2 \cdot ( x + 0 + 0 ) \cdot z + 2 \cdot w \cdot ( x \cdot 0 - y \cdot 1 ) + ( w^2 - x^2 - y^2 - z^2 ) \cdot 0 \\
-      &= 2xz - 2wy \\
-      &= 2 \cdot ( xz + wy )
+ \vec{e_1'}_z
+  &= 2 \cdot ( x + 0 + 0 ) \cdot z + 2 \cdot w \cdot ( x \cdot 0 - y \cdot 1 ) + ( w^2 - x^2 - y^2 - z^2 ) \cdot 0 \\
+  &= 2xz - 2wy \\
+  &= 2 \cdot ( xz + wy )
 \end{split}
 \end{equation}
-% @Lz: Bessere Variablennamen!
+% @todo: Vector arrows?
 
 Analog werden auch die anderen beiden Vektoren transformiert:
 \begin{align}
- \vec{y'} =
+ \vec{e_2'} =
  \begin{pmatrix}
   2 \cdot ( xy - wz ) \\
   1 - 2 \cdot ( x^2 + z^2 ) \\
   2 \cdot ( yz + wx )
  \end{pmatrix} \\
- \vec{z'} = 
+ \vec{e_3'} =
  \begin{pmatrix}
   2 \cdot ( xz + wy ) \\
   2 \cdot ( yz - wx ) \\
@@ -682,7 +683,7 @@ Analog werden auch die anderen beiden Vektoren transformiert:
  \end{pmatrix}
 \end{align}
 
-Durch Nebeneineinanderstellen von $\vec{x'}$, $\vec{y'}$ und $\vec{z'}$ ergibt sich schließlich die \emph{Rotationsmatrix zu einer Rotationsquaternion $q = w + xi + yj + zk$}
+Durch Nebeneineinanderstellen von $\vec{e_1'}$, $\vec{e_2'}$ und $\vec{e_3'}$ ergibt sich schließlich die \emph{Rotationsmatrix zu einer Rotationsquaternion $q = w + xi + yj + zk$}
 \begin{equation}
  R(q) =
  \begin{pmatrix}
