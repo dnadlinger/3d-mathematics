@@ -102,19 +102,19 @@ Wie bereits in Kapitel \ref{coordinatesystems} erwähnt, besteht die Aufgabe der
 \begin{wrapfigure}{R}{0.5\textwidth}
   \includegraphics[width=0.49\textwidth]{clippingplanes}
   \caption{Near- und Far Clipping Plane.}
-  \label{clippingplanes}
+  \label{image:clippingplanes}
 \end{wrapfigure}
 
 Für die Transformation muss das Sichtvolumen aber zuerst begrenzt werden, da sonst verschiedene grundsätzliche und numerische Probleme entstehen werden\footnote{Beispielsweise würden Punkte, die exakt im Augpunkt liegen, Probleme verursachen und sehr weit entfernte Objekte würden im Hinblick auf die begrenzte Rechengenauigkeit problematisch sein.}. Das geschieht mit zwei zur $z$-Achse senkrechten Ebenen, der \emph{Near Clipping Plane} und der \emph{Far Clipping Plane} (von engl. \emph{to clip}, \enquote{abschneiden}). Das entstehende Volumen ist ein Pyramidenstumpf, in der 3D-Grafik meist mit dem englischen Begriff \emph{Frustum} bezeichnet.
 
 Besonders wichtig ist die Begrenzung des Sichtvolumens für die auf die Projektion folgende Sichtbarkeitsbestimmung, da hier wie auch sonst in Computerprogrammen mit einer beschränkten Genaugkeit gerechnet wird. Ist der Abstand von Near und Far Clipping Plane zu groß, macht sich die begrenzte Genauigkeit bemerkbar und es kommt zu einem als \emph{Z-Fighting} bekannten Phänomen, bei dem auf nicht-deterministische Weise abwechselnd verschiedene Pixel von Polygonen in einer ähnlichen Tiefe im Vordergrund gezeichnet werden.
 
-Zur Herleitung der Projection Matrix für die Zentralprojektion transformieren wir das Sichtvolumen zunächst einmal so, dass der horizontale und der vertikale Öffnungswinkel $90^\circ$ betragen ($\varphi = 90^\circ$ und $r = 1$). Dazu ist eine Skalierung entlang der $x$- und der $y$-Achse nötig: Wie sich aus Abbildung \ref{clippingplanes} und \ref{rightangledvolume} leicht erkennen lässt, wächst die $y$-Koordinate der oberen und unteren Begrenzung des Frustums bei steigender $z$-Koordinate mit dem Faktor $\pm \tan\frac{\varphi}{2}$, im transformierten Frustum aber mit dem Faktor $\pm 1$. Die $x$-Koordinate der linken und der rechten Grenze verhalten sich bis auf den Faktor für das Seitenverhältnis genauso. Das Sichtvolumen muss also um den Faktor $1 : (\tan\frac{\varphi}{2})$ in $y$-Richtung und $1 : (\tan\frac{\varphi}{2} \cdot r)$ in $x$-Richtung skaliert werden.
+Zur Herleitung der Projection Matrix für die Zentralprojektion transformieren wir das Sichtvolumen zunächst einmal so, dass der horizontale und der vertikale Öffnungswinkel $90^\circ$ betragen ($\varphi = 90^\circ$ und $r = 1$). Dazu ist eine Skalierung entlang der $x$- und der $y$-Achse nötig: Wie sich aus Abbildung \ref{image:clippingplanes} und \ref{image:rightangledvolume} leicht erkennen lässt, wächst die $y$-Koordinate der oberen und unteren Begrenzung des Frustums bei steigender $z$-Koordinate mit dem Faktor $\pm \tan\frac{\varphi}{2}$, im transformierten Frustum aber mit dem Faktor $\pm 1$. Die $x$-Koordinate der linken und der rechten Grenze verhalten sich bis auf den Faktor für das Seitenverhältnis genauso. Das Sichtvolumen muss also um den Faktor $1 : (\tan\frac{\varphi}{2})$ in $y$-Richtung und $1 : (\tan\frac{\varphi}{2} \cdot r)$ in $x$-Richtung skaliert werden.
 
 \begin{wrapfigure}{R}{0.35\textwidth}
   \includegraphics[width=0.34\textwidth]{rightangledvolume}
   \caption{Rechtwinkliges Sichtvolumen mit Projektion auf die Ebene $z=1$.}
-  \label{rightangledvolume}
+  \label{image:rightangledvolume}
 \end{wrapfigure}
 
 Daneben spiegeln wir das Koordinatensystem an der $xy$-Ebene, um ein intuitiveres Arbeiten zu ermöglichen -- mit steigendem Abstand von der Kamera wächst nun auch die $z$-Koordinate. Für diesen ersten Schritt ergibt sich also die Matrix
@@ -127,7 +127,7 @@ Daneben spiegeln wir das Koordinatensystem an der $xy$-Ebene, um ein intuitivere
  \end{pmatrix}.
 \end{equation}
 
-Danach werden die Punkte auf die Ebene $z=1$ projiziert. Wie aus Abbildung \ref{rightangledvolume} ersichtlich (ähnliche Dreiecke), gilt der Zusammenhang
+Danach werden die Punkte auf die Ebene $z=1$ projiziert. Wie aus Abbildung \ref{image:rightangledvolume} ersichtlich (ähnliche Dreiecke), gilt der Zusammenhang
 \begin{equation}
  \frac{x'}{1} = \frac{x}{z}
 \end{equation}
