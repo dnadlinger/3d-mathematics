@@ -57,22 +57,23 @@ In der Materialdefinition der Objekte werden daher Informationen über das für 
 
 Zusätzlich werden jedem Vertex zwei Eigenschaften zugeordnet: die \emph{Farbe} des Eckpunkts und sein \emph{Normalvektor}. Aus diesen Werten, den genannten Materialeigenschaften und den Informationen über die in der Szene vorhandenen Lichtquellen wird der Farbwert des Dreiecks an bestimmten Stellen (und damit der Pixel, die von dem Dreieck abgedeckt werden) berechnet (genaueres in Abschnitt \ref{lighting}).
 
+\label{vertexnormals}
 Mittlerweile sollte sich das mathematische Unterbewusstsein schon zu Wort gemeldet haben -- auf einen Vertex, also einen 
 % Lz: einem
 einzelnen Ortsvektor, lässt sich natürlich keine Normale bilden. Der Grund für diese seltsame Konstruktion liegt in der Verwendung der Normalvektoren für die Lichtberechnung. Zunächst würde man annehmen, dass die Normalvektoren der Eckpunkte eines Polygons ohnehin in die gleiche Richtung zeigen würden. Dies ist grundsätzlich richtig, und mit einer Normale pro Dreieck kann man die Lichtberechnungen auch schon ausführen. Diese Berechnungsart wird als \emph{Flat Shading} bezeichnet.
 
 \begin{wrapfigure}{R}{0.4\textwidth}
   \includegraphics[width=0.39\textwidth]{dwarf_flat}
-  \label{modelflat}
+  \label{image:modelflat}
   \vspace{-10pt}
   \caption{Flat Shading.}
 \end{wrapfigure}
 
-Der Nachteil dieser Methode wird deutlich, wenn man bedenkt, dass ja aus Effizienzgründen auch alle runden Körper mit Dreiecksnetz angenähert werden. Bei Verwendung von Flat Shading ergeben sich dann hässliche Kanten zwischen den Flächen, wie in Abbildung \ref{modelflat} zu sehen.
+Der Nachteil dieser Methode wird deutlich, wenn man bedenkt, dass ja aus Effizienzgründen auch alle runden Körper mit Dreiecksnetz angenähert werden. Bei Verwendung von Flat Shading ergeben sich dann hässliche Kanten zwischen den Flächen, wie in Abbildung \ref{image:modelflat} zu sehen.
 
 \begin{wrapfigure}{R}{0.4\textwidth}
   \includegraphics[width=0.39\textwidth]{dwarf_gouraud}
-  \label{modelgouraud}
+  \label{image:modelgouraud}
   \vspace{-10pt}
   \caption{Gouraud Shading.}
 \end{wrapfigure}
@@ -89,12 +90,12 @@ Die Antwort der 3D-Grafik auf diese Probleme sind die sogenannten \emph{Texturen
 
 \begin{wrapfigure}{R}{0.4\textwidth}
   \includegraphics[width=0.39\textwidth]{dwarf_textured}
-  \label{modeltextured}
+  \label{image:modeltextured}
   \vspace{-10pt}
   \caption{Diffuse Textur kombiniert mit Gouraud Shading.}
 \end{wrapfigure}
 
-Im einfachsten und häufigsten Fall handelt es sich dabei um die Farbe des Objektes (siehe Abbildung \ref{modeltextured}). Texturen können aber auch zur Modifikation vieler anderer Parameter eingesetzt werden, beispielsweise als \emph{Alpha Map}, die die Transparenz des Objektes steuert, oder als \emph{Normal Map} für die Flächennormalen, um eine rauhe Oberfläche zu simulieren.
+Im einfachsten und häufigsten Fall handelt es sich dabei um die Farbe des Objektes (siehe Abbildung \ref{image:modeltextured}). Texturen können aber auch zur Modifikation vieler anderer Parameter eingesetzt werden, beispielsweise als \emph{Alpha Map}, die die Transparenz des Objektes steuert, oder als \emph{Normal Map} für die Flächennormalen, um eine rauhe Oberfläche zu simulieren.
 
 Bei allen Arten von Texturen (mit Ausnahme einiger moderner Verfahren) muss aber beachtet werden, dass sie die eigentliche Geometrie eines Objektes nicht verändern und damit Vorgänge wie Schatten- und Verdeckungsberechnung nicht beeinflussen. Auch wenn etwa durch eine Normal Map eine strukturierte Oberfläche simuliert wird, erscheint der Rand des Objektes also als gerade Linie, was schnell unrealistisch wirken kann.
 
