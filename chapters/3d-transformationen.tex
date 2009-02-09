@@ -104,7 +104,7 @@ Wenn die Skalierungsfaktoren aller drei Achsen gleich sind, spricht man von eine
 
 Haben alle drei Koeffizienten den Wert $1$, hat die Skalierung keine Auswirkungen -- wie sich leicht überprüfen lässt, ergibt sich aus Gleichung \ref{scalingmatrix} die \emph{Einheitsmatrix}.
 
-Wie man leicht vermuten kann, ist die Skalierung umkehrbar (solange keiner der Faktoren 0 ist). Die inverse Skalierungsmatrix $S^{-1}$ ist dabei die Skalierungsmatrix mit dem Kehrwert der Faktoren:
+Wie man leicht vermuten kann, ist die Skalierung umkehrbar (solange keiner der Faktoren $0$ ist). Die inverse Skalierungsmatrix $S^{-1}$ ist dabei die Skalierungsmatrix mit dem Kehrwert der Faktoren:
 \begin{equation}
  S^{-1}{(\lambda_x, \lambda_y, \lambda_z)} =
  \begin{pmatrix}
@@ -205,7 +205,7 @@ Auf die gleiche Art kann man auch die anderen Teilgleichungen auflösen. Man erh
  \end{pmatrix}.
 \end{equation}
 
-So wie die Skalierung ist auch die Translation einfach umkehrbar. Wenn man die inverse Matrix zu der Translationsmatrix $T{(\vec v)}$ berechnet, kommt man dabei auf
+So wie die Skalierung ist auch die Translation einfach umkehrbar. Wenn man die inverse Matrix zu der Translationsmatrix $T{(\vec v)}$ berechnet, erhält man als Ergebnis
 \begin{equation}
  T^{-1}{(\vec v)} =
  \begin{pmatrix}
@@ -358,7 +358,7 @@ Ein beliebtes Verfahren, um Ausrichtungen im Raum anzugeben, sind die sogenannte
 
 Mit einem Wertebereich von $-\pi$ bis $\pi$ für $\alpha$ und $\gamma$ und von $-\frac{\pi}{2}$ bis $\frac{\pi}{2}$ für $\beta$ lassen sich alle Ausrichtungen im Raum angeben. Bis auf zwei Ausnahmen (dazu gleich mehr) ist auch jedem Rotationszustand genau ein Satz an Winkeln zugeordnet, die Abbildung ist also bis auf diese Ausnahmen bijektiv.
 
-Um eine Rotationsdarstellung in Eulerschen Winkeln in Matrixform zu überführen, muss man einfach die Rotationsmatrizen für die einzelnen Achsen miteinander multiplizieren:
+Um eine Rotationsdarstellung in Eulerschen Winkeln in Matrixform zu überführen, genügt es, einfach die Rotationsmatrizen für die einzelnen Achsen miteinander zu multiplizieren:
 \begin{equation}
 \begin{split}
  &R_{zyx}( \gamma, \beta, \alpha ) = R_x( \alpha ) \cdot R_y( \beta ) \cdot R_z( \gamma ) \\
@@ -418,15 +418,14 @@ Zum anderen gibt es wie schon erwähnt für die Zuordnung von Eulerschen Winkeln
 
 Die Rotation hängt nun ausschließlich von der Differenz $\alpha - \gamma$ ab -- das System hat einen Freiheitsgrad eingebüßt! Es gibt jetzt unendlich viele Kombinationen von $\alpha$ und $\gamma$, die zu der gleichen Ausrichtung im Raum führen; die Abbildung der Eulerschen Winkel auf die Rotationsmatrizen ist also nicht injektiv.
 
-Dieses Problem tritt auch bei kardanischen Aufhängungen in der Mechanik auf, beispielsweise bei Trägheitsnavigationssystemen\footnote{Ein echtes Problem ist der Gimbal Lock in der Raumfahrt, wo die kardanische Aufhängung tatsächlich Drehungen um alle drei Freiheitsgrade kompensieren muss. \vglr{gimballocknasa}}. Es wird daher als \emph{Gimbal Lock} bezeichnet (engl. \emph{gimbal} bezeichnet einen Kardanring, zu Deutsch also etwa Kardanring-Blockade). In der Mechanik hat man oft die Möglichkeit, Situationen, die zu einem Gimbal Lock führen können, rechtzeitig zu erkennen und den Gimbal Lock zu vermeiden, etwa durch Änderung des Flugmanövers. Bei vom Benutzer ausgelösten oder gesteuerten Rotationen in Computerprogrammen ist dies aber kaum möglich, deswegen greift man normalerweise auf andere Verfahren zurück , um Rotationen zu speichern und zu verarbeiten.
+Dieses Problem tritt auch bei kardanischen Aufhängungen in der Mechanik auf, beispielsweise bei Trägheitsnavigationssystemen\footnote{Ein echtes Problem ist der Gimbal Lock in der Raumfahrt, wo die kardanische Aufhängung tatsächlich Drehungen um alle drei Freiheitsgrade kompensieren muss. \vglr{gimballocknasa}}. Es wird daher als \emph{Gimbal Lock} bezeichnet (engl. \emph{gimbal} bezeichnet einen Kardanring, zu Deutsch also etwa Kardanring-Blockade). In der Mechanik hat man oft die Möglichkeit, Situationen, die zu einem Gimbal Lock führen können, rechtzeitig zu erkennen und den Gimbal Lock zu vermeiden, etwa durch Änderung des Flugmanövers. Bei vom Benutzer ausgelösten oder gesteuerten Rotationen in Computerprogrammen ist dies aber kaum möglich, deswegen greift man normalerweise auf andere Verfahren zurück, um Rotationen zu speichern und zu verarbeiten.
 % Picture 'Gimbal lock in mechanics'?
 
 \subsection{Herleitung über transformierte Basisvektoren}
 \label{rotationbasevectors}
 In den vorigen beiden Abschnitten haben wir die Konstruktion einer Rotationsmatrix ausgehend von einem oder mehreren Rotationswinkeln besprochen. In manchen Fällen kennt man aber bereits die \emph{Basisvektoren} des neuen Koordinatensystems (in den Koordinaten des alten Systems) und will eine Matrix aufstellen, um alle anderen Vektoren zu transformieren.
 
-Hat man drei linear unabhängige Vektoren im alten und im neuen (dreidimensionalen) Koordinatensystem gegeben, lässt sich die Transformationsmatrix $T$ für jede lineare Transformation bestimmen, indem man die Vektoren in die Gleichung $\vec{v'} = T \cdot \vec v$ einsetzt und das Gleichungssystem löst. Daraus ergeben sich allerdings neun Gleichungen in neun Variablen -- händisch eine mühsame und für den Computer eine relativ rechenaufwändige Angelegenheit. Kennt man aber die transformierten Äquivalente $\vec{e_1'}$, $\vec{e_2'}$ und $\vec{e_3'}$ der \emph{kanonischen Basisvektoren} \textvec{1}{0}{0}, \textvec{0}{1}{0} und \textvec{0}{0}{1}, vereinfachen sich die Gleichungen wesentlich:
-
+Hat man drei linear unabhängige Vektoren im alten und im neuen (dreidimensionalen) Koordinatensystem gegeben, lässt sich die Transformationsmatrix $T$ für jede lineare Transformation bestimmen, indem man die Vektoren in die Gleichung $\vec{v'} = T \cdot \vec v$ einsetzt und das Gleichungssystem löst. Daraus ergeben sich allerdings neun Gleichungen in neun Variablen -- händisch eine mühsame und für den Computer eine relativ rechenaufwändige Angelegenheit. Kennt man aber die transformierten Äquivalente $\vec{e_1'}$, $\vec{e_2'}$ und $\vec{e_3'}$ der \emph{kanonischen Basisvektoren} $\vec{e_1} =$ \textvec{1}{0}{0}, $\vec{e_2} =$ \textvec{0}{1}{0} und $\vec{e_3} =$ \textvec{0}{0}{1}, vereinfachen sich die Gleichungen wesentlich:
 \begin{equation}
  T \cdot \begin{pmatrix} 1 \\ 0 \\ 0 \end{pmatrix} = \begin{pmatrix} {e_1'}_x \\ {e_1'}_y \\ {e_1'}_z \end{pmatrix} \qquad 
 \begin{aligned}
@@ -573,22 +572,21 @@ Wir setzen in \ref{step2} ein und erhalten:
 \end{split}
 \end{equation}
 
-Damit wäre der Zusammenhang aus Gleichung \ref{quaternionclaim} bewiesen:
+Damit wäre der Zusammenhang aus Gleichung \ref{quaternionclaim} bewiesen
 \begin{equation*}
- q \cdot \hat{v_1} \cdot \overline{q} = \hat{v_3}
+ q \cdot \hat{v_1} \cdot \overline{q} = \hat{v_3},
 \end{equation*}
+beziehungsweise nach dem Einsetzen für $q$
+\begin{equation}
+ \left[ ( \vec{v_1} \cdot \vec{v_2} ); \vec{v_1} \times \vec{v_2} \right] \cdot \hat{v_1} \cdot \left[ ( \vec{v_1} \cdot \vec{v_2} ); -(\vec{v_1} \times \vec{v_2} ) \right] = \hat{v_3}.
+\end{equation} 
 
-Für $q$ eingesetzt:
-\begin{equation*}
- \left[ ( \vec{v_1} \cdot \vec{v_2} ); \vec{v_1} \times \vec{v_2} \right] \cdot \hat{v_1} \cdot \left[ ( \vec{v_1} \cdot \vec{v_2} ); -(\vec{v_1} \times \vec{v_2} ) \right] = \hat{v_3}
-\end{equation*} 
-
-Unter Beachtung der Zusammenhänge $\vec a \cdot \vec b = \left| a \right| \cdot \left| b \right| \cdot \cos \varphi$ und $\left| \vec a \times \vec b \right| = \left| a \right| \cdot \left| b \right| \cdot \sin \varphi$ und der Tatsache, dass $\vec{v_1}$ und $\vec{v_2}$ Einheitsvektoren sind, können wir nun einsetzen:
+Unter Beachtung der Zusammenhänge $\vec a \cdot \vec b = \left| a \right| \cdot \left| b \right| \cdot \cos \varphi$ und $\left| \vec a \times \vec b \right| = \left| a \right| \cdot \left| b \right| \cdot \sin \varphi$ und der Tatsache, dass $\vec{v_1}$ und $\vec{v_2}$ Einheitsvektoren sind, können wir stattdessen auch schreiben:
 \begin{equation}
  \left[ \cos \varphi; \vec n \cdot \sin \varphi \right] \cdot \hat{v_1} \cdot \left[ \cos \varphi; -\vec n \cdot \sin \varphi \right] = \hat{v_3}
 \end{equation}
 
-Nun brauchen wir nur noch beide Seiten mit einem beliebigen Skalar $a$ zu multiplizieren ($\hat{v_1}$ und $\hat{v_3}$ sind ja auf Einheitsquaternionen beschränkt), und es ergibt sich:
+Nun brauchen wir nur noch beide Seiten mit einem beliebigen Skalar $a$ zu multiplizieren ($\hat{v_1}$ und $\hat{v_3}$ sind ja auf Einheitsquaternionen beschränkt), und es ergibt sich die oben aufgestellte Formel:
 \begin{equation}
 \begin{split}
  \left[ \cos \varphi; \vec n \cdot \sin \varphi \right] \cdot a \cdot \hat{v_1} \cdot \left[ \cos \varphi; -\vec n \cdot \sin \varphi \right] &= a \cdot \hat{v_3} \\
@@ -636,10 +634,10 @@ Dafür multiplizieren wir zunächst einmal die Rotationsformel aus und vereinfac
 \end{split}
 \end{equation}
 
-Mithilfe dieser Formel transformieren wir nun die drei Basisvektoren $\vec{e_1} = $\textvec{1}{0}{0}, $\vec{e_2} = $\textvec{0}{1}{0} und $\vec{e_3} = $\textvec{0}{0}{1}. Für die Komponenten von $\vec{e_1}$ erhalten wir\footnote{$q$ ist eine Einheitsquaternion, also gilt $w^2 + x^2 + y^2 + z^2 = 1$!}:
+Mithilfe dieser Formel transformieren wir nun die drei Basisvektoren $\vec{e_1} = $\textvec{1}{0}{0}, $\vec{e_2} = $\textvec{0}{1}{0} und $\vec{e_3} = $\textvec{0}{0}{1}. Für die Komponenten von $\vec{e_1'}$ erhalten wir die Gleichungen\footnote{$q$ ist eine Einheitsquaternion, also gilt $w^2 + x^2 + y^2 + z^2 = 1$!}:
 \begin{equation}
 \begin{split}
- \vec{e_1'}_x
+ {e_1'}_x
   &= 2 \cdot ( x + 0 + 0 ) \cdot x + 2 \cdot w \cdot ( y \cdot 0 - z \cdot 0 ) + ( w^2 - x^2 - y^2 - z^2 ) \cdot 1 \\
   &= x^2 + w^2 - y^2 - z^2 \\
   &= ( 1 - y^2 - z^2 - w^2 ) + w^2 - y^2 - z^2 \\
@@ -648,7 +646,7 @@ Mithilfe dieser Formel transformieren wir nun die drei Basisvektoren $\vec{e_1} 
 \end{equation}
 \begin{equation}
 \begin{split}
- \vec{e_1'}_y
+ {e_1'}_y
   &= 2 \cdot ( x + 0 + 0 ) \cdot y + 2 \cdot w \cdot ( 1 \cdot z - 0 \cdot x ) + ( w^2 - x^2 - y^2 - z^2 ) \cdot 0 \\
   &= 2xy + 2wz \\
   &= 2 \cdot ( xy + wz )
@@ -656,7 +654,7 @@ Mithilfe dieser Formel transformieren wir nun die drei Basisvektoren $\vec{e_1} 
 \end{equation}
 \begin{equation}
 \begin{split}
- \vec{e_1'}_z
+ {e_1'}_z
   &= 2 \cdot ( x + 0 + 0 ) \cdot z + 2 \cdot w \cdot ( x \cdot 0 - y \cdot 1 ) + ( w^2 - x^2 - y^2 - z^2 ) \cdot 0 \\
   &= 2xz - 2wy \\
   &= 2 \cdot ( xz + wy )
