@@ -22,8 +22,8 @@ Hier stößt man schnell auf das Problem, dass die realen phyikalischen Phänome
 
 Das derzeit am weitesten verbreitete Verfahren, um dieser Komplexität Herr zu werden, beruht darauf, die Speicherung der Form des Objektes (also der Oberfläche) von der des Materials (also der Eigenschaften dieser Oberfläche) zu trennen. Dieses Verfahren, das als \emph{Oberflächendarstellung} (engl. \emph{Boundary Representation}) bezeichnet wird, geht allerdings davon aus, dass die Szene aus Objekten besteht, die eine definierte Oberfläche haben. Manche Dinge, insbesondere atmosphärische Erscheinungen wie Wolken, Nebel, etc. sind daher schwer darzustellen.
 
-Außerdem liefern manche Verfahren ihre Ergebnisse prinzipbedingt in der Form eines \emph{Voxelgitters}\footnote{Voxel: Kofferwort aus \enquote{Volumen} und \enquote{Pixel}, bezeichnet analog zum zweidimensionalen Pixel ein Element eines regelmäßigen dreidimensionalen Gitters.}, also eines dreidimensionales Gitters, bei dem jedem Element ein Wert zugeordnet ist. Dazu zählen unter anderem viele bildgebende Verfahren wie Computertomographie, die in der Forschung und der Medizin verwendet werden. Diese Daten lassen sich naturgemäß leichter mit den Mitteln der \emph{Voxelgrafik} darstellen\footnote{Neben einigen tendenziell sehr rechenaufwändigen Verfahren, die die Volumendaten direkt darstellen, extrahieren aber viele Verfahren aus diesen Daten erst wieder eine Oberflächendarstellung, aus der dann schnell Bilder berechnet werden können.
-In manchen anderen Bereichen, beispielsweise bei physikalischen Simulationen, kann es hingegen prinzipbedingt nötig sein, Volumenmodelle zu verwenden. Die Ausgabe am Bildschirm erfolgt aber auch in solchen Programmen meist als Oberflächengrafik.}.
+Außerdem liefern manche Verfahren ihre Ergebnisse prinzipbedingt in der Form eines \emph{Voxelgitters}\footnote{Voxel: Kofferwort aus \enquote{Volumen} und \enquote{Pixel}, bezeichnet analog zum zweidimensionalen Pixel ein Element eines regelmäßigen dreidimensionalen Gitters.}, also eines dreidimensionales Gitters, bei dem jedem Element ein Wert zugeordnet ist. Dazu zählen unter anderem viele bildgebende Verfahren wie Computertomographie, die in der Forschung und der Medizin verwendet werden. Diese Daten lassen sich naturgemäß leichter mit den Mitteln der \emph{Voxelgrafik} darstellen\footnote{\uwave{Neben einigen tendenziell sehr rechenaufwändigen Verfahren, die die Volumendaten direkt darstellen, extrahieren aber viele Verfahren aus diesen Daten erst wieder eine Oberflächendarstellung, aus der dann schnell Bilder berechnet werden können.
+In manchen anderen Bereichen, beispielsweise bei physikalischen Simulationen, kann es hingegen prinzipbedingt nötig sein, Volumenmodelle zu verwenden. Die Ausgabe am Bildschirm erfolgt aber auch in solchen Programmen meist als Oberflächengrafik.}}.
 
 \subsection{Geometrie}
 \label{vertex}
@@ -33,7 +33,7 @@ Ein Teil der Verfahren beruht direkt auf einem mathematischen Zusammenhang, zum 
 % @cn
 % Raymarching, prozedurale Geometrie
 
-Diese Darstellungen erlauben zwar eine mathematisch exakte Nachbildung vieler verschiedener Oberflächen -- auch gekrümmte Oberflächen können später aus diesen Daten in beliebiger Genaugkeit bereichnet werden --, aber sie haben gemein, dass die Berechnungen, um aus ihnen Bilder zu erzeugen, für Echtzeitanwendungen viel zu aufwändig sind.
+Diese Darstellungen erlauben zwar eine mathematisch exakte Nachbildung vieler verschiedener Oberflächen -- auch gekrümmte Oberflächen können später aus diesen Daten in beliebiger Genaugkeit bereichnet werden --, aber sie haben gemein, dass die Berechnungen, um aus ihnen Bilder zu erzeugen, für Echtzeitanwendungen (noch) zu aufwändig sind.
 
 Stattdessen wird auf ein wesentlich einfacheres Verfahren zurückgegriffen, nämlich die Darstellung als \emph{Polygonnetz}. Die Oberfläche eines Objektes wird also durch Eckpunkte definiert, die jeweils zu einem Polygon gehören. Diese Punkte werden auch als als \emph{Vertex} (pl. \emph{Vertices}) bezeichnet. Jeder Vertex umfasst zumindest einen Ortsvektor, der seine Position im Raum angibt. Wie in den nächsten Abschnitten erläutert, können einem Vertex aber durchaus noch mehr Daten zugeordnet sein.
 
@@ -114,12 +114,18 @@ Die Grafikpipeline lässt sich in zwei Teile aufteilen: Zuerst erfolgen die Koor
 % @stil:
 In den folgenden beiden Abschnitten werde ich einen kurzen Überblick über die dabei ablaufenden Operationen geben. Nach einer kurzen Betrachtung der praktischen Umsetzung in der Computergrafik werden wir diese Operationen detailliert aus mathematischer Sicht betrachten, der Fokus soll dabei auf dem ersten Teil der Grafikpipeline liegen.
 
-% Image: graphics pipeline blocks
+% @Image: graphics pipeline blocks
 
 \subsection{Koordinatentransformationen}
 \label{coordinatesystems}
+
+\begin{wrapfigure}{R}{0.3\textwidth}
+  \includegraphics[width=0.29\textwidth]{transformationpipeline}
+  \vspace{-10pt}
+  \caption{Koordinatentransformationen in der Grafikpipeline.}
+\end{wrapfigure}
+
 % Nur karthesische Koordinatensysteme
-% Vertical image: Geometry pipeline
 Wie schon in Abschnitt \ref{vertex} besprochen, wird jeder Körper aus Dreiecken zusammengesetzt, deren Eckpunkte durch Ortsvektoren angegeben werden. Die Koordinaten dieser Vektoren beziehen sich auf das \emph{Modellkoordinatensystem}, das nur für ein Objekt Gültigkeit hat. Ursprung und Einheiten dieses Systems können von dem Künstler, der die Modelle erstellt, im Prinzip beliebig gewählt werden\footnote{In der Praxis wird man natürlich versuchen, sinnvolle Werte zu wählen, also beispielsweise den Ursprung in die Mitte des Objektes legen und eine Einheit als einen Zentimeter interpretieren.}.
 
 Der erste Schritt der Verarbeitung besteht nun darin, die Koordinaten in das \emph{Weltkoordinatensystem} zu übertragen, das eine Bezugsbasis für die gesamte Szene herstellt. Dafür sind normalerweise drei Operationen notwendig, nämlich Translation (um das Objekt an eine bestimmte Stelle zu bewegen), Skalierung (um das Objekt in die richtige Größe zu bringen), und Rotation (um die Ausrichtung des Objekts zu korrigieren). Die Matrix, die diese Transformation beinhaltet, wird \emph{World Matrix} (Weltmatrix) genannt. Im Weltkoordinatensystem sind auch alle anderen Objekte der Szene definiert, etwa die Positionen der Lichtquellen oder der Standpunkt der virtuellen Kamera.
