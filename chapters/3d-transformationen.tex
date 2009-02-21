@@ -8,7 +8,7 @@ Das Thema dieses Kapitels sind die Transformationen, die auf die Objekte angewen
 
 Neben den im Weiteren behandelten Transformationen, nämlich Skalierung, Translation und Rotation, sind in der Geometrie noch einige weitere Transformationen bekannt, etwa Scherung und Spiegelung, diese sind aber für die 3D-Grafik kaum relevant -- nicht zuletzt deshalb, weil sie in der realen Welt auch nicht so häufig vorkommen.
 
-An dieser Stelle sei noch eine Eigenschaft von Transformationen im Bezug auf Normalvektoren erwähnt. Es ist in der 3D-Grafik oft erforderlich, bei der Transformation eines Objektes einen vorher berechneten Normalvektor ebenfalls zu transformieren. Es reicht nicht immer aus, einfach die gleiche Transformationsmatrix anzuwenden, beispielsweise bei der Scherung, die nicht winkeltreu ist. 
+An dieser Stelle sei noch eine Eigenschaft von Transformationen in Bezug auf Normalvektoren erwähnt. Es ist in der 3D-Grafik oft erforderlich, bei der Transformation eines Objektes einen vorher berechneten Normalvektor ebenfalls zu transformieren. Es reicht nicht immer aus, einfach die gleiche Transformationsmatrix anzuwenden, beispielsweise bei der Scherung, die nicht winkeltreu ist.
 % Drawing 'Normal vectors transformed'
 
 Es sei $\vec v$ ein Vektor zwischen zwei Punkten auf einer Ebene mit dem Normalvektor $\vec n$. Offensichtlich gilt der Zusammenhang
@@ -391,7 +391,7 @@ Um eine Rotationsdarstellung in Eulerschen Winkeln in Matrixform zu überführen
 \end{split}
 \end{equation}
 
-Eulersche Winkel sind ein vergleichbar einfaches und intuitives Mittel, um beliebige Rotationen anzugeben, und werden in der 3D-Grafik gerne für statische Angaben von Rotationen verwendet. Im Bezug auf Animationen haben sie jedoch einige Nachteile:
+Eulersche Winkel sind ein vergleichbar einfaches und intuitives Mittel, um beliebige Rotationen anzugeben, und werden in der 3D-Grafik gerne für statische Angaben von Rotationen verwendet. Kommen jedoch Animationen, also Veränderungen des Rotationszustandes hinzu, haben Eulersche Winkel aber einige Nachteile:
 
 Zum einen ist es schwer, zwischen zwei in Eulerschen Winkeln gegebenen Rotationszuständen so zu interpolieren, dass die Winkelgeschwindigkeit der resultierenden Rotationsbewegung konstant bleibt. Dies ist für manche Anwendungen wünschenswert, etwa Kamerafahrten, damit die Animation flüssig erscheint.
 
@@ -611,7 +611,7 @@ schreiben können, was wir gleich zu
 \end{equation} 
 vereinfachen können, da sich die Quaternionenmultiplikation ja bezüglich der Konjugation distributiv unter Vertauschung der Reihenfolge verhält (siehe Gleichung \ref{quaternionconjugationmultiplication}).
 
-Quaternionen stellen also wegen ihrer Beziehung zu Rotationswinkel und -achse ein praktisches Mittel dar, um Rotationen anzugeben und mehrere Rotationen können einfach miteinander kombiniert werden (auch im Bezug auf die benötigten Rechenoperationen am Computer). Zusätzlich kann es für manche Computeranwendungen nützlich sein, dass nur vier Werte gespeichert werden müssen, um jede beliebige Rotation darzustellen. 
+Quaternionen stellen also wegen ihrer Beziehung zu Rotationswinkel und -achse ein praktisches Mittel dar, um Rotationen anzugeben und mehrere Rotationen können einfach miteinander kombiniert werden (auch in Hinblick auf die am Computer dafür benötigten Rechenoperationen). Zusätzlich kann es für manche Computeranwendungen nützlich sein, dass nur vier Werte gespeichert werden müssen, um jede beliebige Rotation darzustellen. 
 % @missing: Interpolation
 
 Die Repräsentation als Quaternion hat aber auch Nachteile. Zum einen ist die direkte Transformation von Vektoren durch Quaternionen eine relativ rechenaufwändige Angelegenheit, was für den Einsatz in der 3D-Grafik nicht gerade optimal ist. Zum anderen unterstützt die derzeitige Grafikhardware wie in Kapitel \ref{coordinatesystems} beschrieben lediglich Matrizen, um die Vertices zu transformieren. Daher liegt es nahe, einen Weg zu suchen, eine Rotationsquaternion in eine Rotationsmatrix zu konvertieren. \vgls{rotationissues}{8-9}
