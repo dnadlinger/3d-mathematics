@@ -916,15 +916,15 @@ FUNCTION {push.pages}
 FUNCTION {push.vol.year.num.pages}
 % for journals etc.
 { volume push.field.or.null
-  year empty$
-    { "there's no year in " cite$ * warning$ }
-    { duplicate$ empty$
-        { pop$ "(" }
-	{ " (" * }
-      if$
-      year * ")" * 
-    }
-  if$
+%  year empty$
+%    { "there's no year in " cite$ * warning$ }
+%    { duplicate$ empty$
+%        { pop$ "(" }
+%        { " (" * }
+%      if$
+%      year * ")" * 
+%    }
+%  if$
   month empty$
     { skip$ }
     { duplicate$ empty$
@@ -1105,7 +1105,7 @@ FUNCTION {article}
 { out.bibitem.start
   push.authors "author" out.check.required
   set.colon.after
-  push.title "title" out.check.required
+  push.title "title" out.check.required format.emphasize
   crossref missing$
     { push.article.in.journal out.block 
       new.sentence 
