@@ -175,7 +175,7 @@ Die Darstellung aller Transformationen als Matrizen hat den großen Vorteil, das
 \end{equation} 
 
 Durch diese Universalität von Matrizen ist es möglich, bestimmte zeitintensive Berechnungen in der Computergrafik sehr effizient zu gestalten (siehe Kapitel \ref{coordinatesystems}).
-% Citation?!
+% @Citation?!
 
 \subsection{Transposition}
 \label{transposition}
@@ -224,7 +224,7 @@ Wird nun statt einem Spaltenvektor ein Zeilenvektor $\vec z = \vec{s}^T$ verwend
 \begin{equation}
  \vec{s'}^T = \vec{s}^T \cdot A^T = \vec{s}^T \cdot A_n^T \cdot A_{n-1}^T \cdot \ldots \cdot A_1^T.
 \end{equation}
-Dies ist insofern erwähnenswert, als in der 3D-Grafik zwei große Standards existieren, von denen einer Spaltenvektoren, der andere Zeilenvektoren verwendet (mehr dazu in Kapitel \ref{direct3dopengl}) und manche Algorithmen daher nicht 1:1 von einem Standard auf den anderen übertragbar sind.
+Dies ist insofern erwähnenswert, als in der 3D-Grafik zwei große Standards existieren, von denen einer Spaltenvektoren, der andere Zeilenvektoren vorsieht (mehr dazu in Kapitel \ref{direct3dopengl}) und manche Algorithmen daher nicht 1:1 von einem Standard auf den anderen übertragbar sind.
 % Welche?
 
 % Übrigens entspricht die transponierte Matrix bei Matrizen über $\mathbb R$ (und um diese soll es hier ausschließlich gehen) der \emph{adjungierten Matrix}. Aus diesem Grund werden die beiden Begriffe in der Fachliteratur zur Grafikprogrammierung gelegentlich synonym verwendet. Diese ist allerdings nicht mit der \emph{Adjunkten} zu verwechseln, die bei der Berechnung der inversen Matrix Verwendung findet.
@@ -304,7 +304,7 @@ In Bezug auf Transposition gilt für die Inversion \vglr{wiki:inverse}:
 \end{equation}
 % @cn
 
-Im Wesentlichen gibt es zwei Verfahren, um die Inverse zu einer Matrix zu berechnen, im Folgenden soll als Ausgangsmatrix
+Im Wesentlichen gibt es zwei Verfahren, um die Inverse zu einer Matrix zu berechnen. Für die folgenden Betrachtungen soll
 \begin{equation*}
  A = \begin{pmatrix}
   1 & 2 & 0 \\
@@ -312,7 +312,7 @@ Im Wesentlichen gibt es zwei Verfahren, um die Inverse zu einer Matrix zu berech
   3 & 4 & 1
  \end{pmatrix}
 \end{equation*}
-dienen.
+als Ausgangsmatrix dienen.
 
 Die erste Variante beruht auf dem Gauß-Eliminationsverfahren. Dazu schreibt man die Ausgangsmatrix als Blockmatrix $(A|E)$ mit der Einheitsmatrix an:
 \begin{equation}
@@ -457,7 +457,7 @@ Zwei Quaternionen $q_1$ und $q_2$ können ebenfalls ganz gewöhnlich miteinander
     & + ( w_1 z_2 + w_2 z_1 + x_1 y_2 - x_2 y_1 ) \cdot k
 \end{split}
 \end{equation}
-Fasst man den Imaginärteil der Quaternion als Vektor auf, kann man das Ergebnis auch wie folgt anschreiben:
+Fasst man den Imaginärteil der Quaternion als Vektor auf, kann man die Multiplikation auch wie folgt auflösen:
 \begin{equation}
  \label{quaternionmultiplicationvector}
  q_1 \cdot q_2 = \left[ \left( w_1 w_2 - \vec{v_1} \cdot \vec{v_2} \right); \vec{v_1} \times \vec{v_2} + w_1 \cdot \vec{v_2} + w_2 \cdot \vec{v_1} \right]
