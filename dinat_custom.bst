@@ -916,15 +916,15 @@ FUNCTION {push.pages}
 FUNCTION {push.vol.year.num.pages}
 % for journals etc.
 { volume push.field.or.null
-  year empty$
-    { "there's no year in " cite$ * warning$ }
-    { duplicate$ empty$
-        { pop$ "(" }
-	{ " (" * }
-      if$
-      year * ")" * 
-    }
-  if$
+%  year empty$
+%    { "there's no year in " cite$ * warning$ }
+%    { duplicate$ empty$
+%        { pop$ "(" }
+%        { " (" * }
+%      if$
+%      year * ")" * 
+%    }
+%  if$
   month empty$
     { skip$ }
     { duplicate$ empty$

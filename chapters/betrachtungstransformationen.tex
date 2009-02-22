@@ -1,7 +1,7 @@
 % Kapitel 'Betrachtungstransformationen'
 \chapter{Betrachtungstransformationen}
 \label{viewingtransformations}
-Im vorigen Kapitel haben wir die verschiedenen Formen von Skalierung, Translation und Rotation behandelt, die für die Platzierung und Ausrichtung der einzelnen Modelle in der Szene, also für das Berechnen der World Matrix, nötig sind. Das Thema dieses Kapitel ist die Transformationen, die für den Übergang vom Weltkoordinatensystem in das Bildschirmkoordinatensystem verwendet werden.
+Im vorigen Kapitel haben wir die verschiedenen Formen von Skalierung, Translation und Rotation behandelt, die für die Platzierung und Ausrichtung der einzelnen Modelle in der Szene, also für das Berechnen der World Matrix, nötig sind. Das Thema dieses Kapitels sind die Transformationen, die für den Übergang vom Weltkoordinatensystem in das Bildschirmkoordinatensystem verwendet werden.
 
 \section{View Matrix}
 \label{view}
@@ -105,7 +105,7 @@ Wie bereits in Kapitel \ref{coordinatesystems} erwähnt, besteht die Aufgabe der
   \label{image:clippingplanes}
 \end{wrapfigure}
 
-Für die Transformation muss das Sichtvolumen aber zuerst begrenzt werden, da sonst verschiedene grundsätzliche und numerische Probleme entstehen werden\footnote{Beispielsweise würden Punkte, die exakt im Augpunkt liegen, Probleme verursachen und sehr weit entfernte Objekte würden im Hinblick auf die begrenzte Rechengenauigkeit problematisch sein.}. Das geschieht mit zwei zur $z$-Achse senkrechten Ebenen, der \emph{Near Clipping Plane} und der \emph{Far Clipping Plane} (von engl. \emph{to clip}, \enquote{abschneiden}). Das entstehende Volumen ist ein Pyramidenstumpf, in der 3D-Grafik meist mit dem englischen Begriff \emph{Frustum} bezeichnet.
+Für die Transformation muss das Sichtvolumen aber zuerst begrenzt werden, da sonst verschiedene grundsätzliche und numerische Probleme entstehen würden\footnote{Beispielsweise würden Punkte, die exakt im Augpunkt liegen, Probleme verursachen und sehr weit entfernte Objekte würden im Hinblick auf die begrenzte Rechengenauigkeit problematisch sein.}. Das geschieht mit zwei zur $z$-Achse senkrechten Ebenen, der \emph{Near Clipping Plane} und der \emph{Far Clipping Plane} (von engl. \emph{to clip}, \enquote{abschneiden}). Das entstehende Volumen ist ein Pyramidenstumpf, in der 3D-Grafik meist mit dem englischen Begriff \emph{Frustum} bezeichnet.
 
 Besonders wichtig ist die Begrenzung des Sichtvolumens für die auf die Projektion folgende Sichtbarkeitsbestimmung, da hier wie auch sonst in Computerprogrammen mit einer beschränkten Genaugkeit gerechnet wird. Ist der Abstand von Near und Far Clipping Plane zu groß, macht sich die begrenzte Genauigkeit bemerkbar und es kommt zu einem als \emph{Z-Fighting} bekannten Phänomen, bei dem auf nicht-deterministische Weise abwechselnd verschiedene Pixel von Polygonen in einer ähnlichen Tiefe im Vordergrund gezeichnet werden.
 
