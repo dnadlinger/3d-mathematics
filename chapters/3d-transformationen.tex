@@ -2,14 +2,13 @@
 \chapter{Objekt-Transformationen}
 \label{3d-transformations}
 
-Nach diesem kurzen Gesamtüberblick über die 3D-Grafik wenden wir uns nun wieder dem mathematischen Teil zu.
-
 Das Thema dieses Kapitels sind die Transformationen, die auf die Objekte angewendet werden können und die direkte Entsprechungen in der realen Welt haben. In Bezug auf die im vorigen Kapitel beschrieben Grafikpipeline werden diese normalerweise beim Übergang vom Modellkoordinatensystem in das Weltkoordinatensystem, also in der World Matrix, angewendet (unter leicht anderen Vorzeichen auch in der View Matrix, mehr dazu in Kapitel \ref{view}). Im Speziellen soll es natürlich um die Darstellung dieser Transformationen als Matrix gehen.
 
-Neben den im Weiteren behandelten Transformationen, nämlich Skalierung, Translation und Rotation, sind in der Geometrie noch einige weitere Transformationen bekannt, etwa Scherung und Spiegelung, diese sind aber für die 3D-Grafik kaum relevant -- nicht zuletzt deshalb, weil sie in der realen Welt auch nicht so häufig vorkommen.
+Neben den im Weiteren behandelten Transformationen, nämlich Skalierung, Translation und Rotation, sind in der Geometrie noch einige weitere Transformationen bekannt, diese sind aber für die 3D-Grafik kaum relevant -- nicht zuletzt deshalb, weil sie in der realen Welt auch nicht so häufig vorkommen.
 
-An dieser Stelle sei noch eine Eigenschaft von Transformationen in Bezug auf Normalvektoren erwähnt. Es ist in der 3D-Grafik oft erforderlich, bei der Transformation eines Objektes einen vorher berechneten Normalvektor ebenfalls zu transformieren. Es reicht nicht immer aus, einfach die gleiche Transformationsmatrix anzuwenden, beispielsweise bei der Scherung, die nicht winkeltreu ist.
-% Drawing 'Normal vectors transformed'
+In der 3D-Grafik ist es oft erforderlich, bei der Transformation eines Objektes auch die Normalvektoren der Vertices zu transformieren. Dafür reicht es aber nicht aus, einfach die Transformationsmatrix auch auf die Normalvektoren anzuwenden. Es würden dann unter anderem alle Transformationen Probleme bereiten, die nicht winkeltreu sind. Stattdessen müssen die Normalvektoren gesondert behandelt werden:
+
+% @Drawing 'Normal vectors transformed'
 
 Es sei $\vec v$ ein Vektor zwischen zwei Punkten auf einer Ebene mit dem Normalvektor $\vec n$. Offensichtlich gilt der Zusammenhang
 \begin{equation}
@@ -56,6 +55,7 @@ Der Normalvektor einer Fläche wird also transformiert, indem man ihn mit der \e
   \vspace{-10pt}
   \caption{Isotrope Skalierung eines Dreiecks um den Faktor $\lambda$.}
 \end{wrapfigure}
+% @drawing: Andere Eckpunte auch durch Hilfslinien verbinden.
 
 Die erste und einfachste Transformation, die ich hier vorstellen möchte, ist die Skalierung.
 
@@ -132,7 +132,7 @@ Die \emph{Spiegelung} kann als Sonderfall der Skalierung betrachtet werden. Dabe
   \caption{Translation um $\vec v$.}
 \end{wrapfigure}
 
-Die nächste Transformation ist die Translation, also die Verschiebung von Objekten beziehungsweise des Koordinatenursprungs im Raum.
+Eine weitere elementare Transformation ist die Translation, also die Verschiebung von Objekten im Raum.
 
 Um alle Eckpunkte eines Objekts um den Vektor $\vec v$ zu verschieben, addiert man die beiden Vektoren einfach nach den Gesetzen der Vektorrechnung komponentenweise. Die gesuchte Translationsmatrix $T$ muss also die folgende Bedingung erfüllen:
 \begin{equation}
@@ -229,7 +229,7 @@ Wie sich leicht zeigen lässt, kann man, um mehrere Translationen nacheinander a
  \end{pmatrix} \cdot \vec p = T{(\vec a + \vec b)} \cdot \vec p
 \end{equation}
 
-Dieser Zusammenhang mag trivial erscheinen, aber aus Gleichung \ref{translationaddition} ergibt sich noch eine weitere interessante Eigenheit von Translationsmatrizen: Nachdem die Vektoraddition kommutativ ist, mit der man die Translationen zusammenfassen kann, ist auch die \emph{Multiplikation von Translationsmatrizen kommutativ}.
+Dieser Zusammenhang mag trivial erscheinen, aber aus Gleichung \ref{translationaddition} ergibt sich noch eine weitere interessante Eigenheit von Translationsmatrizen: Nachdem die Vektoraddition kommutativ ist, mit der man die Translationen zusammenfassen kann, ist auch die Multiplikation von Translationsmatrizen \emph{kommutativ}.
 
 \section{Rotation}
 Die Herleitung der dritten und letzten der hier behandelten Transformationen, der Rotation, ist etwas schwieriger als die vorangegangenen. Am einfachsten ist es, sich zunächst auf die Rotation um eine der Koordinatenachsen zu beschränken, im Folgenden wollen wir zunächst die \emph{Rotation um die z-Achse}, also in der \emph{$xy$-Ebene} betrachten.
@@ -355,6 +355,7 @@ fällt auf, dass die Inverse der Rotationsmatrix gleich ihrer Transponierten ist
 Die gerade behandelten Rotationsmatrizen sind auf Drehungen um die Koordinatenachsen beschränkt, aber natürlich lassen sich mehrere der Matrizen kombinieren, um jede beliebige Rotation ausdrücken zu können.
 
 Ein beliebtes Verfahren, um Ausrichtungen im Raum anzugeben, sind die sogenannten Eulerschen Winkel. Dabei handelt es sich um drei Rotationswinkel um jeweils eine Achse, durch die jede beliebige Rotation ausgedrückt werden kann. Es gibt mehrere Konventionen, in welcher Reihenfolge die Rotationen auf welche Achsen angewendet werden. Eine der am häufigsten benutzten sind die aus der Luftfahrt bekannten \emph{Roll-Nick-Gier-Winkel}, auch als \emph{Tait-Bryan-Rotation} bezeichnet (engl. \emph{yaw, pitch, roll}). Sie geben die Rotation als Kombination einer Rotation um die $z$-Achse ($\gamma$), gefolgt von einer Rotation um die $y$-Achse ($\beta$) und schließlich einer Rotation um die $x$-Achse ($\alpha$) an.
+% @cn!
 
 Mit einem Wertebereich von $-\pi$ bis $\pi$ für $\alpha$ und $\gamma$ und von $-\frac{\pi}{2}$ bis $\frac{\pi}{2}$ für $\beta$ lassen sich alle Ausrichtungen im Raum angeben. Bis auf zwei Ausnahmen (dazu gleich mehr) ist auch jedem Rotationszustand genau ein Satz an Winkeln zugeordnet, die Abbildung ist also bis auf diese Ausnahmen bijektiv.
 
@@ -421,11 +422,12 @@ Die Rotation hängt nun ausschließlich von der Differenz $\alpha - \gamma$ ab -
 Dieses Problem tritt auch bei kardanischen Aufhängungen in der Mechanik auf, beispielsweise bei Trägheitsnavigationssystemen\footnote{Ein echtes Problem ist der Gimbal Lock in der Raumfahrt, wo die kardanische Aufhängung tatsächlich Drehungen um alle drei Freiheitsgrade kompensieren muss. \vglr{gimballocknasa}}. Es wird daher als \emph{Gimbal Lock} bezeichnet (engl. \emph{gimbal} bezeichnet einen Kardanring, zu Deutsch also etwa Kardanring-Blockade). In der Mechanik hat man oft die Möglichkeit, Situationen, die zu einem Gimbal Lock führen können, rechtzeitig zu erkennen und den Gimbal Lock zu vermeiden, etwa durch Änderung des Flugmanövers. Bei vom Benutzer ausgelösten oder gesteuerten Rotationen in Computerprogrammen ist dies aber kaum möglich, deswegen greift man normalerweise auf andere Verfahren zurück, um Rotationen zu speichern und zu verarbeiten.
 % Picture 'Gimbal lock in mechanics'?
 
-\subsection{Herleitung über transformierte Basisvektoren}
+\subsection{Rotationsmatrix aus transformierten Basisvektoren}
 \label{rotationbasevectors}
 In den vorigen beiden Abschnitten haben wir die Konstruktion einer Rotationsmatrix ausgehend von einem oder mehreren Rotationswinkeln besprochen. In manchen Fällen kennt man aber bereits die \emph{Basisvektoren} des neuen Koordinatensystems (in den Koordinaten des alten Systems) und will eine Matrix aufstellen, um alle anderen Vektoren zu transformieren.
 
 Hat man drei linear unabhängige Vektoren im alten und im neuen (dreidimensionalen) Koordinatensystem gegeben, lässt sich die Transformationsmatrix $T$ für jede lineare Transformation bestimmen, indem man die Vektoren in die Gleichung $\vec{v'} = T \cdot \vec v$ einsetzt und das Gleichungssystem löst. Daraus ergeben sich allerdings neun Gleichungen in neun Variablen -- händisch eine mühsame und für den Computer eine relativ rechenaufwändige Angelegenheit. Kennt man aber die transformierten Äquivalente $\vec{e_1'}$, $\vec{e_2'}$ und $\vec{e_3'}$ der \emph{kanonischen Basisvektoren} $\vec{e_1} =$ \textvec{1}{0}{0}, $\vec{e_2} =$ \textvec{0}{1}{0} und $\vec{e_3} =$ \textvec{0}{0}{1}, vereinfachen sich die Gleichungen wesentlich:
+% @explain: kanonische Basisvektoren?
 \begin{equation}
  T \cdot \begin{pmatrix} 1 \\ 0 \\ 0 \end{pmatrix} = \begin{pmatrix} {e_1'}_x \\ {e_1'}_y \\ {e_1'}_z \end{pmatrix} \qquad 
 \begin{aligned}
@@ -489,6 +491,7 @@ Um mit der Hilfe von Quaternionen die Rotation eines Vektors $\vec x$ um den Win
   \vspace{-10pt}
   \caption{Rotation um die Achse $\vec{v_1} \times \vec{v_2}$.}
 \end{wrapfigure}
+% @drawing: Move black label to better place.
 
 Um zu beweisen, dass die oben abgebildete Formel wirklich eine Rotation des Vektors darstellt, betrachten wir zunächst einmal drei Einheitsvektoren $\vec{v_1}$, $\vec{v_2}$ und $\vec{v_3}$ aus dem $\mathbb R^3$ \vglr{quaternionproof}. Sie sind komplanar und bilden jeweils den Winkel $\varphi$. Es gilt daher:
 \begin{align}
@@ -594,7 +597,7 @@ Nun brauchen wir nur noch beide Seiten mit einem beliebigen Skalar $a$ zu multip
 \end{split}
 \end{equation}
 
-Wenn die Quaternionen $q_1, q_2, \ldots, q_n$ eine Rotation darstellen, dann lassen sich die Rotationen in eine Quaternion $q$ kombiniern, indem man die Quaterionen -- ähnlich wie bei Transformationsmatrizen -- einfach miteinander multipliziert: $q = q_n \cdot q_{n-2} \cdot \ldots \cdot q_1$. Der zugehörige Beweis ist nahezu trivial: Rotationen zu verketten heißt ja, das Ergebnis der einen Rotation als Ausgangswert für die nächste Transformation zu verwenden. Im Falle von drei Rotationen lautet die Formel also
+Wenn die Quaternionen $q_1, q_2, \ldots, q_n$ eine Rotation darstellen, dann lassen sich die Rotationen in eine Quaternion $q$ kombinieren, indem man die Quaterionen -- ähnlich wie bei Transformationsmatrizen -- einfach miteinander multipliziert: $q = q_n \cdot q_{n-2} \cdot \ldots \cdot q_1$. Der zugehörige Beweis ist nahezu trivial: Rotationen zu verketten heißt ja, das Ergebnis der einen Rotation als Ausgangswert für die nächste Transformation zu verwenden. Im Falle von drei Rotationen lautet die Formel also
 \begin{equation}
  \hat{x}' = q_3 \cdot ( q_2 \cdot ( q_1 \cdot \hat{x} \cdot \overline{q_1} ) \cdot \overline{q_2} ) \cdot \overline{q_3},
 \end{equation}

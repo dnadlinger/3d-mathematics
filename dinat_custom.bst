@@ -1105,7 +1105,7 @@ FUNCTION {article}
 { out.bibitem.start
   push.authors "author" out.check.required
   set.colon.after
-  push.title "title" out.check.required format.emphasize
+  push.title "title" out.check.required
   crossref missing$
     { push.article.in.journal out.block 
       new.sentence 
