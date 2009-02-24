@@ -24,7 +24,7 @@ Der Hochvektor berechnet sich nun als Kreuzprodukt aus Rechts- und Richtungsvekt
 \begin{equation}
  \vec u = \vec r \times \vec d = \frac{\left( \vec d \times \vec u_w \right) \times \vec d}{\left| \left( \vec d \times \vec u_w \right) \times \vec d \right|},
 \end{equation} 
-was sich unter Zuhilfenahme der Grassmann-Identität zu dem schneller zu berechnenden Ausdruck
+was sich unter Zuhilfenahme der Grassmann-Identität zu dem schneller berechenbaren Ausdruck
 \begin{equation}
  \vec u = \frac{ \vec{u_w} - \left( \vec{d} \cdot \vec{u_w} \right) \cdot \vec{d} }{\left| \vec{u_w} - \left( \vec{d} \cdot \vec{u_w} \right) \cdot \vec{d} \right|}
 \end{equation} 
@@ -42,7 +42,7 @@ Um den Ursprung in $\vec p$ zu verschieben, müssen alle Objekte um $-\vec p$ ve
  \end{pmatrix}
 \end{equation}
 
-Die Vektoren $-\vec d$, $\vec u$ und $\vec r$ sind ja die Basisvektoren des Kamarakoordinatensystems, die Matrix für den Rotationsteil kann also wie in Kapitel \ref{rotationbasevectors} beschrieben aufgestellt werden. Dabei ist zu beachten, dass die Rotation der Kamera ja rückgängig gemacht werden soll, die entstehende Matrix also invertiert werden muss:
+Die Vektoren $-\vec d$, $\vec u$ und $\vec r$ sind ja die Basisvektoren des Kamerakoordinatensystems. Deshalb kann mit ihrer Hilfe nun (wie in Kapitel \ref{rotationbasevectors} beschrieben) die Matrix für den Rotationsteil aufgestellt werden. Dabei ist zu beachten, dass die Rotation der Kamera ja rückgängig gemacht werden soll, die entstehende Matrix also invertiert werden muss:
 \begin{equation}
  M_{rot} =
  \begin{pmatrix}
@@ -50,7 +50,7 @@ Die Vektoren $-\vec d$, $\vec u$ und $\vec r$ sind ja die Basisvektoren des Kama
   r_y & u_y & -d_y & 0 \\
   r_z & u_z & -d_z & 0 \\
   0 & 0 & 0 & 1
- \end{pmatrix}^{-1} =
+ \end{pmatrix}^{-1} = \enspace
  \begin{pmatrix}
    r_x &  r_y &  r_z & 0 \\
    u_x &  u_y &  u_z & 0 \\
@@ -58,9 +58,10 @@ Die Vektoren $-\vec d$, $\vec u$ und $\vec r$ sind ja die Basisvektoren des Kama
    0 & 0 & 0 & 1
  \end{pmatrix}
 \end{equation}
-% @clarify
+% @clarify?
+% @layout (spacing at second equation sign)
 
-Um die fertige View Matrix zu erhalten, müssen die beiden Matrizen nur noch multipliziert werden:
+Um schließlich die View Matrix zu erhalten, müssen die beiden Matrizen nur noch multipliziert werden:
 \begin{equation}
 \begin{split}
  M_{view} &= M_{rot} \cdot M_{trans} \\
@@ -135,7 +136,7 @@ und analog für die $y$-Koordinate
 \begin{equation}
  \frac{y'}{1} = \frac{y}{z}.
 \end{equation}
-Um die Projektion durchzuführen, müssen die $x$- und die $y$-Koordinate also durch die $z$-Koordinate dividiert werden. Um dies in eine Matrix zu verpacken, machen wir uns die homogenen Koordinaten zu Nutze, genauer die Konvention, dass der Vektor nachher durch Division durch $w$ wieder auf $w=1$ gebracht wird. Die Matrix braucht also einfach nur $w' = z$ zu setzen
+Um die Projektion durchzuführen, müssen die $x$- und die $y$-Koordinate also durch die $z$-Koordinate dividiert werden. Um dies in eine Matrix zu verpacken, machen wir uns die homogenen Koordinaten zu Nutze, genauer die Konvention, dass der Vektor nachher durch Division durch $w$ wieder auf $w=1$ gebracht wird. Die Multiplikation mit der Matrix muss also einfach nur $w' = z$ setzen:
 \begin{equation}
  \begin{pmatrix}
   1 & 0 & 0 & 0 \\
@@ -206,6 +207,8 @@ Kombiniert man die beiden Matrizen durch Multiplikation, erhält man die \emph{P
  \end{pmatrix}
 \end{split}
 \end{equation}
+
+% @lz: Bring negation forward?
 
 Nach der Transformation mit dieser Matrix befinden sich alle theoretisch sichtbaren Vertices im kanonischen Sichtvolumen, der Schritt der Projektion ist also abgeschlossen. Wie in Kapitel \ref{rendering} beschrieben, folgt nun das das \emph{Clipping}. In diesem Schritt wird die darzustellende Geometrie so abgeschnitten, dass sie nicht über das kanonische Sichtvolumen hinausragt. Hier gibt es bei der Behandlung eines Dreiecks grundsätzlich drei Möglichkeiten: Erstens kann es vollständig innerhalb des Sichtvolumens liegen, in diesem Fall bleibt es natürlich unverändert. Zweitens kann es vollständig außerhalb des Sichtvolumens liegen, es wird dann verworfen. Drittens kann es aber auch von einer oder mehreren der Begrenzungsflächen geschnitten werden. In diesem Fall wird das Dreieck verworfen und es werden neue Dreiecke generiert, welche die Fläche des Dreiecks, die innerhalb des Sichtvolumens liegt, ausfüllen.
 
