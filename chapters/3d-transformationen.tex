@@ -418,6 +418,7 @@ Zum anderen gibt es wie schon erwähnt für die Zuordnung von Eulerschen Winkeln
 \end{equation}
 
 Die Rotation hängt nun ausschließlich von der Differenz $\alpha - \gamma$ ab -- das System hat einen Freiheitsgrad eingebüßt! Es gibt jetzt unendlich viele Kombinationen von $\alpha$ und $\gamma$, die zu der gleichen Ausrichtung im Raum führen; die Abbildung der Eulerschen Winkel auf die Rotationsmatrizen ist also nicht injektiv.
+% @stil
 
 Dieses Problem tritt auch bei kardanischen Aufhängungen in der Mechanik auf, beispielsweise bei Trägheitsnavigationssystemen\footnote{Ein echtes Problem ist der Gimbal Lock in der Raumfahrt, wo die kardanische Aufhängung tatsächlich Drehungen um alle drei Freiheitsgrade kompensieren muss. \vglr{gimballocknasa}}. Es wird daher als \emph{Gimbal Lock} bezeichnet (engl. \emph{gimbal} bezeichnet einen Kardanring, zu Deutsch also etwa Kardanring-Blockade). In der Mechanik hat man oft die Möglichkeit, Situationen, die zu einem Gimbal Lock führen können, rechtzeitig zu erkennen und den Gimbal Lock zu vermeiden, etwa durch Änderung des Flugmanövers. Bei vom Benutzer ausgelösten oder gesteuerten Rotationen in Computerprogrammen ist dies aber kaum möglich, deswegen greift man normalerweise auf andere Verfahren zurück, um Rotationen zu speichern und zu verarbeiten.
 % Picture 'Gimbal lock in mechanics'?
@@ -485,14 +486,14 @@ Um mit der Hilfe von Quaternionen die Rotation eines Vektors $\vec x$ um den Win
  \hat{x}' = \left[ \cos \varphi; \vec n \cdot \sin \varphi \right] \cdot \hat{x} \cdot \left[ \cos \varphi; -\vec n \cdot \sin \varphi \right]
 \end{equation}
 
-\begin{wrapfigure}{R}{0.5\textwidth}
+\begin{wrapfigure}{R}{0.4\textwidth}
   \vspace{-10pt}
-  \includegraphics[width=0.49\textwidth]{quatrotation}
-  \vspace{-10pt}
+  \includegraphics[width=0.39\textwidth]{quatrotation}
+  \vspace{-15pt}
   \caption{Rotation um die Achse $\vec{v_1} \times \vec{v_2}$.}
 \end{wrapfigure}
-% @drawing: Move black label to better place.
 
+% @layout
 Um zu beweisen, dass die oben abgebildete Formel wirklich eine Rotation des Vektors darstellt, betrachten wir zunächst einmal drei Einheitsvektoren $\vec{v_1}$, $\vec{v_2}$ und $\vec{v_3}$ aus dem $\mathbb R^3$ \vglr{quaternionproof}. Sie sind komplanar und bilden jeweils den Winkel $\varphi$. Es gilt daher:
 \begin{align}
  \left| \vec{v_1} \right| = \left| \vec{v_2} \right| = \left| \vec{v_3} \right| = 1 \\

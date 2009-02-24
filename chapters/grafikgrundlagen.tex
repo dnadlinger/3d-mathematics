@@ -124,7 +124,6 @@ In den folgenden beiden Abschnitten werde ich einen Überblick über die Operati
   \vspace{-10pt}
   \caption{Koordinatentransformationen in der Grafikpipeline.}
 \end{wrapfigure}
-% @fix: Image (matrix names, other shape for clipping stage)
 
 % Nur karthesische Koordinatensysteme
 Wie schon in Abschnitt \ref{vertex} besprochen, wird jeder Körper aus Dreiecken zusammengesetzt, deren Eckpunkte durch Ortsvektoren angegeben werden. Die Koordinaten dieser Vektoren beziehen sich auf das \emph{Modellkoordinatensystem}, das nur für ein Objekt Gültigkeit hat. Ursprung und Einheiten dieses Systems können von dem Künstler, der die Modelle erstellt, im Prinzip beliebig gewählt werden\footnote{In der Praxis wird man natürlich versuchen, sinnvolle Werte zu wählen, also beispielsweise den Ursprung in die Mitte des Objektes legen und eine Einheit als einen Zentimeter interpretieren.}.
@@ -147,19 +146,17 @@ Unter Anwendung der in Kapitel \ref{transformationmatrixcombination} gezeigten R
 Nach der Viewport Transformation sind die Koordinatentransformationen abgeschlossen. Nun gilt es, die Dreiecke am Bildschirm zu füllen. Der Speicherbereich, in den die Farbinformationen geschrieben werden, wird als \emph{Framebuffer} bezeichnet.
 % @stil: Hinweis auf Computertechnik
 
-Dabei muss darauf geachtet werden, dass Dreiecke, die weiter vom Betrachter entfernt sind (deren $z$-Wert nach der Projektion also größer ist) von den Dreiecken überdeckt werden, die näher beim Betrachter liegen. Dieses sogenannte \emph{Sichtbarkeitsproblem} ist keineswegs so trivial, wie es auf den ersten Blick wirken mag. Zur Lösung dieses Problems hat sich der \emph{Z-Buffer-Algorithmus} durchgesetzt. Dabei wird ein Z-Buffer angelegt, der die gleiche Auflösung wie der Framebuffer hat, zu jedem Pixel des Bildes existiert also ein Wert im Z-Buffer. Zu Beginn der Berechnung werden alle Tiefenwerte auf den größtmöglichen Wert gesetzt, danach werden alle Dreiecke in willkürlicher Reihenfolge gerastert.
-
-Für jedes Pixel wird nun überprüft, ob sein $z$-Wert kleiner ist als der Wert im Buffer, es also näher beim Betrachter ist, als alle vorherigen Pixel. Wenn dies der Fall ist, werden der neue Farbwert und die $z$-Koordinate in den Framebuffer beziehungsweise in den Z-Buffer geschrieben. Andernfalls wird das Pixel verworfen.
-% Nachteile des Z-Bufferings, Front-to-Back Rendering
-
-In die Berechnung des Farbwertes der Pixel fließen mehrere Faktoren ein: Die Farbe des Vertices, die Textur(en), die auf das Dreieck angewendet wurden und die Beleuchtung.
-
 \label{lighting}
-Die Berechnung der Farbe an einer bestimmten Stelle des Dreieckes ist aus mathematischer Sicht einfach, es muss nur linear zwischen den Farben der Eckpunkte interpoliert werden. Ähnlich verhält es sich auch mit den Texturen -- ausgehend von den Texturkoordinaten der Vertices wird die Stelle interpoliert, an der das Texturbild ausgelesen werden muss. Alle Farbwerte werden miteinander verrechnet und dann mit dem Helligkeitswert multipliziert, den das verwendete Beleuchtungsmodell liefert.
+Die Berechnung der Farbe an einer bestimmten Stelle eines Dreieckes ist aus mathematischer Sicht einfach, es muss nur linear zwischen den Farben der Eckpunkte interpoliert werden. Ähnlich verhält es sich auch mit den Texturen, die auf das Dreieck angewendet wurden -- ausgehend von den Texturkoordinaten der Vertices wird die Stelle interpoliert, an der das Texturbild ausgelesen werden muss. Alle Farbwerte werden miteinander verrechnet und dann mit dem Helligkeitswert multipliziert, den das verwendete Beleuchtungsmodell liefert. Das Ergebnis stellt den Farbwert eines Pixels dar, der dann in den Framebuffer geschrieben wird.
 
 % http://en.wikipedia.org/wiki/Lambert%27s_cosine_law
 % Bei allen Interpolationen im Bildschirmkoordinatensystem muss bedacht werden, dass ...
 % Extra-Kapitel über Berechnungen auf Pixel-Ebene (perspective-corrected mapping, lighting)?
+
+Dabei muss aber darauf geachtet werden, dass Dreiecke, die weiter vom Betrachter entfernt sind (deren $z$-Wert nach der Projektion also größer ist) von den Dreiecken überdeckt werden, die näher beim Betrachter liegen. Dieses sogenannte \emph{Sichtbarkeitsproblem} ist keineswegs so trivial, wie es auf den ersten Blick vielleicht wirken mag\footnote{Man bedenke, dass sich beispielsweise die \enquote{$z$-Bereiche} mehrerer Dreiecke überlappen können, weswegen eine einfache Sortierung nach aufsteigender $z$-Koordinate nicht mehr möglich ist.}. Zur Lösung dieses Problems hat sich der \emph{Z-Buffer-Algorithmus} durchgesetzt. Dabei wird ein sogenannter Z-Buffer angelegt, ein Speicherbereich mit der gleichen Auflösung wie der Framebuffer -- zu jedem Pixel des Ergebnisbildes existiert also ein Wert im Z-Buffer. Zu Beginn der Berechnung werden alle Tiefenwerte auf den größtmöglichen Wert gesetzt, danach werden alle Dreiecke in (prinzipiell) willkürlicher Reihenfolge gerastert.
+
+Für jedes Pixel wird nun überprüft, ob sein $z$-Wert kleiner ist als der Wert im Buffer, es also näher beim Betrachter ist, als alle vorherigen Pixel. Wenn dies der Fall ist, werden der neue Farbwert und die $z$-Koordinate in den Framebuffer beziehungsweise in den Z-Buffer geschrieben. Andernfalls wird das Pixel verworfen.
+% Nachteile des Z-Bufferings, Front-to-Back Rendering
 
 Nachdem diese Berechnungen für alle Pixel aller sichtbaren Dreiecke durchgeführt worden sind, befindet sich im Framebuffer eine perspektivisch korrekte Abbildung der Szene. Diese muss jetzt nur noch auf dem Bildschirm angezeigt oder in eine Datei geschrieben werden.
 
@@ -169,7 +166,7 @@ So gut wie alle der gerade beschriebenen Berechnungen der Grafik-Pipeline werden
 
 Beispielsweise sind eigene optimierte Einheiten für die Transformationen der Vertices zuständig, die auf modernen Grafikkarten durch sogenannte \emph{Vertex Shader} programmiert werden können. Durch die Verwendung von Matrizen lassen sich die meisten Berechnungen auf eine einzige Operation, nämlich die Multiplikation einer Matrix mit einem Vektor, zurückführen. Die Recheneinheiten in der Grafikkarte können nun auf diese Operation ausgelegt werden, wodurch sie sehr schnell arbeiten.
 
-Auch für die Berechnung der Pixelfarben gibt es solche spezielle Einheiten, die durch sogenannte \emph{Fragment-} oder \emph{Pixel-Shader} programmiert werden können. Generell müssen in der Grafikkarte die gleichen Operationen auf eine große Menge Daten angewendet werden. Die Gesamtleistung der Grafikkarte kann also einfach dadurch erhöht werden, dass man viele Einheiten vorsieht, die die Daten parallel abarbeiten\footnote{Die Ende 2008 auf den Markt gekommenen High-End-Modelle der großen Grafikkartenhersteller haben mehrere hundert solcher Einheiten, die parallel arbeiten. \vglr{atispecs,nvidiaspecs}}
+Auch für die Berechnung der Pixelfarben gibt es solche spezielle Einheiten, die durch sogenannte \emph{Fragment-} oder \emph{Pixel-Shader} programmiert werden können. Generell müssen in der Grafikkarte die gleichen Operationen auf eine große Menge Daten angewendet werden. Die Gesamtleistung der Grafikkarte kann also einfach dadurch erhöht werden, dass man viele Einheiten vorsieht, die die Daten parallel abarbeiten\footnote{Die Ende 2008 auf den Markt gekommenen High-End-Modelle der großen Grafikkartenhersteller haben mehrere hundert solcher Einheiten, die parallel arbeiten. \vglr{atispecs,nvidiaspecs}}.
 
 \label{direct3dopengl}
 Für den Zugriff auf die Grafikkarte haben sich in der Computerprogrammierung zwei große Industriestandards herausgebildet, das von Microsoft entwickelte \emph{DirectX} und das von einem Industriekonsortium rund um den Initiator Silicon Graphics verwaltete \emph{OpenGL}. Die meisten Unterschiede zwischen den beiden Standards sind rein technischer Natur und sind vor dem mathematischen Hintergrund dieser Arbeit nicht weiter relevant.
