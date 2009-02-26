@@ -58,8 +58,7 @@ Die Vektoren $-\vec d$, $\vec u$ und $\vec r$ sind ja die Basisvektoren des Kame
    0 & 0 & 0 & 1
  \end{pmatrix}
 \end{equation}
-% @clarify?
-% @layout (spacing at second equation sign)
+% @check layout (spacing at second equation sign)
 
 Um schließlich die View Matrix zu erhalten, müssen die beiden Matrizen nur noch multipliziert werden:
 \begin{equation}
@@ -174,9 +173,9 @@ welches sich einfach zu
 \begin{split}
  a = \frac{z_\mathrm{far}}{z_\mathrm{far}-z_\mathrm{near}} \\
  b = -z_\mathrm{near} \cdot a = -\frac{z_\mathrm{far} \cdot z_\mathrm{near}}{z_\mathrm{far}-z_\mathrm{near}},
-\end{split} 
+\end{split}
 \end{equation}
-auflösen lässt. \vglr{perspectiveprojectionmatrix}
+auflösen lässt. \vglsd{essentialmaths}{220\,f.}{perspectiveprojectionmatrix}{}
 
 Für die Projektion des rechtwinkligen Sichtvolumens ergibt sich also die Matrix
 \begin{equation}
