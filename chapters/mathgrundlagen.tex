@@ -1,13 +1,12 @@
 % Kapitel 'Mathematische Grundlagen'
 \chapter{Mathematische Grundlagen}
 \label{mathgrundlagen}
-In den folgenden Abschnitten möchte ich die mathematischen Grundprinzipien behandeln, auf denen nahezu alle Konzepte und Operationen der 3D-Grafik aufbauen. Wie schon in der Einleitung erwähnt, lassen sich die Definitionen und Sätze in jedem Standardwerk zur Linearen Algebra nachschlagen. Ich habe die im Anhang \enquote{\bibname} aufgeführten Werke \enquote{Taschenbuch der Mathematik} \citep{bronstein}, \enquote{Elemente der Mathematik} \citep{elemente} und \enquote{Lineare Optimierung und Anwendungen} \citep{optimierung} zur Hilfe genommen.
+In den folgenden Abschnitten möchte ich die mathematischen Grundprinzipien behandeln, auf denen nahezu alle Konzepte und Operationen der 3D-Grafik aufbauen. Wie schon in der Einleitung erwähnt, lassen sich die Definitionen und Sätze in jedem Standardwerk zur Linearen Algebra nachschlagen, beispielsweise in den im Anhang \enquote{\bibname} aufgeführten Werken \enquote{Taschenbuch der Mathematik} \citep{bronstein}, \enquote{Elemente der Mathematik} \citep{elemente} und \enquote{Lineare Optimierung und Anwendungen} \citep{optimierung}.
 
 \section{Vektoren}
 Vektoren sind wohl die wichtigste Struktur in der 3D-Grafik. Sie werden nicht nur in ihrer dreidimensionalen Form eingesetzt, sondern auch in ihrer zweidimensionalen Ausprägung und um eine vierte Komponente erweitert als Vektoren mit homogenen Koordinaten (siehe Abschnitt \ref{homogeneouscoordinates}).
 
 Trotz der universellen Verwendung gehen die benötigten Operationen nicht über den Schulstoff hinaus. Insbesondere das Skalarprodukt und das Kreuzprodukt werden sehr häufig benötigt, zum Beispiel um über den Zusammenhang
-% @layout: Wie 'flacher' setzen?
 $\vec{a}\cdot\vec{b} = \left|\vec{a}\right|\left|\vec{b}\right|\cos\alpha$
 den von zwei Vektoren eingeschlossenen Winkel zu berechnen oder über das Kreuzprodukt die Flächennormale eines Polygons zu bestimmen.
 
@@ -53,7 +52,7 @@ Zwei Matrizen heißen gleich, wenn sie von gleicher Dimension sind und in allen 
 
 Als \emph{Hauptdiagonale} wird die gedachte Linie von der linken oberen Ecke bis zur rechten unteren Ecke einer Matrix bezeichnet -- die Elemente der Hauptdiagonale sind also $a_{11}, a_{22},$ etc. Quadratische Matrizen, die außerhalb der Hauptdiagonale nur Elemente mit dem Wert $0$ haben, werden als \emph{Diagonalmatrizen} bezeichnet.
 
-Grundsätzlich können die Werte der Matrix jeder algebraischen Struktur entstammen, für die Addition und Multiplikation definiert sind (also einem Halbring). Im Rahmen dieser Arbeit werde ich aber nur Matrizen über $\mathbb R$ betrachten, andere Zahlenräume sind in der 3D-Grafik nicht gebräuchlich.
+Grundsätzlich können die Werte der Matrix jeder algebraischen Struktur entstammen, für die Addition und Multiplikation definiert sind. Im Rahmen dieser Arbeit werde ich aber nur Matrizen über $\mathbb R$ betrachten, andere Zahlenräume sind in der 3D-Grafik nicht gebräuchlich.
 % @cn!
 % http://en.wikipedia.org/wiki/Matrix_(mathematics)
 
@@ -299,7 +298,6 @@ In Bezug auf Transposition gilt für die Inversion \vglr{wiki:inverse}:
 \begin{equation}
  (A^{-1})^T = (A^T)^{-1}.
 \end{equation}
-% @cn
 
 Im Wesentlichen gibt es zwei Verfahren, um die Inverse zu einer Matrix zu berechnen. Für die folgenden Betrachtungen soll
 \begin{equation*}
@@ -319,7 +317,7 @@ Die erste Variante beruht auf dem Gauß-Eliminationsverfahren. Dazu erweitert ma
     3 & 4 & 1 &  0 & 0 & 1
   \end{array}\right)
 \end{equation}
-Danach wendet man den Gauß-Jordan-Algorithmus auf diese Matrix an, bis auf der linken Seite die Einheitsmatrix steht, was in diesem Fall zu folgendem Ergebnis führt:
+Danach wendet man den Gauß-Jordan-Algorithmus auf diese Matrix an\footnote{Vereinfacht gesagt addiert und subtrahiert man dabei Vielfache von Zeilen der Matrix zu bzw. von anderen Zeilen. Der Algorithmus wird auch oft zum Lösen von linearen Gleichungssystemen in Matrixform benutzt.}, bis auf der linken Seite die Einheitsmatrix steht, was in diesem Fall zu folgendem Ergebnis führt:
 \begin{equation}
   \left(\begin{array}{ccc|ccc}
     1 & 0 & 0  & -3 & 2 & 0 \\
@@ -328,8 +326,6 @@ Danach wendet man den Gauß-Jordan-Algorithmus auf diese Matrix an, bis auf der 
   \end{array}\right)
 \end{equation}
 Auf der rechten Seite kann die inverse Matrix $A^{-1}$ nun direkt abgelesen werden.
-% @add: Fußnote mit Gauß-Jordan-Algorithmus!
-% Beispiel von http://de.wikipedia.org/wiki/Regul%C3%A4re_Matrix, korrekt?
 
 Mit diesem Verfahren ist die inverse Matrix recht einfach händisch zu berechnen. Es hat allerdings den Nachteil, dass sich daraus keine \enquote{fertige} Formel ableiten lässt und es daher für den Einsatz in der Grafikprogrammierung nicht ausreichend schnell zu berechnen ist\footnote{Dies gilt wiederum nur für relativ kleine Matrizen, wie sie in der 3D-Grafik ausschließlich zur Anwendung kommen. Bei höherdimensionalen Matrizen führen andere algorithmische Ansätze in der Regel schneller zum Ziel.}.
 
@@ -347,7 +343,7 @@ $\adj A$ bezeichnet hier die \emph{Adjunkte} der Matrix A, die auch \emph{komple
    \tilde a_{1n} & \tilde a_{2n} & \cdots & \tilde a_{nn}
  \end{pmatrix}.
 \end{equation}
-% Lz: Beispiel
+% @lz: Beispiel?
 
 Mit Hilfe dieses Zusammenhangs lassen sich Formeln für die Inversion von Matrizen beliebiger Dimension herleiten. Dabei wird allerdings bald deutlich, dass die Komplexität bzw. die Anzahl der nötigen Rechenoperationen mit der Erhöhung der Dimensionen sehr schnell ansteigt:
 
@@ -388,13 +384,13 @@ In Bezug auf die 3D-Grafik am Computer bleibt noch festzustellen, dass die Inver
 
 \section{Quaternionen}
 \label{quaternionmath}
-Der Körper der komplexen Zahlen $\mathbb C$ als Erweiterung der reellen Zahlen ist ja bereits aus dem Schulunterricht bekannt. Neben einigen anderen wichtigen Eigenschaften wie der algebraischen Abgeschlossenheit\footnote{Dies ist der Inhalt des berühmten Fundamentalsatzes der Algebra, der Ende des 18. Jahrhunderts von Carl Friedrich Gauß bewiesen wurde.}, haben die komplexen Zahlen die angenehme Eigenschaft, dass sie gleichzeitig ein zweidimensionaler reeller Vektorraum sind und sich über sie viele Brücken zwischen Geometrie und Algebra schlagen lassen.
+Der Körper der komplexen Zahlen $\mathbb C$ als Erweiterung der reellen Zahlen ist ja bereits aus dem Schulunterricht bekannt. Neben einigen anderen wichtigen Eigenschaften wie der algebraischen Abgeschlossenheit\footnote{Die algebraische Abgeschlossenheit der komplexen Zahlen ist der Inhalt des bekannten Fundamentalsatzes der Algebra, der Ende des 18. Jahrhunderts von Carl Friedrich Gauß bewiesen wurde.}, haben die komplexen Zahlen die angenehme Eigenschaft, dass sie gleichzeitig ein zweidimensionaler reeller Vektorraum sind und sich mit ihrer Hilfe viele Brücken zwischen Geometrie und Algebra schlagen lassen.
 % @explain: Abgeschlossenheit
 % @cn
 
 Es verwundert deshalb nicht, dass viele Mathematiker versuchten, ein dreidimensionales Äquivalent zu den komplexen Zahlen zu finden. Einer von ihnen war auch der irische Mathematiker Sir William Rowan Hamilton (1805--1865), der wie alle anderen zunächst an dem Problem scheiterte, dass für \enquote{dreidimensionale komplexe Zahlen} keine vernünftigen Rechenregeln zu finden waren. Schließlich kam ihm die entscheidende Idee (angeblich, während er mit seiner Frau über die Broom Bridge in Dublin spazierte), das Konzept um eine zusätzliche vierte Komponente zu erweitern. (zu diesem Abschnitt \vglst{quaternionrotation}{29-37})
 
-Eine \emph{Quaternion}\footnote{In der Literatur wird der Begriff sowohl im Maskulinum, als auch im Femininum gebraucht. Ich habe mich in diesem Dokument dazu entschlossen, laut Duden die weibliche Form zu verwenden.} ist also eine Zahl der Form
+Eine \emph{Quaternion}\footnote{In der Literatur wird der Begriff sowohl im Maskulinum, als auch im Femininum gebraucht. Ich habe mich in diesem Dokument dazu entschlossen, die weibliche Form zu verwenden, so wie es der \enquote{Duden} verschlägt.} ist also eine Zahl der Form
 \begin{equation}
  q = w + xi + yj + zk = \left[ w; \begin{pmatrix} x & y & z \end{pmatrix}^T \right] \in \mathbb H
 \end{equation}
@@ -420,7 +416,7 @@ Der (reelle) Betrag einer Quaternion ist analog zu den komplexen Zahlen und den 
 \end{equation}
 definiert. Eine Quaternion mit $\left| q \right| = 1$ wird als \emph{Einheitsquaternion} bezeichnet.
 
-Wie schon durch die Zeichen $x$, $y$ und $z$ angedeutet, kann man eine Quaternion auch als Struktur mit einem \emph{skalaren Anteil} $w$ und einem \emph{vektoriellen Anteil} \textvec{x}{y}{z} gesehen werden. Eine alternative Schreibweise für die Quaternion $q = w + v_{x}i + v_{y}j + v_{z}k$ lautet daher $\left[w; \vec v \right]$. Quaternionen mit dem Realteil $0$ heißen auch \emph{reine Quaternionen}, eine reine Quaternion $q = 0 + v_{x}i + v_{y}j + v_{z}k$ kann jederzeit als Vektor $ \vec v = \begin{pmatrix} x & y & z \end{pmatrix}^T \in \mathbb R^3$ ausgedrückt werden und umgekehrt. Die einem Vektor $\vec v$ zugeordnete reine Quaternion wird als $\hat{v}$ abgekürzt \vglsd{script:spain}{92}{rotationissues}{4}:
+Wie schon durch die Zeichen $x$, $y$ und $z$ angedeutet, kann man eine Quaternion auch als Struktur mit einem \emph{skalaren Anteil} $w$ und einem \emph{vektoriellen Anteil} \textvec{x}{y}{z} gesehen werden. Eine alternative Schreibweise für die Quaternion $q = w + v_{x}i + v_{y}j + v_{z}k$ lautet daher $\left[w; \vec v \right]$. Quaternionen mit dem Realteil $0$ heißen auch \emph{reine Quaternionen}, eine reine Quaternion $q = 0 + v_{x}i + v_{y}j + v_{z}k$ kann jederzeit als Vektor $ \vec v =$ \textvec{x}{y}{z} $\in \mathbb R^3$ ausgedrückt werden und umgekehrt. Die einem Vektor $\vec v$ zugeordnete reine Quaternion wird als $\hat{v}$ abgekürzt \vglsd{script:spain}{92}{rotationissues}{4}:
 \begin{equation}
  \hat{v} = \left[ 0; \vec v \right]
 \end{equation} 
@@ -492,7 +488,7 @@ Diese \emph{Inverse} einer Quaternion $q$ ist als
 \begin{equation}
  q^{-1} = \frac{1}{\left| q \right|} \cdot \overline{q}
 \end{equation}
-definiert. Für den speziellen Fall, dass der Betrag einer Quaternion $1$ ist, es sich also um eine Einheitsquaternionen handelt, gilt also:
+definiert. Für den speziellen Fall, dass eine Quaternion den Betrag $1$ hat, es sich also um eine Einheitsquaternionen handelt, gilt daher:
 \begin{equation}
  q^{-1} = \overline{q}
 \end{equation}
