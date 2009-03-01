@@ -1,0 +1,108 @@
+@import url(reset.css);
+
+html, body {
+  height: 100%;
+}
+
+body { 
+  background-color: #ffffff;
+  
+  font-family: "Myriad Pro", Tahoma, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+
+  color: #222;
+  
+  text-align: center;
+}
+
+p {
+  margin: 6px 0;
+}
+
+a, a:hover, a:active, a:focus, a:link, a:visited {
+  color: #000;
+}
+
+h1 {
+  margin: 0 0 20px 0;
+  padding: 5px 0 0 0;
+  
+  font-family: "Myriad Pro", Tahoma, sans-serif;
+  font-size: 30px;
+  font-weight: normal;
+
+  line-height: 1;
+}
+
+div#wrapper {
+  width: 764px;
+  height: 100%;
+  
+  margin: 0 auto;
+  
+  text-align: left;
+}
+
+div#content {
+  width: 750px;
+  height: auto !important;
+  height: 100%;
+  min-height: 100%;
+  
+  margin: 0;
+  padding: 0 7px 0 7px;
+  
+  float: left;
+}
+
+div#header {
+  width: 700px;
+ 
+  margin: 0 0 20px 0;
+  padding: 20px 25px;
+  
+  position: relative;
+  
+  float: left;
+  clear: both;
+  
+  background-color: #54b7f0;
+  color: #fff;
+}
+
+div#main {
+  margin: 20px 0 0 0;
+  padding: 0 10px;
+}
+
+div#footer {
+  margin: 20px 0 0 0;
+  padding: 10px;
+
+  border-top: solid 3px #eee;
+  color: #aaa;
+}
+
+div#footer img#avatar {
+  padding: 4px 10px 4px 0;
+  float: left;
+}
+
+div#footer p {
+  float: left;
+  margin: 0;
+}
+
+div#footer a {
+  color: #aaa;
+}
+
+p.subtitle {
+  margin: 0;
+}
+
+div.english {
+  margin: 10px 0 0 0;
+  color: #aaa;
+}
