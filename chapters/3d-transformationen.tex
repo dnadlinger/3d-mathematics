@@ -2,7 +2,7 @@
 \chapter{Objekt-Transformationen}
 \label{3d-transformations}
 
-Das Thema dieses Kapitels sind die Transformationen, die auf die Objekte angewendet werden können und die direkte Entsprechungen in der realen Welt haben. In Bezug auf die im vorigen Kapitel beschrieben Grafikpipeline werden diese normalerweise beim Übergang vom Modellkoordinatensystem in das Weltkoordinatensystem, also in der World Matrix, angewendet (unter leicht anderen Vorzeichen auch in der View Matrix, mehr dazu in Kapitel \ref{view}). Im Speziellen soll es natürlich um die Darstellung dieser Transformationen als Matrix gehen.
+Das Thema dieses Kapitels sind die Transformationen, die auf die Objekte angewendet werden können und die direkte Entsprechungen in der realen Welt haben. In Bezug auf die im vorigen Kapitel beschriebene Grafikpipeline werden diese normalerweise beim Übergang vom Modellkoordinatensystem in das Weltkoordinatensystem, also in der World Matrix, angewendet (unter leicht anderen Vorzeichen auch in der View Matrix, mehr dazu in Kapitel \ref{view}). Im Speziellen soll es natürlich um die Darstellung dieser Transformationen als Matrix gehen.
 
 Neben den im Weiteren behandelten Transformationen, nämlich Skalierung, Translation und Rotation, sind in der Geometrie noch einige weitere Transformationen bekannt, diese sind aber für die 3D-Grafik kaum relevant -- nicht zuletzt deshalb, weil sie in der realen Welt auch nicht so häufig vorkommen.
 
@@ -354,7 +354,7 @@ fällt auf, dass die Inverse der Rotationsmatrix gleich ihrer Transponierten ist
 \subsection{Eulersche Winkel}
 Die gerade behandelten Rotationsmatrizen sind auf Drehungen um die Koordinatenachsen beschränkt, aber natürlich lassen sich mehrere der Matrizen kombinieren, um jede beliebige Rotation ausdrücken zu können.
 
-Ein beliebtes Verfahren, um Ausrichtungen im Raum anzugeben, sind die sogenannten Eulerschen Winkel. Dabei handelt es sich um drei Rotationswinkel um jeweils eine Achse, durch die jede beliebige Rotation ausgedrückt werden kann. Es gibt mehrere Konventionen, in welcher Reihenfolge die Rotationen auf welche Achsen angewendet werden. Eine der am häufigsten benutzten sind die aus der Luftfahrt bekannten \emph{Roll-Nick-Gier-Winkel}, auch als \emph{Tait-Bryan-Rotation} bezeichnet (engl. \emph{yaw, pitch, roll}). Sie geben die Rotation als Kombination einer Rotation um die $z$-Achse ($\gamma$), gefolgt von einer Rotation um die $y$-Achse ($\beta$) und schließlich einer Rotation um die $x$-Achse ($\alpha$) an.
+Ein beliebtes Verfahren, um Ausrichtungen im Raum anzugeben, sind die sogenannten Eulerschen Winkel. Dabei handelt es sich um drei Rotationswinkel um jeweils eine Achse, durch die jede beliebige Rotation ausgedrückt werden kann. Es gibt mehrere Konventionen, in welcher Reihenfolge die Rotationen auf welche Achsen angewendet werden. Eine der am häufigsten benutzten sind die aus der Luftfahrt bekannten \emph{Roll-Nick-Gier-Winkel} bezeichnet (engl. \emph{roll, pitch, yaw}). Sie geben die Rotation als Kombination einer Rotation um die $z$-Achse ($\gamma$), gefolgt von einer Rotation um die $y$-Achse ($\beta$) und schließlich einer Rotation um die $x$-Achse ($\alpha$) an.
 % @cn!
 
 Mit einem Wertebereich von $-\pi$ bis $\pi$ für $\alpha$ und $\gamma$ und von $-\frac{\pi}{2}$ bis $\frac{\pi}{2}$ für $\beta$ lassen sich alle Ausrichtungen im Raum angeben. Bis auf zwei Ausnahmen (dazu gleich mehr) ist auch jedem Rotationszustand genau ein Satz an Winkeln zugeordnet, die Abbildung ist also bis auf diese Ausnahmen bijektiv.
@@ -420,7 +420,9 @@ Zum anderen gibt es wie schon erwähnt für die Zuordnung von Eulerschen Winkeln
 Die Rotation hängt nun ausschließlich von der Differenz $\alpha - \gamma$ ab -- das System hat einen Freiheitsgrad eingebüßt! Es gibt jetzt unendlich viele Kombinationen von $\alpha$ und $\gamma$, die zu der gleichen Ausrichtung im Raum führen; die Abbildung der Eulerschen Winkel auf die Rotationsmatrizen ist also nicht injektiv.
 % @stil
 
-Dieses Problem tritt auch bei kardanischen Aufhängungen in der Mechanik auf, beispielsweise bei Trägheitsnavigationssystemen\footnote{Ein echtes Problem ist der Gimbal Lock in der Raumfahrt, wo die kardanische Aufhängung tatsächlich Drehungen um alle drei Freiheitsgrade kompensieren muss. \vglr{gimballocknasa}}. Es wird daher als \emph{Gimbal Lock} bezeichnet (engl. \emph{gimbal} bezeichnet einen Kardanring, zu Deutsch also etwa Kardanring-Blockade). In der Mechanik hat man oft die Möglichkeit, Situationen, die zu einem Gimbal Lock führen können, rechtzeitig zu erkennen und den Gimbal Lock zu vermeiden, etwa durch Änderung des Flugmanövers. Bei vom Benutzer ausgelösten oder gesteuerten Rotationen in Computerprogrammen ist dies aber kaum möglich, deswegen greift man normalerweise auf andere Verfahren zurück, um Rotationen zu speichern und zu verarbeiten.
+Dieses Problem tritt auch bei kardanischen Aufhängungen in der Mechanik auf, beispielsweise bei Trägheitsnavigationssystemen\footnote{Ein echtes Problem ist der Gimbal Lock in der Raumfahrt, wo die kardanische Aufhängung tatsächlich Drehungen um alle drei Freiheitsgrade kompensieren muss. 
+%Hier werden die Manöver entweder gezielt so geflogen, dass kein Gimbal Lock auftritt, oder es wird mit einem vierten Kardanring gearbeitet, um problematische Winkelkonstellationen zu umgehen.
+\vglr{gimballocknasa}}. Es wird daher als \emph{Gimbal Lock} bezeichnet (engl. \emph{gimbal} bezeichnet einen Kardanring, zu Deutsch also etwa \enquote{Kardanring-Blockade}). In der Mechanik hat man oft die Möglichkeit, Situationen, die zu einem Gimbal Lock führen können, rechtzeitig zu erkennen und den Gimbal Lock zu vermeiden, etwa durch Änderung des Flugmanövers. Bei vom Benutzer ausgelösten oder gesteuerten Rotationen in Computerprogrammen ist dies aber kaum möglich, deswegen greift man normalerweise auf andere Verfahren zurück, um Rotationen zu speichern und zu verarbeiten.
 % Picture 'Gimbal lock in mechanics'?
 
 \subsection{Rotationsmatrix aus transformierten Basisvektoren}
@@ -491,6 +493,7 @@ Um mit der Hilfe von Quaternionen die Rotation eines Vektors $\vec x$ um den Win
   \includegraphics[width=0.39\textwidth]{quatrotation}
   \vspace{-15pt}
   \caption{Rotation um die Achse $\vec{v_1} \times \vec{v_2}$.}
+  \label{image:quaternionrotation}
 \end{wrapfigure}
 
 % @layout
@@ -500,7 +503,7 @@ Um zu beweisen, dass die oben abgebildete Formel wirklich eine Rotation des Vekt
  \vec{v_1} \cdot \vec{v_2} = \vec{v_2} \cdot \vec{v_3} = \cos \varphi \label{dotsame} \\
  \vec{v_1} \times\vec{v_2} = \vec{v_2} \times \vec{v_3} \label{crosssame}
 \end{align}
-$\vec{v_3}$ ensteht also durch eine Rotation von $\vec{v_1}$ um den Winkel $2 \varphi$ mit der Achse $\vec{v_1} \times \vec{v_2}$.
+$\vec{v_3}$ ensteht also durch eine Rotation von $\vec{v_1}$ um den Winkel $2 \varphi$ mit der Achse $\vec{v_1} \times \vec{v_2}$ (siehe Skizze \ref{image:quaternionrotation}).
 
 Wir definieren nun die Quaternion $q$ über $\vec{v_1}$ und $\vec{v_2}$:
 \begin{equation}
@@ -544,7 +547,7 @@ Wir setzen nun den Zusammenhang aus \ref{equality1} in Gleichung \ref{quaternion
 \end{split}
 \end{equation}
 
-Nachdem $v_1$ ein Einheitsvektor ist, hat auch $\hat{v_1}$ den Betrag 1, der Ausdruck vereinfacht sich also zu:
+Nachdem $\vec{v_1}$ ein Einheitsvektor ist, hat auch $\hat{v_1}$ den Betrag $1$, der Ausdruck vereinfacht sich also zu:
 \begin{equation}
  \hat{v_2} \cdot \overline{q} = \hat{v_3}
 \end{equation}
@@ -558,7 +561,7 @@ Nun setzen wir den Zusammenhang aus \ref{equality2} für $\overline{q}$ ein und 
 \end{split}
 \end{equation}
 
-Nachdem $\hat{v_2}$ eine reine Quaternion und $v_2$ ein Einheitsvektor ist, vereinfacht sich der Ausdruck $\hat{v_2} \cdot \hat{v_2}$:
+Nachdem $\hat{v_2}$ eine reine Quaternion und $\vec{v_2}$ ein Einheitsvektor ist, vereinfacht sich der Ausdruck $\hat{v_2} \cdot \hat{v_2}$:
 \begin{equation}
 \begin{split}
  \hat{v_2} \cdot \hat{v_2} &= \left[ \left( 0 - \vec{v_2} \cdot \vec{v_2} \right); \vec{v_2} \times \vec{v_2} + 0 \cdot \vec{v_2} + 0 \cdot \vec{v_2} \right] \\
@@ -661,7 +664,7 @@ Mithilfe dieser Formel transformieren wir nun die drei Basisvektoren $\vec{e_1} 
  {e_1'}_z
   &= 2 \cdot ( x + 0 + 0 ) \cdot z + 2 \cdot w \cdot ( x \cdot 0 - y \cdot 1 ) + ( w^2 - x^2 - y^2 - z^2 ) \cdot 0 \\
   &= 2xz - 2wy \\
-  &= 2 \cdot ( xz + wy )
+  &= 2 \cdot ( xz - wy )
 \end{split}
 \end{equation}
 % @todo: Vector arrows?
