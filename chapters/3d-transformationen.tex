@@ -18,31 +18,33 @@ den man auch so anschreiben kann
 \begin{equation}
  \vec{n}^T \cdot \vec{v} = 0,
 \end{equation}
-wenn man die Vektoren als Matrizen auffasst. \vgls{script:german}{155} Es gilt dann natürlich auch
+wenn man die Vektoren als Matrizen auffasst. \vgls{script:german}{155} Mit einer invertierbaren Matrix $M$ gilt natürlich auch
 \begin{equation}
- \vec{n}^T \cdot M^{-1} \cdot M \cdot \vec{v} = 0,
-\end{equation}
-die Matrix $M$ entspricht dabei der auf den Vektor angewendeten Transformation, aus welcher der Vektor $\vec{v'}$ hervorgeht:
+ \vec{n}^T \cdot M^{-1} \cdot M \cdot \vec{v} = 0.
+\end{equation} $M$ entspricht dabei einer beliebigen auf den Vektor $\vec{v}$ angewendeten Transformation, aus welcher der Vektor $\vec{v'}$ hervorgeht:
 \begin{equation}
+\label{normalderivation4}
  \left( \vec{n}^T \cdot M^{-1} \right) \cdot \vec{v'} = 0.
 \end{equation}
-Aus dieser Gleichung erhält man durch zweimaliges Transponieren (mit Hilfe des Zusammenhangs aus Gleichung \ref{transpositionmultiplication})
-\begin{equation}
- \left( \left( M^{-1} \right)^T \cdot \vec{n} \right)^T \cdot \vec{v'} = 0.
-\end{equation}
-Auch für den transformierten Normalvektor $\vec{n'}$ gilt natürlich
+Der Normalvektor der transformierten Ebene, $\vec{n'}$, muss natürlich normal zu $\vec{v'}$ sein:
 \begin{equation}
  \vec{n'}^T \cdot \vec{v'} = 0.
 \end{equation}
-Kombiniert man die beiden Zusammenhänge, erhält man die Gleichung
+Aus Gleichung \ref{normalderivation4} erhält man durch zweimaliges Transponieren (mit Hilfe des Zusammenhangs aus Gleichung \ref{transpositionmultiplication})
 \begin{equation}
- \left( \left( M^{-1} \right)^T \cdot \vec{n} \right)^T \cdot \vec{v'} = \vec{n'}^T \cdot \vec{v'},
+ \left( \left( M^{-1} \right)^T \cdot \vec{n} \right)^T \cdot \vec{v'} = 0.
+\end{equation}
+Kombiniert man die beiden letztgenannten Zusammenhänge, erhält man die Gleichung
+\begin{equation}
+ \left( \left( M^{-1} \right)^T \cdot \vec{n} \right)^T \cdot \vec{v'} = \vec{n'}^T \cdot \vec{v'}.
 \end{equation}
 die sich leicht zu
 \begin{equation}
  \vec{n'} = \left( M^{-1} \right)^T \cdot \vec{n}.
 \end{equation}
 vereinfachen lässt.
+
+% @eXile: Der Übergang 4.7 nach 4.8 ist nicht wirklich eine "leichte Vereinfachung". Dabei muss man nämlich annehmen, dass Gleichung 4.7 für alle Vektoren v' gilt, also die beiden Matrizen auf beiden Seiten lineare Abbildungen darstellen, welche punktweise übereinstimmen. Damit müssen auch die darstellenden Matrizen der Abbildungen gleich sein, und somit gilt 4.8.
 
 Der Normalvektor einer Fläche wird also transformiert, indem man ihn mit der \emph{transponierten Inversen der Transformationsmatrix} multipliziert. Die Länge des Vektors ist in den Bedingungen allerdings nicht enhalten. Wird für die weiteren Berechnungen ein Einheitsvektor gebraucht, muss das Ergebnis noch normalisiert werden.
 
@@ -163,9 +165,9 @@ Beim Aufstellen der Teilgleichungen (hier exemplarisch für die $y$-Koordinate) 
 \end{split}
 \end{equation}
 
-Anscheinend gibt es keinen Weg, um die für die Translation nötigen Koeffizienten zu berechnen, ohne die Koordinaten des Vektors zu kennen, der transformiert werden soll. Genau das ist aber Voraussetzung, um die Matrix für mehrere Vektoren verallgemeinern zu können. Die Translation ist offensichtlich keine lineare Transformation!
+Anscheinend gibt es keinen Weg, um die für die Translation nötigen Koeffizienten zu berechnen, ohne die Koordinaten des Vektors zu kennen, der transformiert werden soll. Genau das ist aber Voraussetzung, um die Matrix für mehrere Vektoren verallgemeinern zu können -- es handelt sich bei der Translation offensichtlich nicht um eine lineare Transformation\footnote{Wie schon in Kapitel \ref{vectortransformation} erwähnt, kann jede lineare Transformation bzw. Abbildung zwischen zwei $n$-dimensionalen Vektorräumen als $n \times n$-Matrix dargestellt werden. Nähere Behandlungen dieses Zusammenhangs finden sich in einschlägiger Fachliteratur.}!
 
-Der Ausweg aus diesem Dilemma liegt in der Verwendung von homogenen Koordinaten. $w$ hat ja nicht irgendeinen beliebigen Wert, sondern (zumindest vor der Transformation) den Wert $1$. Die dementsprechend geänderten Bedingungen für die Translationsmatrix lauten:
+Der Ausweg aus diesem Dilemma liegt in der Verwendung von homogenen Koordinaten. $w$ hat ja keinen beliebigen Wert, sondern (zumindest vor der Transformation) den Wert $1$. Die dementsprechend geänderten Bedingungen für die Translationsmatrix lauten:
 \begin{equation}
  T \cdot 
  \begin{pmatrix}
@@ -285,7 +287,7 @@ Die gesuchte Rotationsmatrix $R_{z}$ muss also die folgende Bedingung erfüllen:
  \end{pmatrix}
  = 
  \begin{pmatrix}
-  x \cdot \cos \gamma - y \sin \gamma \\
+  x \cos \gamma - y \sin \gamma \\
   x \sin \gamma + y \cos \gamma \\
   z \\
   w
@@ -425,11 +427,11 @@ Dieses Problem tritt auch bei kardanischen Aufhängungen in der Mechanik auf, be
 \vglr{gimballocknasa}}. Es wird daher als \emph{Gimbal Lock} bezeichnet (engl. \emph{gimbal} bezeichnet einen Kardanring, zu Deutsch also etwa \enquote{Kardanring-Blockade}). In der Mechanik hat man oft die Möglichkeit, Situationen, die zu einem Gimbal Lock führen können, rechtzeitig zu erkennen und den Gimbal Lock zu vermeiden, etwa durch Änderung des Flugmanövers. Bei vom Benutzer ausgelösten oder gesteuerten Rotationen in Computerprogrammen ist dies aber kaum möglich, deswegen greift man normalerweise auf andere Verfahren zurück, um Rotationen zu speichern und zu verarbeiten.
 % Picture 'Gimbal lock in mechanics'?
 
-\subsection{Rotationsmatrix aus transformierten Basisvektoren}
+\subsection{Transformationsmatrix aus transformierten Basisvektoren}
 \label{rotationbasevectors}
-In den vorigen beiden Abschnitten haben wir die Konstruktion einer Rotationsmatrix ausgehend von einem oder mehreren Rotationswinkeln besprochen. In manchen Fällen kennt man aber bereits die \emph{Basisvektoren} des neuen Koordinatensystems (in den Koordinaten des alten Systems) und will eine Matrix aufstellen, um alle anderen Vektoren zu transformieren.
+In den vorigen beiden Abschnitten haben wir die Konstruktion einer Rotationsmatrix ausgehend von einem oder mehreren Rotationswinkeln besprochen. In manchen Fällen kennt man aber bereits die \emph{Basisvektoren} des neuen Koordinatensystems (in den Koordinaten des alten Systems) und will eine Matrix aufstellen, um andere Vektoren zu transformieren.
 
-Hat man drei linear unabhängige Vektoren im alten und im neuen (dreidimensionalen) Koordinatensystem gegeben, lässt sich die Transformationsmatrix $T$ für jede lineare Transformation bestimmen, indem man die Vektoren in die Gleichung $\vec{v'} = T \cdot \vec v$ einsetzt und das Gleichungssystem löst. Daraus ergeben sich allerdings neun Gleichungen in neun Variablen -- händisch eine mühsame und für den Computer eine relativ rechenaufwändige Angelegenheit. Kennt man aber die transformierten Äquivalente $\vec{e_1'}$, $\vec{e_2'}$ und $\vec{e_3'}$ der \emph{kanonischen Basisvektoren} $\vec{e_1} =$ \textvec{1}{0}{0}, $\vec{e_2} =$ \textvec{0}{1}{0} und $\vec{e_3} =$ \textvec{0}{0}{1}, vereinfachen sich die Gleichungen wesentlich:
+Hat man drei linear unabhängige Vektoren im alten und im neuen (dreidimensionalen) Koordinatensystem gegeben, lässt sich die Transformationsmatrix $T$ für jede beliebige lineare Transformation bestimmen, indem man die Vektoren in die Gleichung $\vec{v'} = T \cdot \vec v$ einsetzt und das Gleichungssystem löst. Daraus ergeben sich allerdings neun Gleichungen in neun Variablen -- händisch eine mühsame und für den Computer eine relativ rechenaufwändige Angelegenheit. Kennt man aber die transformierten Äquivalente $\vec{e_1'}$, $\vec{e_2'}$ und $\vec{e_3'}$ der \emph{kanonischen Basisvektoren} $\vec{e_1} =$ \textvec{1}{0}{0}, $\vec{e_2} =$ \textvec{0}{1}{0} und $\vec{e_3} =$ \textvec{0}{0}{1}, vereinfachen sich die Gleichungen wesentlich:
 % @explain: kanonische Basisvektoren?
 \begin{equation}
  T \cdot \begin{pmatrix} 1 \\ 0 \\ 0 \end{pmatrix} = \begin{pmatrix} {e_1'}_x \\ {e_1'}_y \\ {e_1'}_z \end{pmatrix} \qquad 
@@ -483,9 +485,9 @@ In Worten ausgedrückt, enthält eine Transformationsmatrix also in ihren Spalte
 \subsection{Darstellung als Quaternion}
 Wie schon bei der Einführung der Quaternionen in Kapitel \ref{quaternionmath} erwähnt, können Quaternionen als Verbindung eines Skalars und eines dreidimensionalen Vektors aufgefasst werden, wobei der Realteil $w$ den Skalar und der Imaginärteil $xi + yj + zk$ den Vektor \textvec{x}{y}{z} darstellt. Sie eigenen sich deshalb gut für die Darstellung einer Rotation um einen bestimmten Winkel um eine beliebige Achse -- der Rotationswinkel entspricht dem Realteil, die Rotationsachse dem Imaginärteil.
 
-Um mit der Hilfe von Quaternionen die Rotation eines Vektors $\vec x$ um den Winkel $2 \varphi$ mit der Achse $\vec n$ durchzuführen, bildet man zunächst die Quaternion $q = \left[ \cos \varphi; \vec n \cdot \sin \varphi \right]$. Das Ergebnis der Rotation lautet dann $q \cdot \hat{x} \cdot \overline{q}$. Der Vektor $\vec x$ wird hier, wie in Kapitel \ref{quaternionmath} besprochen, als reine Quaternion behandelt. Das Ergebnis der Berechnung ist ebenfalls wieder eine reine Quaternion, kann also wieder als dreidimensionaler Vektor aufgefasst werden. So lautet die Rotationsformel (mit $\left| \vec{n} \right| = 1$) schließlich:
+Um mit der Hilfe von Quaternionen die Rotation eines Vektors $\vec x$ um den Winkel $2 \varphi$ mit der Achse $\vec n$ durchzuführen, bildet man zunächst die Quaternion $q = \left[ \cos \varphi \qs \vec n \cdot \sin \varphi \right]$. Das Ergebnis der Rotation lautet dann $q \cdot \hat{x} \cdot \overline{q}$. Der Vektor $\vec x$ wird hier, wie in Kapitel \ref{quaternionmath} besprochen, als reine Quaternion behandelt. Das Ergebnis der Berechnung ist ebenfalls wieder eine reine Quaternion, kann also wieder als dreidimensionaler Vektor aufgefasst werden. So lautet die Rotationsformel (mit $\left| \vec{n} \right| = 1$) schließlich:
 \begin{equation}
- \hat{x}' = \left[ \cos \varphi; \vec n \cdot \sin \varphi \right] \cdot \hat{x} \cdot \left[ \cos \varphi; -\vec n \cdot \sin \varphi \right]
+ \hat{x}' = \left[ \cos \varphi \qs \vec n \cdot \sin \varphi \right] \cdot \hat{x} \cdot \left[ \cos \varphi \qs -\vec n \cdot \sin \varphi \right]
 \end{equation}
 
 \begin{wrapfigure}{R}{0.4\textwidth}
@@ -507,7 +509,7 @@ $\vec{v_3}$ ensteht also durch eine Rotation von $\vec{v_1}$ um den Winkel $2 \v
 
 Wir definieren nun die Quaternion $q$ über $\vec{v_1}$ und $\vec{v_2}$:
 \begin{equation}
- q = \left[ \left( \vec{v_1} \cdot \vec{v_2} \right); \vec{v_1} \times \vec{v_2} \right]
+ q = \left[ \vec{v_1} \cdot \vec{v_2} \qs \vec{v_1} \times \vec{v_2} \right]
 \end{equation} 
 
 Wir wollen zunächst beweisen:
@@ -525,9 +527,9 @@ Für $q$ gilt
 weil nach der Multiplikationsvorschrift für Quaternionen (siehe Gleichung \ref{quaternionmultiplicationvector}) gilt:
 \begin{equation}
 \begin{split}
- \hat{v_2} \cdot \overline{\hat{v_1}} &= \left[ \left( 0 + \vec{v_2} \cdot \vec{v_1} \right); - \vec{v_2} \times \vec{v_1} - 0 \cdot \vec{v_1} + 0 \cdot \vec{v_2} \right] \\
- &= \left[ \vec{v_2} \cdot \vec{v_1}; -\vec{v_2} \times \vec{v_1} \right] \\
- &= \left[ \vec{v_1} \cdot \vec{v_2}; \vec{v_1} \times \vec{v_2} \right]
+ \hat{v_2} \cdot \overline{\hat{v_1}} &= \left[ 0 + \vec{v_2} \cdot \vec{v_1} \qs - \vec{v_2} \times \vec{v_1} - 0 \cdot \vec{v_1} + 0 \cdot \vec{v_2} \right] \\
+ &= \left[ \vec{v_2} \cdot \vec{v_1} \qs -\vec{v_2} \times \vec{v_1} \right] \\
+ &= \left[ \vec{v_1} \cdot \vec{v_2} \qs \vec{v_1} \times \vec{v_2} \right]
 \end{split}
 \end{equation} 
 
@@ -564,8 +566,8 @@ Nun setzen wir den Zusammenhang aus \ref{equality2} für $\overline{q}$ ein und 
 Nachdem $\hat{v_2}$ eine reine Quaternion und $\vec{v_2}$ ein Einheitsvektor ist, vereinfacht sich der Ausdruck $\hat{v_2} \cdot \hat{v_2}$:
 \begin{equation}
 \begin{split}
- \hat{v_2} \cdot \hat{v_2} &= \left[ \left( 0 - \vec{v_2} \cdot \vec{v_2} \right); \vec{v_2} \times \vec{v_2} + 0 \cdot \vec{v_2} + 0 \cdot \vec{v_2} \right] \\
- &= \left[ -\left| \vec{v_2} \right|^2; \vec 0 \right] \\
+ \hat{v_2} \cdot \hat{v_2} &= \left[ 0 - \vec{v_2} \cdot \vec{v_2} \qs \vec{v_2} \times \vec{v_2} + 0 \cdot \vec{v_2} + 0 \cdot \vec{v_2} \right] \\
+ &= \left[ -\left| \vec{v_2} \right|^2 \qs \vec 0 \right] \\
  &= -1
 \end{split}
 \end{equation}
@@ -574,7 +576,7 @@ Wir setzen in \ref{step2} ein und erhalten:
 \begin{equation}
 \begin{split}
  -\overline{\hat{v_3}} &= \hat{v_3} \\
- -\left[ 0; -\vec{v_3} \right] &= \left[ 0; \vec{v_3} \right] \\
+ -\left[ 0 \qs -\vec{v_3} \right] &= \left[ 0 \qs \vec{v_3} \right] \\
  \vec{v_3} &= \vec{v_3}
 \end{split}
 \end{equation}
@@ -585,23 +587,23 @@ Damit wäre der Zusammenhang aus Gleichung \ref{quaternionclaim} bewiesen
 \end{equation*}
 beziehungsweise nach dem Einsetzen für $q$
 \begin{equation}
- \left[ ( \vec{v_1} \cdot \vec{v_2} ); \vec{v_1} \times \vec{v_2} \right] \cdot \hat{v_1} \cdot \left[ ( \vec{v_1} \cdot \vec{v_2} ); -(\vec{v_1} \times \vec{v_2} ) \right] = \hat{v_3}.
+ \left[ \vec{v_1} \cdot \vec{v_2}\qs \vec{v_1} \times \vec{v_2} \right] \cdot \hat{v_1} \cdot \left[ \vec{v_1} \cdot \vec{v_2} \qs -(\vec{v_1} \times \vec{v_2} ) \right] = \hat{v_3}.
 \end{equation} 
 
 Unter Beachtung der Zusammenhänge $\vec a \cdot \vec b = \left| a \right| \cdot \left| b \right| \cdot \cos \varphi$ und $\left| \vec a \times \vec b \right| = \left| a \right| \cdot \left| b \right| \cdot \sin \varphi$ und der Tatsache, dass $\vec{v_1}$ und $\vec{v_2}$ Einheitsvektoren sind, können wir stattdessen auch schreiben:
 \begin{equation}
- \left[ \cos \varphi; \vec n \cdot \sin \varphi \right] \cdot \hat{v_1} \cdot \left[ \cos \varphi; -\vec n \cdot \sin \varphi \right] = \hat{v_3}
+ \left[ \cos \varphi \qs \vec n \cdot \sin \varphi \right] \cdot \hat{v_1} \cdot \left[ \cos \varphi \qs -\vec n \cdot \sin \varphi \right] = \hat{v_3}
 \end{equation}
 
 Nun brauchen wir nur noch beide Seiten mit einem beliebigen Skalar $a$ zu multiplizieren ($\hat{v_1}$ und $\hat{v_3}$ sind ja auf Einheitsquaternionen beschränkt), und es ergibt sich die oben aufgestellte Formel:
 \begin{equation}
 \begin{split}
- \left[ \cos \varphi; \vec n \cdot \sin \varphi \right] \cdot a \cdot \hat{v_1} \cdot \left[ \cos \varphi; -\vec n \cdot \sin \varphi \right] &= a \cdot \hat{v_3} \\
- \left[ \cos \varphi; \vec n \cdot \sin \varphi \right] \cdot \hat{x} \cdot \left[ \cos \varphi; -\vec n \cdot \sin \varphi \right] &= \hat{x}'
+ \left[ \cos \varphi \qs \vec n \cdot \sin \varphi \right] \cdot a \cdot \hat{v_1} \cdot \left[ \cos \varphi \qs -\vec n \cdot \sin \varphi \right] &= a \cdot \hat{v_3} \\
+ \left[ \cos \varphi \qs \vec n \cdot \sin \varphi \right] \cdot \hat{x} \cdot \left[ \cos \varphi \qs -\vec n \cdot \sin \varphi \right] &= \hat{x}'
 \end{split}
 \end{equation}
 
-Wenn die Quaternionen $q_1, q_2, \ldots, q_n$ eine Rotation darstellen, dann lassen sich die Rotationen in eine Quaternion $q$ kombinieren, indem man die Quaterionen -- ähnlich wie bei Transformationsmatrizen -- einfach miteinander multipliziert: $q = q_n \cdot q_{n-2} \cdot \ldots \cdot q_1$. Der zugehörige Beweis ist nahezu trivial: Rotationen zu verketten heißt ja, das Ergebnis der einen Rotation als Ausgangswert für die nächste Transformation zu verwenden. Im Falle von drei Rotationen lautet die Formel also
+Wenn die Quaternionen $q_1, q_2, \ldots, q_n$ eine Rotation darstellen, dann lassen sich die Rotationen in eine Quaternion $q$ kombinieren, indem man die Quaterionen -- ähnlich wie bei Transformationsmatrizen -- einfach miteinander multipliziert: $q = q_n \cdot q_{n-1} \cdot \ldots \cdot q_1$. Der zugehörige Beweis ist nahezu trivial: Rotationen zu verketten heißt ja, das Ergebnis der einen Rotation als Ausgangswert für die nächste Transformation zu verwenden. Im Falle von drei Rotationen lautet die Formel also
 \begin{equation}
  \hat{x}' = q_3 \cdot ( q_2 \cdot ( q_1 \cdot \hat{x} \cdot \overline{q_1} ) \cdot \overline{q_2} ) \cdot \overline{q_3},
 \end{equation}
@@ -629,19 +631,20 @@ Wie in Abschnitt \ref{rotationbasevectors} besprochen, kann man eine Transformat
 
 Dafür multiplizieren wir zunächst einmal die Rotationsformel aus und vereinfachen mit Hilfe der Grassmann-Identität\footnote{$\vec a \times ( \vec b \times \vec c ) = \vec b \cdot ( \vec a \cdot \vec c ) - \vec c \cdot ( \vec a \cdot \vec b)$} \vgls{quaternionrotation}{52}:
 \begin{equation}
+\label{quaternionrotationexpanded}
 \begin{split}
- q \cdot \hat{x} \cdot \overline{q} &= \left[ w; \vec n \right] \cdot \left[ 0; \vec x \right] \cdot \left[ w; -\vec n \right] \\
- &= \left[ - \vec n \cdot \vec x; \vec n \times \vec x + w \cdot \vec x \right] \cdot \left[ w; -\vec n \right] \\
- &= \begin{split}[ &- w \cdot ( \vec n \cdot \vec x ) + ( \vec n \times \vec x + w \cdot \vec x ) \cdot \vec n; \\
+ q \cdot \hat{x} \cdot \overline{q} &= \left[ w \qs \vec n \right] \cdot \left[ 0 \qs \vec x \right] \cdot \left[ w \qs -\vec n \right] \\
+ &= \left[ - \vec n \cdot \vec x \qs \vec n \times \vec x + w \cdot \vec x \right] \cdot \left[ w \qs -\vec n \right] \\
+ &= \begin{split}[ &- w \cdot ( \vec n \cdot \vec x ) + ( \vec n \times \vec x + w \cdot \vec x ) \cdot \vec n \qs \\
   &- ( \vec n \times \vec x + w \cdot \vec x ) \times \vec n + w \cdot ( \vec n \times \vec x + w \cdot \vec x ) - \vec n \cdot \vec x \cdot ( - \vec n ) ] \end{split} \\
- &= \begin{split}[ &- w \cdot ( \vec n \cdot \vec x ) + ( \vec n \times \vec x ) \cdot \vec n + w \cdot ( \vec n \cdot \vec x ); \\
+ &= \begin{split}[ &- w \cdot ( \vec n \cdot \vec x ) + ( \vec n \times \vec x ) \cdot \vec n + w \cdot ( \vec n \cdot \vec x ) \qs \\
   &- ( ( \vec n \times \vec x ) \times \vec n ) - w \cdot ( \vec x \times \vec n ) + w \cdot ( \vec n \times \vec x ) + w^2 \cdot \vec x + ( \vec n \cdot \vec x ) \cdot \vec n ] \end{split} \\
- &= \left[ 0; \vec n \times ( \vec n \times \vec x ) + 2 \cdot w \cdot ( \vec n \times \vec x ) + w^2 \cdot \vec x + ( \vec n \cdot \vec x ) \cdot \vec n \right] \\
- &= \left[ 0; 2 \cdot ( \vec n \cdot \vec x ) \cdot \vec n + 2 \cdot w \cdot ( \vec n \times \vec x ) + ( w^2 - \vec n \cdot \vec n ) \cdot \vec x \right]
+ &= \left[ 0 \qs \vec n \times ( \vec n \times \vec x ) + 2 \cdot w \cdot ( \vec n \times \vec x ) + w^2 \cdot \vec x + ( \vec n \cdot \vec x ) \cdot \vec n \right] \\
+ &= \left[ 0 \qs 2 \cdot ( \vec n \cdot \vec x ) \cdot \vec n + 2 \cdot w \cdot ( \vec n \times \vec x ) + ( w^2 - \vec n \cdot \vec n ) \cdot \vec x \right]
 \end{split}
 \end{equation}
 
-Mithilfe dieser Formel transformieren wir nun die drei Basisvektoren $\vec{e_1} = $\textvec{1}{0}{0}, $\vec{e_2} = $\textvec{0}{1}{0} und $\vec{e_3} = $\textvec{0}{0}{1}. Für die Komponenten von $\vec{e_1'}$ erhalten wir die Gleichungen\footnote{$q$ ist eine Einheitsquaternion, also gilt $w^2 + x^2 + y^2 + z^2 = 1$!}:
+Mithilfe dieser Formel transformieren wir nun die drei Basisvektoren $\vec{e_1} = $\textvec{1}{0}{0}, $\vec{e_2} = $\textvec{0}{1}{0} und $\vec{e_3} = $\textvec{0}{0}{1}. Für die Komponenten von $\vec{e_1'}$ erhalten wir (durch Einsetzen von $\vec{n} = $\textvec{x}{y}{z} und $\vec{x} = \vec{e_1} =$\textvec{1}{0}{0} in Gleichung \ref{quaternionrotationexpanded}) die Gleichungen\footnote{$q$ ist eine Einheitsquaternion, also gilt $w^2 + x^2 + y^2 + z^2 = 1$!}:
 \begin{equation}
 \begin{split}
  {e_1'}_x
@@ -669,7 +672,7 @@ Mithilfe dieser Formel transformieren wir nun die drei Basisvektoren $\vec{e_1} 
 \end{equation}
 % @todo: Vector arrows?
 
-Analog werden auch die anderen beiden Vektoren transformiert:
+Analog dazu werden auch die anderen beiden Vektoren transformiert:
 \begin{align}
  \vec{e_2'} =
  \begin{pmatrix}

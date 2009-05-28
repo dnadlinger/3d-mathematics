@@ -124,6 +124,7 @@ gilt. $E$ wird als \emph{Einheitsmatrix} bezeichnet und ist eine Diagonalmatrix,
 Sofern die Multiplikationen nicht durch die Dimensionen der Matrizen unmöglich sind, ist die Matrizenmultiplikation assoziativ. Das Kommutativgesetz gilt aber nicht! \vgls{bronstein}{205}
 
 \subsection{Transformation von Vektoren}
+\label{vectortransformation}
 Da ein $n$-dimensionaler Spaltenvektor ja im Grunde nichts anderes ist als eine $n \times 1$-Matrix, kann man natürlich auch eine Matrix mit einem Vektor multiplizieren. Wenn es sich dabei um eine quadratische $n \times n$-Matrix handelt, ist das Ergebnis wiederum ein $n$-dimensionaler Vektor. Rechnet man eine solche Multiplikation in ihrer allgemeinen Form aus
 \begin{equation}
  \begin{pmatrix}
@@ -140,7 +141,7 @@ Da ein $n$-dimensionaler Spaltenvektor ja im Grunde nichts anderes ist als eine 
   m_{31} \cdot x + m_{32} \cdot y + m_{33} \cdot z
  \end{pmatrix},
 \end{equation}
-so bemerkt man, dass die Zeilen der Matrix jeweils die Koeffizienten einer Linearkombination der Komponenten des Vektors darstellen. Es kann daher jede lineare Abbildung zwischen zwei (endlichdimensionalen) Vektorräumen als Matrix dargestellt werden. Die Multiplikation einer Matrix mit einem Vektor wird aus diesem Grund auch als \emph{Transformation} des Vektors bezeichnet. Wie man auch leicht durch Einsetzen überprüfen kann, ändert eine Multiplikation mit der Einheitsmatrix den Vektor naheliegenderweise nicht.
+so bemerkt man, dass die Zeilen der Matrix jeweils die Koeffizienten einer Linearkombination der Komponenten des Vektors darstellen. Es kann daher \emph{jede lineare Abbildung} zwischen zwei (endlichdimensionalen) Vektorräumen als Matrix dargestellt werden. Die Multiplikation einer Matrix mit einem Vektor wird aus diesem Grund auch als \emph{Transformation} des Vektors bezeichnet. Wie man auch leicht durch Einsetzen überprüfen kann, ändert eine Multiplikation mit der Einheitsmatrix den Vektor naheliegenderweise nicht.
 % http://de.wikipedia.org/wiki/Lineare_Abbildung
 
 \label{homogeneouscoordinates}
@@ -385,16 +386,17 @@ In Bezug auf die 3D-Grafik am Computer bleibt noch festzustellen, dass die Inver
 \section{Quaternionen}
 \label{quaternionmath}
 Der Körper der komplexen Zahlen $\mathbb C$ als Erweiterung der reellen Zahlen ist ja bereits aus dem Schulunterricht bekannt. Neben einigen anderen wichtigen Eigenschaften wie der algebraischen Abgeschlossenheit\footnote{Die algebraische Abgeschlossenheit der komplexen Zahlen ist der Inhalt des bekannten Fundamentalsatzes der Algebra, der Ende des 18. Jahrhunderts von Carl Friedrich Gauß bewiesen wurde.}, haben die komplexen Zahlen die angenehme Eigenschaft, dass sie gleichzeitig ein zweidimensionaler reeller Vektorraum sind und sich mit ihrer Hilfe viele Brücken zwischen Geometrie und Algebra schlagen lassen.
-% @explain: Abgeschlossenheit
 % @cn
 
 Es verwundert deshalb nicht, dass viele Mathematiker versuchten, ein dreidimensionales Äquivalent zu den komplexen Zahlen zu finden. Einer von ihnen war auch der irische Mathematiker Sir William Rowan Hamilton (1805--1865), der wie alle anderen zunächst an dem Problem scheiterte, dass für \enquote{dreidimensionale komplexe Zahlen} keine vernünftigen Rechenregeln zu finden waren. Schließlich kam ihm die entscheidende Idee (angeblich, während er mit seiner Frau über die Broom Bridge in Dublin spazierte), das Konzept um eine zusätzliche vierte Komponente zu erweitern. (zu diesem Abschnitt \vglst{quaternionrotation}{29-37})
 
 Eine \emph{Quaternion}\footnote{In der Literatur wird der Begriff sowohl im Maskulinum, als auch im Femininum gebraucht. Ich habe mich in diesem Dokument dazu entschlossen, die weibliche Form zu verwenden, so wie es der \enquote{Duden} verschlägt.} ist also eine Zahl der Form
 \begin{equation}
- q = w + xi + yj + zk = \left[ w; \begin{pmatrix} x & y & z \end{pmatrix}^T \right] \in \mathbb H
+ q = w + xi + yj + zk = \left[ w \qs \begin{pmatrix} x & y & z \end{pmatrix}^T \right] \in \mathbb H
 \end{equation}
 mit $w, x, y, z \in \mathbb R$, wobei $j$ und $k$ analog zu dem von den komplexen Zahlen bekannten $i$ zwei weitere voneinander verschiedene imaginäre Einheiten sind. Der Raum aller Quaternionen wird in Anlehnung an den Namen ihres geistigen Vaters als $\mathbb H$ bezeichnet.
+
+% @eXile: Wie sind das 0- und 1-Element des Quaternionen-Schiefkörpers definiert?
 
 Für $i$, $j$ und $k$ gilt der Zusammenhang
 \begin{equation}
@@ -416,14 +418,14 @@ Der (reelle) Betrag einer Quaternion ist analog zu den komplexen Zahlen und den 
 \end{equation}
 definiert. Eine Quaternion mit $\left| q \right| = 1$ wird als \emph{Einheitsquaternion} bezeichnet.
 
-Wie schon durch die Zeichen $x$, $y$ und $z$ angedeutet, kann man eine Quaternion auch als Struktur mit einem \emph{skalaren Anteil} $w$ und einem \emph{vektoriellen Anteil} \textvec{x}{y}{z} gesehen werden. Eine alternative Schreibweise für die Quaternion $q = w + v_{x}i + v_{y}j + v_{z}k$ lautet daher $\left[w; \vec v \right]$. Quaternionen mit dem Realteil $0$ heißen auch \emph{reine Quaternionen}, eine reine Quaternion $q = 0 + v_{x}i + v_{y}j + v_{z}k$ kann jederzeit als Vektor $ \vec v =$ \textvec{x}{y}{z} $\in \mathbb R^3$ ausgedrückt werden und umgekehrt. Die einem Vektor $\vec v$ zugeordnete reine Quaternion wird als $\hat{v}$ abgekürzt \vglsd{script:spain}{92}{rotationissues}{4}:
+Wie schon durch die Zeichen $x$, $y$ und $z$ angedeutet, kann man eine Quaternion auch als Struktur mit einem \emph{skalaren Anteil} $w$ und einem \emph{vektoriellen Anteil} \textvec{x}{y}{z} gesehen werden. Eine alternative Schreibweise für die Quaternion $q = w + v_{x}i + v_{y}j + v_{z}k$ lautet daher $\left[w \qs \vec v \right]$. Quaternionen mit dem Realteil $0$ heißen auch \emph{reine Quaternionen}, eine reine Quaternion $q = 0 + v_{x}i + v_{y}j + v_{z}k$ kann jederzeit als Vektor $ \vec v =$ \textvec{x}{y}{z} $\in \mathbb R^3$ ausgedrückt werden und umgekehrt. Die einem Vektor $\vec v$ zugeordnete reine Quaternion wird als $\hat{v}$ abgekürzt \vglsd{script:spain}{92}{rotationissues}{4}:
 \begin{equation}
- \hat{v} = \left[ 0; \vec v \right]
+ \hat{v} = \left[ 0 \qs \vec v \right]
 \end{equation} 
 
 Die konjugierte Quaternion zu einer Quaternion $q = w + v_{x}i + v_{y}j + v_{z}k$ ist als
 \begin{equation}
- \overline{q} = w - v_{x}i - v_{y}j - v_{z}k = \left[ w; -\vec v \right]
+ \overline{q} = w - v_{x}i - v_{y}j - v_{z}k = \left[ w \qs -\vec v \right]
 \end{equation}
 definiert. Die Konjugation ändert also das Vorzeichen des Vektorteils der Quaternion, lässt den Skalarteil aber unverändert.
 
@@ -432,13 +434,13 @@ Zwei Quaternionen $q_1$ und $q_2$ werden \emph{addiert} und \emph{subtrahiert}, 
 \begin{split}
  q_1 \pm q_2 &= w_1 + x_{1}i + y_{1}j + z_{1}k \pm \left( w_2 + x_{2}i + y_{2}j + z_{2}k \right) \\
  &= w_1 \pm w_2 + \left( x_1 \pm x_2 \right) \cdot i + \left( y_1 \pm y_2 \right) \cdot j + \left( z_1 \pm z_2 \right) \cdot z \\
- &= \left[ w_1 \pm w_2; \vec{v_1} \pm \vec{v_2} \right]
+ &= \left[ w_1 \pm w_2 \qs \vec{v_1} \pm \vec{v_2} \right]
 \end{split}
 \end{equation}
 
 Eine Quaternion $q$ kann nach den ganz gewöhnlichen Rechenregeln mit einem \emph{Skalar} $\lambda$ multipliziert werden:
 \begin{equation}
- \lambda \cdot q = \lambda \cdot (w + xi + yj + zk) = \lambda w + \lambda xi + \lambda yj + \lambda zk = \left[ \lambda w; \lambda \cdot \vec v \right]
+ \lambda \cdot q = \lambda \cdot (w + xi + yj + zk) = \lambda w + \lambda xi + \lambda yj + \lambda zk = \left[ \lambda w \qs \lambda \cdot \vec v \right]
 \end{equation}
 
 Zwei Quaternionen $q_1$ und $q_2$ können ebenfalls ganz gewöhnlich miteinander \emph{multipliziert} werden. Ausmultiplizieren (unter Beachtung der Hamilton-Regeln) und Anwenden des Distributivgesetzes ergibt:
@@ -454,7 +456,7 @@ Zwei Quaternionen $q_1$ und $q_2$ können ebenfalls ganz gewöhnlich miteinander
 Fasst man den Imaginärteil der Quaternion als Vektor auf, kann man die Multiplikation auch wie folgt auflösen:
 \begin{equation}
  \label{quaternionmultiplicationvector}
- q_1 \cdot q_2 = \left[ \left( w_1 w_2 - \vec{v_1} \cdot \vec{v_2} \right); \vec{v_1} \times \vec{v_2} + w_1 \cdot \vec{v_2} + w_2 \cdot \vec{v_1} \right]
+ q_1 \cdot q_2 = \left[ w_1 w_2 - \vec{v_1} \cdot \vec{v_2} \qs \vec{v_1} \times \vec{v_2} + w_1 \cdot \vec{v_2} + w_2 \cdot \vec{v_1} \right]
 \end{equation}
 Das Produkt zweier Quaternionen ist nicht kommutativ, aber assoziativ und distributiv.
 
@@ -467,8 +469,8 @@ Das Produkt zweier Quaternionen ist nicht kommutativ, aber assoziativ und distri
 Wenn man eine Quaternion mit ihrer konjugierten Quaternion multipliziert
 \begin{equation}
 \begin{split}
- q \cdot \overline{q} &= \left[ w; \vec v \right] \cdot \left[ w; -\vec v \right] \\
- & = \left[ \left( w \cdot w - \vec{v} \cdot (-\vec{v}) \right); \vec{v} \times (-\vec{v}) + w \cdot \left(-\vec{v}\right) + w \cdot \vec{v} \right],
+ q \cdot \overline{q} &= \left[ w \qs \vec v \right] \cdot \left[ w \qs -\vec v \right] \\
+ & = \left[ w \cdot w - \vec{v} \cdot (-\vec{v}) \qs \vec{v} \times (-\vec{v}) + w \cdot \left(-\vec{v}\right) + w \cdot \vec{v} \right],
 \end{split}
 \end{equation}
 fällt auf, dass der gesamte Imaginärteil des Ergebnisses Null wird. Übrig bleibt, wie auch bei den komplexen Zahlen, eine reelle Zahl, die dem Quadrat des Betrags der Quaternion entspricht:
@@ -484,7 +486,7 @@ Die \emph{Division} ist für Quaternionen nicht definiert, aber analog zu den Ma
 \begin{equation}
  q \cdot q^{-1} = q^{-1} \cdot q = 1
 \end{equation}
-Diese \emph{Inverse} einer Quaternion $q$ ist als
+Diese \emph{Inverse} einer Quaternion $q$ mit $\left|q\right| \neq 0$ ist als
 \begin{equation}
  q^{-1} = \frac{1}{\left| q \right|} \cdot \overline{q}
 \end{equation}
